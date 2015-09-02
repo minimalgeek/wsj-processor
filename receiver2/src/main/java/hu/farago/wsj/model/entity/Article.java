@@ -34,6 +34,9 @@ public class Article {
 
 	@Column(name = "DATE_TIME", nullable = false)
 	private Date dateTime;
+	
+	@Column(name = "DATE_DAY")
+	private Date dateDay;
 
 	@Column(name = "URL", nullable = false)
 	private String url;
@@ -90,6 +93,14 @@ public class Article {
 
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
+	}
+	
+	public Date getDateDay() {
+		return dateDay;
+	}
+
+	public void setDateDay(Date dateDay) {
+		this.dateDay = dateDay;
 	}
 
 	public String getUrl() {

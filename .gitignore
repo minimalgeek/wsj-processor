@@ -13,3 +13,4 @@ hs_err_pid*
 *.classpath
 receiver2/.project
 receiver2/.settings/
+receiver2/target/

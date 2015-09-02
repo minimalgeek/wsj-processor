@@ -1,23 +1,25 @@
-create or replace view wordcount_view as
-select DATE(CONVERT_TZ(DATE_SUB(a.DATE_TIME, INTERVAL 1 HOUR), 'UTC', 'US/Eastern')) as DATE_TIME, aw.WORD as WORD, count(aw.word) as WORD_COUNT
-from article a
-join article_word aw on aw.ARTICLE_ID = a.ID
-group by aw.WORD, DATE(CONVERT_TZ(DATE_SUB(a.DATE_TIME, INTERVAL 1 HOUR), 'UTC', 'US/Eastern'))
-order by DATE(CONVERT_TZ(DATE_SUB(a.DATE_TIME, INTERVAL 1 HOUR), 'UTC', 'US/Eastern')) asc, count(aw.word) desc;
+/*
+CREATE OR REPLACE VIEW article_day_view AS
+SELECT a.*, DATE(DATE_ADD(CONVERT_TZ(DATE_SUB(a.DATE_TIME, INTERVAL 1 HOUR), 'UTC', 'US/Eastern'),INTERVAL '14:30' HOUR_MINUTE)) AS DATE_DAY
+FROM article a;
+
+DROP TABLE IF EXISTS article_day_view_table;
+
+CREATE TABLE article_day_view_table AS    
+SELECT * FROM article_day_view;
+*/
+
+ALTER TABLE article
+ADD INDEX DATE_DAY_IDX (DATE_DAY);
+
+CREATE OR REPLACE VIEW wordcount_view AS
+SELECT a.DATE_DAY AS DATE_TIME, aw.WORD AS WORD, COUNT(aw.WORD) AS WORD_COUNT, COUNT(DISTINCT A.ID) AS DOCUMENT_COUNT
+FROM article_day_view AS a
+JOIN article_word aw ON aw.ARTICLE_ID = a.ID
+GROUP BY aw.WORD, a.DATE_DAY
+ORDER BY a.DATE_DAY ASC, COUNT(aw.WORD) DESC;
 
 DROP TABLE IF EXISTS wordcount_view_table;
 
 CREATE TABLE wordcount_view_table AS    
-  SELECT
-    *
-  FROM wordcount_view;
-  
-DROP TABLE IF EXISTS wordcount_view_table_top1000;
-
-CREATE TABLE wordcount_view_table_top1000 AS    
-	select w.DATE_TIME, w.WORD, w.WORD_COUNT
-	from wordcount_view_table as w
-	where (
-	   select count(*) from wordcount_view_table as w2
-	   where w2.DATE_TIME = w.DATE_TIME and w2.WORD_COUNT >= w.WORD_COUNT
-	) <= 1000;
+SELECT * FROM wordcount_view;
