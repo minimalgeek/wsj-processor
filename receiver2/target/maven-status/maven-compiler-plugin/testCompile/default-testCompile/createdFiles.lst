@@ -1,0 +1,6 @@
+hu\farago\wsj\parse\WordsProcessorTest.class
+hu\farago\wsj\config\AbstractRootTest.class
+hu\farago\wsj\rssfeed\FeedReaderTest.class
+hu\farago\wsj\model\dao\ArticleRepositoryTest.class
+hu\farago\wsj\controller\ContentReceiverControllerTest.class
+hu\farago\wsj\parse\ArticleParserTest.class

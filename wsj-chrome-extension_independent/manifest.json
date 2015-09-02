@@ -1,0 +1,34 @@
+﻿{
+    "name": "Teszt 02",
+    "version": "0.1.0",
+    "manifest_version": 2,
+	"description" : "Washington Post Content Downloader App V2",
+    "browser_action": {
+		"default_icon": "icons/wp-icon-small.png",
+		"default_title": "Washington Post Content Downloader",
+		"default_popup": "description/default-popup.html"
+	},
+	"background": {
+		"scripts": ["lib/jquery.js", "background.js"],
+		"persistent": true
+	},
+	"content_scripts": [
+		{
+			"matches": ["*://*.independent.co.uk/*"],
+			"js": ["lib/jquery.js", "content.js"]
+		}
+	],
+	"permissions": [
+		"tabs", 
+		"alarms",
+		"storage",
+		"http://*/"
+	],
+	"content_security_policy": "script-src 'self' 'unsafe-eval' http://localhost:8080/save-article; object-src 'self'",
+	"icons": { 
+		"16": "icons/wp-icon-small.png",
+		"48": "icons/wp-icon.png"
+	},
+	"devtools_page": "devtools/devtools.html",
+	"omnibox": { "keyword" : "wpcd" }
+}
