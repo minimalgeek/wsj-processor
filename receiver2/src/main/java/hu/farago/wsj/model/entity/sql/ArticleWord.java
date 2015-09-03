@@ -1,4 +1,4 @@
-package hu.farago.wsj.model.entity;
+package hu.farago.wsj.model.entity.sql;
 
 import java.io.Serializable;
 

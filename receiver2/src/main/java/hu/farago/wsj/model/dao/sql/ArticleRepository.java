@@ -1,6 +1,6 @@
-package hu.farago.wsj.model.dao;
+package hu.farago.wsj.model.dao.sql;
 
-import hu.farago.wsj.model.entity.Article;
+import hu.farago.wsj.model.entity.sql.Article;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,16 +10,16 @@ import org.springframework.data.repository.query.Param;
 
 public interface ArticleRepository extends PagingAndSortingRepository<Article, Long> {
 
-	@Query("select a from hu.farago.wsj.model.entity.Article a "
+	@Query("select a from hu.farago.wsj.model.entity.sql.Article a "
 			+ "left join fetch a.articleWords words "
 			+ "where a.url = :url")
 	Article findByUrlAndFetchWords(@Param("url") String url);
 	
-	@Query("select a from hu.farago.wsj.model.entity.Article a "
+	@Query("select a from hu.farago.wsj.model.entity.sql.Article a "
 			+ "where a.processed = false")
 	Page<Article> findAllUnProcessed(Pageable pageable); 
 	
-	@Query("select count(a.id) from hu.farago.wsj.model.entity.Article a "
+	@Query("select count(a.id) from hu.farago.wsj.model.entity.sql.Article a "
 			+ "where a.processed = false")
 	long countAllUnProcessed(); 
 	

@@ -1,6 +1,6 @@
 package hu.farago.wsj.parse.wordprocess;
 
-import hu.farago.wsj.model.entity.Article;
+import hu.farago.wsj.model.entity.sql.Article;
 
 import java.util.LinkedList;
 import java.util.List;

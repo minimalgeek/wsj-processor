@@ -1,8 +1,9 @@
 package hu.farago.wsj.model.dao;
 
 import hu.farago.wsj.config.AbstractRootTest;
-import hu.farago.wsj.model.entity.Article;
-import hu.farago.wsj.model.entity.ArticleWord;
+import hu.farago.wsj.model.dao.sql.ArticleRepository;
+import hu.farago.wsj.model.entity.sql.Article;
+import hu.farago.wsj.model.entity.sql.ArticleWord;
 
 import java.util.Date;
 

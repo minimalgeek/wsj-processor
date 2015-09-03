@@ -6,8 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
-import hu.farago.wsj.model.entity.Article;
-import hu.farago.wsj.model.entity.ArticleWord;
+import hu.farago.wsj.model.entity.sql.Article;
+import hu.farago.wsj.model.entity.sql.ArticleWord;
 
 public abstract class WordsProcessor {
 

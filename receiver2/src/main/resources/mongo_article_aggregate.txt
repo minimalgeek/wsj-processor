@@ -1,0 +1,23 @@
+db.article.aggregate(
+      {
+        $group : {
+           _id : { month: { $month: "$dateTime" }, day: { $dayOfMonth: "$dateTime" }, year: { $year: "$dateTime" }, word: ""}
+        }
+      }
+)
+
+
+db.article.aggregate(
+[
+    {
+        "$unwind" : "$articleWords"
+    },
+    {
+		$group : {
+			_id : { month: { $month: "$dateTime" }, day: { $dayOfMonth: "$dateTime" }, year: { $year: "$dateTime" }},
+            word : {
+                "$first" : "$articleWords"
+            },
+        }
+    }
+])

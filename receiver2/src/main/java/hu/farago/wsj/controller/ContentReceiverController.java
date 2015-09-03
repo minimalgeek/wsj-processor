@@ -2,9 +2,9 @@ package hu.farago.wsj.controller;
 
 import hu.farago.wsj.api.Converter;
 import hu.farago.wsj.controller.dto.ArticleDTO;
-import hu.farago.wsj.model.dao.ArticleRepository;
-import hu.farago.wsj.model.dao.ArticleWordRepository;
-import hu.farago.wsj.model.entity.Article;
+import hu.farago.wsj.model.dao.sql.ArticleRepository;
+import hu.farago.wsj.model.dao.sql.ArticleWordRepository;
+import hu.farago.wsj.model.entity.sql.Article;
 import hu.farago.wsj.parse.ArticleParser;
 import hu.farago.wsj.parse.wordprocess.WordsProcessor;
 
@@ -83,7 +83,7 @@ public class ContentReceiverController implements
 			articleRepository.save(existingArticleEntity);
 			return true;
 		} catch (Exception e) {
-			LOGGER.error("Exception happened during article content parsing: "
+			LOGGER.error("exception happened during article content parsing: "
 					+ existingArticleEntity.getUrl());
 			LOGGER.debug(e.getMessage(), e);
 			return false;
@@ -98,7 +98,7 @@ public class ContentReceiverController implements
 			articleRepository.save(existingArticleEntity);
 			return true;
 		} catch (Exception e) {
-			LOGGER.error("Exception happened during article words processing: "
+			LOGGER.error("exception happened during article words processing: "
 					+ existingArticleEntity.getUrl());
 			LOGGER.debug(e.getMessage(), e);
 			return false;
@@ -112,7 +112,7 @@ public class ContentReceiverController implements
 	@RequestMapping(value = "/processAllArticle", method = RequestMethod.GET)
 	public Long processAllArticle() {
 		
-		LOGGER.info("Process all articles");
+		LOGGER.info("process all articles");
 		
 		Iterable<Article> articles;
 		long numberOfArticles = articleRepository.countAllUnProcessed();
@@ -127,7 +127,7 @@ public class ContentReceiverController implements
 			}
 		}
 		
-		LOGGER.info("Number of processed articles: " + numberOfArticles);
+		LOGGER.info("number of processed articles: " + numberOfArticles);
 		
 		return numberOfArticles;
 	}

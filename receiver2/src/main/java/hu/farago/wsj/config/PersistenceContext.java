@@ -16,7 +16,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories("hu.farago.wsj.model.dao")
+@EnableJpaRepositories("hu.farago.wsj.model.dao.sql")
 @EnableTransactionManagement
 public class PersistenceContext {
 
@@ -38,7 +38,7 @@ public class PersistenceContext {
 		entityManagerFactoryBean
 				.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		entityManagerFactoryBean
-				.setPackagesToScan("hu.farago.wsj.model.entity");
+				.setPackagesToScan("hu.farago.wsj.model.entity.sql");
 
 		Properties jpaProperties = new Properties();
 

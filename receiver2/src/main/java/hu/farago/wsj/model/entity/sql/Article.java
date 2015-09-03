@@ -1,4 +1,4 @@
-package hu.farago.wsj.model.entity;
+package hu.farago.wsj.model.entity.sql;
 
 import java.util.Date;
 import java.util.HashSet;

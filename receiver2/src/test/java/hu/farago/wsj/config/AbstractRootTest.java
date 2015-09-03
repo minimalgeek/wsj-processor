@@ -11,9 +11,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @ActiveProfiles(AppConfig.APPLICATION_TEST)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-	classes = { AppConfig.class, PersistenceContext.class, WebMvcConfig.class }, 
-	loader = AnnotationConfigWebContextLoader.class)
+@ContextConfiguration(classes = { AppConfig.class, PersistenceContext.class,
+		MongoContext.class, WebMvcConfig.class }, loader = AnnotationConfigWebContextLoader.class)
 @WebAppConfiguration
 public abstract class AbstractRootTest {
 
