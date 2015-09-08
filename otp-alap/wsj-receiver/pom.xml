@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>wsj-receiver</artifactId>
 	<packaging>war</packaging>
-	<name>receiver2 Maven Webapp</name>
+	<name>WSJ Receiver</name>
 	
 	<dependencies>
 		<!-- Test -->

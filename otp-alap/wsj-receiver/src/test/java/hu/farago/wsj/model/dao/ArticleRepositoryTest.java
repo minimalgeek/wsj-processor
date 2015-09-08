@@ -21,7 +21,7 @@ public class ArticleRepositoryTest extends AbstractRootTest {
 	@Test
 	public void testSave() {
 		Article article = new Article();
-		article.setRawText("raw text test");
+		article.setRawText("<p>raw text test</p>");
 		article.setDateTime(new Date());
 		article.setTitle("title test");
 		article.setUrl("http://localhost:8080/hello.jsp");
