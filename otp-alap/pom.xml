@@ -9,6 +9,7 @@
 	
 	<modules>
 		<module>wsj-receiver</module>
+		<module>zacks-downloader</module>
 	</modules>
 	
 	
