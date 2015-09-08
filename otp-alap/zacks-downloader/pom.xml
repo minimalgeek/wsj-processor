@@ -9,7 +9,7 @@
 	<artifactId>zacks-downloader</artifactId>
 	<packaging>war</packaging>
 	<name>Zacks Downloader</name>
-	
+
 	<dependencies>
 		<!-- Test -->
 		<dependency>
@@ -55,10 +55,28 @@
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
 
-		<!-- Jackson -->
+		<!-- Apache, others -->
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+
+		<!-- Text parse - TIKA -->
+
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-parsers</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
 		<!-- LOGGING -->
@@ -73,7 +91,7 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<finalName>zacks-downloader</finalName>
 		<plugins>
