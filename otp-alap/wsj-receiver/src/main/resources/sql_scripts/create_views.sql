@@ -9,8 +9,10 @@ CREATE TABLE article_day_view_table AS
 SELECT * FROM article_day_view;
 */
 
-ALTER TABLE article
-ADD DATE_DAY DATETIME NULL;
+-- ALTER TABLE article
+-- ADD PROCESSED BIT NULL;
+-- ALTER TABLE article
+-- ADD DATE_DAY DATETIME NULL;
 ALTER TABLE article
 ADD INDEX DATE_DAY_IDX (DATE_DAY);
 
