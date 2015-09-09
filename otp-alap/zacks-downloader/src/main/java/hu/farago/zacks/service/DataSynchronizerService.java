@@ -19,7 +19,8 @@ import org.apache.tika.sax.BodyContentHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -42,7 +43,7 @@ public class DataSynchronizerService {
 	@Value("${zacks.path}")
 	private String pathToCSVs;
 	
-	@Scheduled(fixedDelay = 100000)
+	@RequestMapping(value = "/refreshAllReportDates", method = RequestMethod.GET)
 	public void refreshAllReportDates() {
 		LOGGER.info("refreshAllReportDates");
 

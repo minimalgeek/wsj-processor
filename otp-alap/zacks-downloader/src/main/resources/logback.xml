@@ -9,13 +9,13 @@
 
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>c:/DEV/temp/receiver.log</file>
+		<file>c:/DEV/temp/zacks.log</file>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
 		</encoder>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<FileNamePattern>c:/DEV/temp/receiver.%i.log.zip</FileNamePattern>
+			<FileNamePattern>c:/DEV/temp/zacks.%i.log.zip</FileNamePattern>
 			<MinIndex>1</MinIndex>
 			<MaxIndex>20</MaxIndex>
 		</rollingPolicy>
