@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
-@ComponentScan(basePackages = {"hu.farago.zacks.service"})
+@ComponentScan(basePackages = {"hu.farago.zacks"})
 @EnableAsync
 @EnableScheduling
 public class AppConfig {

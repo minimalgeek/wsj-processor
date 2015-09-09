@@ -189,6 +189,12 @@
 				<version>${commons-io.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+
 
 			<!-- LOGGING -->
 
@@ -242,5 +248,6 @@
 		<cglib.version>3.1</cglib.version>
 		<stanford-corenlp.version>3.5.0</stanford-corenlp.version>
 		<commons-io.version>2.4</commons-io.version>
+		<guava.version>18.0</guava.version>
 	</properties>
 </project>

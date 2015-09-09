@@ -1,14 +1,12 @@
 package hu.farago.zacks.service;
 
-import hu.farago.zacks.service.dto.CompanyData;
 import hu.farago.zacks.service.dto.ZacksData;
+import hu.farago.zacks.utils.file.ZacksFileUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.exception.TikaException;
@@ -18,6 +16,7 @@ import org.apache.tika.parser.html.HtmlParser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class DataSynchronizerService {
 	
-	private static final String UTF_8 = "UTF-8";
+	public static final String UTF_8 = "UTF-8";
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DataSynchronizerService.class);
@@ -40,8 +39,8 @@ public class DataSynchronizerService {
 	@Value("#{'${zacks.urls}'.split(',')}")
 	private List<String> zacksURLList;
 	
-	@Value("${zacks.path}")
-	private String pathToCSVs;
+	@Autowired
+	private ZacksFileUtils zacksFileUtils;
 	
 	@RequestMapping(value = "/refreshAllReportDates", method = RequestMethod.GET)
 	public void refreshAllReportDates() {
@@ -53,9 +52,9 @@ public class DataSynchronizerService {
 				ZacksData zacksData = createZacksDataFromContent(content);
 				LOGGER.info("ZacksData's title: " + zacksData.getTitle());
 				
-				processNewData(zacksData);
+				zacksFileUtils.writeZacksDataToCSVFiles(zacksData);
 			} catch (Exception ex) {
-				LOGGER.error("I/O exception or SAXException happened during URL open", ex);
+				LOGGER.error("Exception happened during URL content open or processing", ex);
 			}
 		}
 	}
@@ -75,35 +74,7 @@ public class DataSynchronizerService {
 		return objectMapper.readValue(jsonContent, ZacksData.class);
 	}
 	
-	private void processNewData(ZacksData zacksData) throws IOException {
-		for (CompanyData company : zacksData.getData()) {
-			String fileName = StringUtils.join(pathToCSVs, company.getSymbol(), ".csv");
-			String nextReportDate = company.getNextReportDate();
-			
-			File file = createFileIfNotExists(fileName);
-			List<String> fileContent = FileUtils.readLines(file, UTF_8);
-			
-			boolean exists = false;
-			for (String line : fileContent) {
-				if (line.equals(nextReportDate)) {
-					exists = true;
-					break;
-				}
-			}
-			
-			if (!exists) {
-				fileContent.add(nextReportDate);
-			}
-			
-			FileUtils.writeLines(file, UTF_8, fileContent, false);
-		}
-	}
+	
 
-	private File createFileIfNotExists(String fileName) throws IOException {
-		File file = new File(fileName);
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-		return file;
-	}
+	
 }
