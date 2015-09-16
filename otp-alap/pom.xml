@@ -10,6 +10,7 @@
 	<modules>
 		<module>wsj-receiver</module>
 		<module>zacks-downloader</module>
+		<module>yahoo-jdde</module>
 	</modules>
 
 
@@ -195,6 +196,12 @@
 				<version>${guava.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>com.prettytools</groupId>
+				<artifactId>jdde</artifactId>
+				<version>${jdde.version}</version>
+			</dependency>
+
 
 			<!-- LOGGING -->
 
@@ -210,16 +217,6 @@
 				<version>${logback.version}</version>
 			</dependency>
 
-			<!-- <dependency> -->
-			<!-- <groupId>com.jcabi</groupId> -->
-			<!-- <artifactId>jcabi-aspects</artifactId> -->
-			<!-- <version></version> -->
-			<!-- </dependency> -->
-
-			<!-- <dependency> -->
-			<!-- <groupId>org.aspectj</groupId> -->
-			<!-- <artifactId>aspectjrt</artifactId> -->
-			<!-- </dependency> -->
 		</dependencies>
 	</dependencyManagement>
 
@@ -249,5 +246,6 @@
 		<stanford-corenlp.version>3.5.0</stanford-corenlp.version>
 		<commons-io.version>2.4</commons-io.version>
 		<guava.version>18.0</guava.version>
+		<jdde.version>2.0.3</jdde.version>
 	</properties>
 </project>
