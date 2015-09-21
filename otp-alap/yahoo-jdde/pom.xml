@@ -7,7 +7,7 @@
 		<version>${version}</version>
 	</parent>
 	<artifactId>yahoo-jdde</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>Yahoo DDE Server</name>
 
 	<dependencies>
@@ -15,12 +15,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
@@ -36,31 +30,18 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Spring -->
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-		</dependency>
-
-		<!-- JavaEE APIs -->
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-		</dependency>
-
 		<!-- Apache, others -->
 
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+
 
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -72,11 +53,14 @@
 			<artifactId>jdde</artifactId>
 		</dependency>
 
-		<!-- Text parse - TIKA -->
-
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yahoofinance-api</groupId>
+			<artifactId>YahooFinanceAPI</artifactId>
 		</dependency>
 
 		<!-- LOGGING -->
@@ -92,17 +76,13 @@
 		</dependency>
 	</dependencies>
 
+	<properties>
+		<maven-shade-plugin.version>2.4.1</maven-shade-plugin.version>
+	</properties>
+
 	<build>
 		<finalName>yahoo-jdde</finalName>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -120,6 +100,30 @@
 					<workingDirectory>target</workingDirectory>
 					<argLine>-Djava.library.path=${basedir}/src/main/resources/lib</argLine>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>hu.farago.yahoo.YahooServer</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

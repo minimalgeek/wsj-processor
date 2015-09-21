@@ -191,15 +191,30 @@
 			</dependency>
 
 			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>${commons-collections.version}</version>
+			</dependency>
+
+
+			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${guava.version}</version>
 			</dependency>
 
+			<!-- Yahoo and DDE modules -->
+
 			<dependency>
 				<groupId>com.prettytools</groupId>
 				<artifactId>jdde</artifactId>
 				<version>${jdde.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.yahoofinance-api</groupId>
+				<artifactId>YahooFinanceAPI</artifactId>
+				<version>${yahoo.version}</version>
 			</dependency>
 
 
@@ -245,7 +260,9 @@
 		<cglib.version>3.1</cglib.version>
 		<stanford-corenlp.version>3.5.0</stanford-corenlp.version>
 		<commons-io.version>2.4</commons-io.version>
+		<commons-collections.version>3.0</commons-collections.version>
 		<guava.version>18.0</guava.version>
 		<jdde.version>2.0.3</jdde.version>
+		<yahoo.version>2.0.0</yahoo.version>
 	</properties>
 </project>
