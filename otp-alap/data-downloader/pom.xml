@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>hu.farago</groupId>
 		<artifactId>otp-alap</artifactId>
 		<version>${version}</version>
 	</parent>
-	<artifactId>wsj-receiver</artifactId>
+	<artifactId>data-downloader</artifactId>
 	<packaging>war</packaging>
-	<name>WSJ Receiver</name>
-	
+	<name>Data Downloader</name>
+
 	<dependencies>
 		<!-- Test -->
 		<dependency>
@@ -40,26 +40,11 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 
 		<!-- Database, Mongo and Hibernate -->
 
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
@@ -82,10 +67,6 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 		</dependency>
 
@@ -106,15 +87,21 @@
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
 
-		<!-- Jackson -->
+		<!-- Apache, others -->
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
 		</dependency>
 
 		<!-- Text parse - TIKA -->
@@ -129,19 +116,6 @@
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
-		<!-- NLP - Stanford NLP -->
-
-		<dependency>
-			<groupId>edu.stanford.nlp</groupId>
-			<artifactId>stanford-corenlp</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>edu.stanford.nlp</groupId>
-			<artifactId>stanford-corenlp</artifactId>
-			<classifier>models</classifier>
-		</dependency>
-
 		<!-- LOGGING -->
 
 		<dependency>
@@ -153,9 +127,17 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
+
+		<!-- Yahoo Data Sources -->
+
+		<dependency>
+			<groupId>com.yahoofinance-api</groupId>
+			<artifactId>YahooFinanceAPI</artifactId>
+		</dependency>
 	</dependencies>
+
 	<build>
-		<finalName>receiver2</finalName>
+		<finalName>data-downloader</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -174,7 +156,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		
 	</build>
-
-	
 </project>

@@ -9,7 +9,7 @@
 
 	<modules>
 		<module>wsj-receiver</module>
-		<module>zacks-downloader</module>
+		<module>data-downloader</module>
 		<module>yahoo-jdde</module>
 	</modules>
 
@@ -129,6 +129,12 @@
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-jpa</artifactId>
 				<version>${spring-data-jpa.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-aop</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<!-- JavaEE APIs -->
