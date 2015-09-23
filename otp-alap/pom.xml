@@ -11,8 +11,15 @@
 		<module>wsj-receiver</module>
 		<module>data-downloader</module>
 		<module>yahoo-jdde</module>
+		<module>JForex-SDK</module>
 	</modules>
 
+	<repositories>
+		<repository>
+			<id>Dukascopy Maven repository</id>
+			<url>http://www.dukascopy.com/client/jforexlib/publicrepo</url>
+		</repository>
+	</repositories>
 
 	<dependencyManagement>
 		<dependencies>
@@ -209,7 +216,7 @@
 				<version>${guava.version}</version>
 			</dependency>
 
-			<!-- Yahoo and DDE modules -->
+			<!-- Yahoo, Dukascopy and DDE modules -->
 
 			<dependency>
 				<groupId>com.prettytools</groupId>
@@ -271,4 +278,5 @@
 		<jdde.version>2.0.3</jdde.version>
 		<yahoo.version>2.0.0</yahoo.version>
 	</properties>
+	<description>Root for all the automatic trading robot projects</description>
 </project>

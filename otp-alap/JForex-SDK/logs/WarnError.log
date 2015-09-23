@@ -1,0 +1,307 @@
+11:16:24.541 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/JPY], using default - 1
+11:16:24.542 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/JPY], using default - 1
+11:16:24.549 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [NZD/CAD], using default - 1
+11:16:24.550 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [NZD/CAD], using default - 1
+11:16:24.551 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [HKG.IDX/HKD], using default - 1
+11:16:24.551 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [HKG.IDX/HKD], using default - 1
+11:16:24.553 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/DKK], using default - 1
+11:16:24.553 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/DKK], using default - 1
+11:16:24.554 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/HKD], using default - 1
+11:16:24.555 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/HKD], using default - 1
+11:16:24.555 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/CAD], using default - 1
+11:16:24.556 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/CAD], using default - 1
+11:16:24.557 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/ZAR], using default - 1
+11:16:24.557 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/ZAR], using default - 1
+11:16:24.558 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/NOK], using default - 1
+11:16:24.558 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/NOK], using default - 1
+11:16:24.559 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/HKD], using default - 1
+11:16:24.560 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/HKD], using default - 1
+11:16:24.560 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/AUD], using default - 1
+11:16:24.561 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/AUD], using default - 1
+11:16:24.561 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBR.IDX/GBP], using default - 1
+11:16:24.562 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBR.IDX/GBP], using default - 1
+11:16:24.563 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/DKK], using default - 1
+11:16:24.563 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/DKK], using default - 1
+11:16:24.564 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/CAD], using default - 1
+11:16:24.564 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/CAD], using default - 1
+11:16:24.565 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/CAD], using default - 1
+11:16:24.565 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/CAD], using default - 1
+11:16:24.566 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [SGD/JPY], using default - 1
+11:16:24.567 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [SGD/JPY], using default - 1
+11:16:24.567 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CAD/CHF], using default - 1
+11:16:24.568 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CAD/CHF], using default - 1
+11:16:24.568 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/TRY], using default - 1
+11:16:24.569 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/TRY], using default - 1
+11:16:24.570 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/TRY], using default - 1
+11:16:24.570 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/TRY], using default - 1
+11:16:24.571 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/AUD], using default - 1
+11:16:24.571 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/AUD], using default - 1
+11:16:24.572 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/SGD], using default - 1
+11:16:24.572 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/SGD], using default - 1
+11:16:24.573 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/CHF], using default - 1
+11:16:24.574 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/CHF], using default - 1
+11:16:24.574 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CHE.IDX/CHF], using default - 1
+11:16:24.575 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CHE.IDX/CHF], using default - 1
+11:16:24.576 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/NZD], using default - 1
+11:16:24.576 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/NZD], using default - 1
+11:16:24.577 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUS.IDX/EUR], using default - 1
+11:16:24.577 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUS.IDX/EUR], using default - 1
+11:16:24.578 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/SGD], using default - 1
+11:16:24.579 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/SGD], using default - 1
+11:16:24.579 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USA30.IDX/USD], using default - 1
+11:16:24.580 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USA30.IDX/USD], using default - 1
+11:16:24.581 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [XAU/USD], using default - 1
+11:16:24.581 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [XAU/USD], using default - 1
+11:16:24.582 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/CHF], using default - 1
+11:16:24.583 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/CHF], using default - 1
+11:16:24.583 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/USD], using default - 1
+11:16:24.584 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/USD], using default - 1
+11:16:24.585 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [NZD/JPY], using default - 1
+11:16:24.585 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [NZD/JPY], using default - 1
+11:16:24.586 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/MXN], using default - 1
+11:16:24.586 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/MXN], using default - 1
+11:16:24.587 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [FRA.IDX/EUR], using default - 1
+11:16:24.587 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [FRA.IDX/EUR], using default - 1
+11:16:24.588 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/SGD], using default - 1
+11:16:24.589 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/SGD], using default - 1
+11:16:24.590 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/NZD], using default - 1
+11:16:24.591 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/NZD], using default - 1
+11:16:24.592 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CAD/HKD], using default - 1
+11:16:24.592 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CAD/HKD], using default - 1
+11:16:24.593 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/CHF], using default - 1
+11:16:24.593 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/CHF], using default - 1
+11:16:24.594 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [NZD/USD], using default - 1
+11:16:24.594 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [NZD/USD], using default - 1
+11:16:24.595 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/PLN], using default - 1
+11:16:24.596 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/PLN], using default - 1
+11:16:24.596 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/JPY], using default - 1
+11:16:24.597 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/JPY], using default - 1
+11:16:24.598 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/NZD], using default - 1
+11:16:24.598 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/NZD], using default - 1
+11:16:24.599 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [JPN.IDX/JPY], using default - 1
+11:16:24.599 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [JPN.IDX/JPY], using default - 1
+11:16:24.600 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CHF/JPY], using default - 1
+11:16:24.601 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CHF/JPY], using default - 1
+11:16:24.601 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/USD], using default - 1
+11:16:24.602 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/USD], using default - 1
+11:16:24.602 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [ESP.IDX/EUR], using default - 1
+11:16:24.603 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [ESP.IDX/EUR], using default - 1
+11:16:24.604 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/USD], using default - 1
+11:16:24.604 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/USD], using default - 1
+11:16:24.605 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/JPY], using default - 1
+11:16:24.605 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/JPY], using default - 1
+11:16:24.606 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/PLN], using default - 1
+11:16:24.606 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/PLN], using default - 1
+11:16:24.607 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/CHF], using default - 1
+11:16:24.608 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/CHF], using default - 1
+11:16:24.608 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [XAG/USD], using default - 1
+11:16:24.609 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [XAG/USD], using default - 1
+11:16:24.610 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/GBP], using default - 1
+11:16:24.610 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/GBP], using default - 1
+11:16:24.611 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/RUB], using default - 1
+11:16:24.611 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/RUB], using default - 1
+11:16:24.612 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/JPY], using default - 1
+11:16:24.612 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/JPY], using default - 1
+11:16:24.613 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [NZD/CHF], using default - 1
+11:16:24.614 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [NZD/CHF], using default - 1
+11:16:24.614 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [BRENT.CMD/USD], using default - 1
+11:16:24.615 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [BRENT.CMD/USD], using default - 1
+11:16:24.615 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/NOK], using default - 1
+11:16:24.616 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/NOK], using default - 1
+11:16:24.617 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CAD/JPY], using default - 1
+11:16:24.617 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CAD/JPY], using default - 1
+11:16:24.618 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CHF/SGD], using default - 1
+11:16:24.618 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CHF/SGD], using default - 1
+11:16:24.619 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [DEU.IDX/EUR], using default - 1
+11:16:24.619 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [DEU.IDX/EUR], using default - 1
+11:16:24.620 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown pip value for the instrument [LIGHT.CMD/USD], using default - 0.0001
+11:16:24.621 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [LIGHT.CMD/USD], using default - 1
+11:16:24.621 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [LIGHT.CMD/USD], using default - 1
+11:16:24.622 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/CAD], using default - 1
+11:16:24.622 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/CAD], using default - 1
+11:16:24.623 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [HKD/JPY], using default - 1
+11:16:24.623 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [HKD/JPY], using default - 1
+11:16:24.624 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUS.IDX/AUD], using default - 1
+11:16:24.624 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUS.IDX/AUD], using default - 1
+11:16:24.625 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/SEK], using default - 1
+11:16:24.626 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/SEK], using default - 1
+11:16:24.626 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/SEK], using default - 1
+11:16:24.627 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/SEK], using default - 1
+11:16:24.627 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USA500.IDX/USD], using default - 1
+11:16:24.628 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USA500.IDX/USD], using default - 1
+11:16:24.629 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/CNH], using default - 1
+11:16:24.629 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/CNH], using default - 1
+11:16:24.630 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USATECH.IDX/USD], using default - 1
+11:16:24.630 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USATECH.IDX/USD], using default - 1
+11:16:25.031 WARN  com.dukascopy.charts.data.datacache.CacheManager - Cannot delete lock file [C:\Users\Balázs\AppData\Local\JForex\.cache\lock0.lck]
+11:16:25.113 WARN  com.dukascopy.charts.data.datacache.FeedDataProvider - JStore is disabled for the current user
+11:16:27.893 WARN  com.dukascopy.api.impl.connect.WLabelData - White Label Image is not received
+11:17:39.362 WARN  com.dukascopy.api.impl.connect.WLabelData - White Label Image is not received
+11:17:48.753 ERROR singlejartest.Main - C:\report.html (A hozzáférés megtagadva)
+java.io.FileNotFoundException: C:\report.html (A hozzáférés megtagadva)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at com.dukascopy.api.impl.connect.TesterClientImpl.createReport(TesterClientImpl.java:1574)
+	at singlejartest.TesterMain$1.onStop(TesterMain.java:73)
+	at com.dukascopy.api.impl.connect.TesterClientImpl$4.onStop(TesterClientImpl.java:624)
+	at com.dukascopy.api.impl.connect.TesterClientImpl$TesterLoadingProgressListener.loadingFinished(TesterClientImpl.java:1812)
+	at com.dukascopy.dds2.greed.agent.strategy.tester.StrategyRunner.run(StrategyRunner.java:483)
+	at java.lang.Thread.run(Unknown Source)
+11:20:52.842 ERROR singlejartest.TesterMainGUIMode - Incorrect username or password
+com.dukascopy.api.system.JFAuthenticationException: Incorrect username or password
+	at com.dukascopy.api.impl.connect.TesterClientImpl.authenticateAPI(TesterClientImpl.java:525)
+	at com.dukascopy.api.impl.connect.TesterClientImpl.connect(TesterClientImpl.java:272)
+	at com.dukascopy.api.impl.connect.TesterClientImpl.connect(TesterClientImpl.java:263)
+	at singlejartest.TesterMainGUIMode.startStrategy(TesterMainGUIMode.java:156)
+	at singlejartest.TesterMainGUIMode$3$1.run(TesterMainGUIMode.java:252)
+	at java.lang.Thread.run(Unknown Source)
+11:21:12.064 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/JPY], using default - 1
+11:21:12.065 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/JPY], using default - 1
+11:21:12.067 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [NZD/CAD], using default - 1
+11:21:12.067 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [NZD/CAD], using default - 1
+11:21:12.067 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [HKG.IDX/HKD], using default - 1
+11:21:12.067 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [HKG.IDX/HKD], using default - 1
+11:21:12.068 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/DKK], using default - 1
+11:21:12.068 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/DKK], using default - 1
+11:21:12.068 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/HKD], using default - 1
+11:21:12.068 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/HKD], using default - 1
+11:21:12.069 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/CAD], using default - 1
+11:21:12.069 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/CAD], using default - 1
+11:21:12.069 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/ZAR], using default - 1
+11:21:12.069 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/ZAR], using default - 1
+11:21:12.069 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/NOK], using default - 1
+11:21:12.069 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/NOK], using default - 1
+11:21:12.069 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/HKD], using default - 1
+11:21:12.069 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/HKD], using default - 1
+11:21:12.070 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/AUD], using default - 1
+11:21:12.070 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/AUD], using default - 1
+11:21:12.070 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBR.IDX/GBP], using default - 1
+11:21:12.070 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBR.IDX/GBP], using default - 1
+11:21:12.070 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/DKK], using default - 1
+11:21:12.070 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/DKK], using default - 1
+11:21:12.071 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/CAD], using default - 1
+11:21:12.071 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/CAD], using default - 1
+11:21:12.071 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/CAD], using default - 1
+11:21:12.071 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/CAD], using default - 1
+11:21:12.071 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [SGD/JPY], using default - 1
+11:21:12.071 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [SGD/JPY], using default - 1
+11:21:12.071 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CAD/CHF], using default - 1
+11:21:12.071 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CAD/CHF], using default - 1
+11:21:12.072 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/TRY], using default - 1
+11:21:12.072 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/TRY], using default - 1
+11:21:12.072 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/TRY], using default - 1
+11:21:12.072 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/TRY], using default - 1
+11:21:12.072 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/AUD], using default - 1
+11:21:12.072 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/AUD], using default - 1
+11:21:12.072 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/SGD], using default - 1
+11:21:12.073 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/SGD], using default - 1
+11:21:12.073 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/CHF], using default - 1
+11:21:12.073 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/CHF], using default - 1
+11:21:12.073 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CHE.IDX/CHF], using default - 1
+11:21:12.073 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CHE.IDX/CHF], using default - 1
+11:21:12.074 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/NZD], using default - 1
+11:21:12.074 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/NZD], using default - 1
+11:21:12.074 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUS.IDX/EUR], using default - 1
+11:21:12.074 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUS.IDX/EUR], using default - 1
+11:21:12.074 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/SGD], using default - 1
+11:21:12.074 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/SGD], using default - 1
+11:21:12.075 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USA30.IDX/USD], using default - 1
+11:21:12.075 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USA30.IDX/USD], using default - 1
+11:21:12.075 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [XAU/USD], using default - 1
+11:21:12.075 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [XAU/USD], using default - 1
+11:21:12.075 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/CHF], using default - 1
+11:21:12.075 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/CHF], using default - 1
+11:21:12.075 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/USD], using default - 1
+11:21:12.075 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/USD], using default - 1
+11:21:12.076 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [NZD/JPY], using default - 1
+11:21:12.076 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [NZD/JPY], using default - 1
+11:21:12.076 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/MXN], using default - 1
+11:21:12.076 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/MXN], using default - 1
+11:21:12.076 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [FRA.IDX/EUR], using default - 1
+11:21:12.076 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [FRA.IDX/EUR], using default - 1
+11:21:12.076 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/SGD], using default - 1
+11:21:12.076 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/SGD], using default - 1
+11:21:12.077 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/NZD], using default - 1
+11:21:12.077 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/NZD], using default - 1
+11:21:12.077 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CAD/HKD], using default - 1
+11:21:12.077 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CAD/HKD], using default - 1
+11:21:12.077 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/CHF], using default - 1
+11:21:12.077 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/CHF], using default - 1
+11:21:12.077 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [NZD/USD], using default - 1
+11:21:12.077 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [NZD/USD], using default - 1
+11:21:12.078 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/PLN], using default - 1
+11:21:12.078 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/PLN], using default - 1
+11:21:12.078 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/JPY], using default - 1
+11:21:12.078 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/JPY], using default - 1
+11:21:12.078 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/NZD], using default - 1
+11:21:12.078 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/NZD], using default - 1
+11:21:12.078 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [JPN.IDX/JPY], using default - 1
+11:21:12.078 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [JPN.IDX/JPY], using default - 1
+11:21:12.079 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CHF/JPY], using default - 1
+11:21:12.079 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CHF/JPY], using default - 1
+11:21:12.079 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/USD], using default - 1
+11:21:12.079 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/USD], using default - 1
+11:21:12.079 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [ESP.IDX/EUR], using default - 1
+11:21:12.079 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [ESP.IDX/EUR], using default - 1
+11:21:12.079 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/USD], using default - 1
+11:21:12.079 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/USD], using default - 1
+11:21:12.080 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/JPY], using default - 1
+11:21:12.080 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/JPY], using default - 1
+11:21:12.080 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/PLN], using default - 1
+11:21:12.080 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/PLN], using default - 1
+11:21:12.080 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/CHF], using default - 1
+11:21:12.080 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/CHF], using default - 1
+11:21:12.080 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [XAG/USD], using default - 1
+11:21:12.080 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [XAG/USD], using default - 1
+11:21:12.080 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/GBP], using default - 1
+11:21:12.080 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/GBP], using default - 1
+11:21:12.081 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/RUB], using default - 1
+11:21:12.081 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/RUB], using default - 1
+11:21:12.081 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [GBP/JPY], using default - 1
+11:21:12.081 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [GBP/JPY], using default - 1
+11:21:12.081 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [NZD/CHF], using default - 1
+11:21:12.081 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [NZD/CHF], using default - 1
+11:21:12.081 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [BRENT.CMD/USD], using default - 1
+11:21:12.081 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [BRENT.CMD/USD], using default - 1
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/NOK], using default - 1
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/NOK], using default - 1
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CAD/JPY], using default - 1
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CAD/JPY], using default - 1
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [CHF/SGD], using default - 1
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [CHF/SGD], using default - 1
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [DEU.IDX/EUR], using default - 1
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [DEU.IDX/EUR], using default - 1
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown pip value for the instrument [LIGHT.CMD/USD], using default - 0.0001
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [LIGHT.CMD/USD], using default - 1
+11:21:12.082 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [LIGHT.CMD/USD], using default - 1
+11:21:12.083 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUD/CAD], using default - 1
+11:21:12.083 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUD/CAD], using default - 1
+11:21:12.083 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [HKD/JPY], using default - 1
+11:21:12.083 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [HKD/JPY], using default - 1
+11:21:12.083 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [AUS.IDX/AUD], using default - 1
+11:21:12.083 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [AUS.IDX/AUD], using default - 1
+11:21:12.083 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [EUR/SEK], using default - 1
+11:21:12.083 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [EUR/SEK], using default - 1
+11:21:12.084 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/SEK], using default - 1
+11:21:12.084 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/SEK], using default - 1
+11:21:12.084 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USA500.IDX/USD], using default - 1
+11:21:12.084 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USA500.IDX/USD], using default - 1
+11:21:12.084 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USD/CNH], using default - 1
+11:21:12.084 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USD/CNH], using default - 1
+11:21:12.084 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown trade amount increment for the instrument [USATECH.IDX/USD], using default - 1
+11:21:12.084 WARN  com.dukascopy.api.instrument.InstrumentParser - Unknown minimal trade amount for the instrument [USATECH.IDX/USD], using default - 1
+11:21:12.258 WARN  com.dukascopy.charts.data.datacache.FeedDataProvider - JStore is disabled for the current user
+11:21:13.449 WARN  com.dukascopy.api.impl.connect.WLabelData - White Label Image is not received
+11:21:22.740 WARN  com.dukascopy.api.impl.connect.WLabelData - White Label Image is not received
+11:21:29.742 ERROR singlejartest.TesterMainGUIMode - C:\report.html (A hozzáférés megtagadva)
+java.io.FileNotFoundException: C:\report.html (A hozzáférés megtagadva)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at com.dukascopy.api.impl.connect.TesterClientImpl.createReport(TesterClientImpl.java:1574)
+	at singlejartest.TesterMainGUIMode$1.onStop(TesterMainGUIMode.java:133)
+	at com.dukascopy.api.impl.connect.TesterClientImpl$4.onStop(TesterClientImpl.java:624)
+	at com.dukascopy.api.impl.connect.TesterClientImpl$TesterLoadingProgressListener.loadingFinished(TesterClientImpl.java:1812)
+	at com.dukascopy.dds2.greed.agent.strategy.tester.StrategyRunner.run(StrategyRunner.java:483)
+	at java.lang.Thread.run(Unknown Source)

@@ -14,8 +14,6 @@ import org.junit.Test;
 import org.mockito.internal.matchers.GreaterOrEqual;
 import org.mockito.internal.matchers.GreaterThan;
 
-import yahoofinance.quotes.fx.FxSymbols;
-
 public class YahooCurrencPairDownloaderTest {
 	
 	private YahooCurrencPairDownloader downloader;
