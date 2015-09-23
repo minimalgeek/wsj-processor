@@ -86,7 +86,7 @@ public class ForexDataDownloaderService {
 			}
 		}
 		
-		LOGGER.info("downloadAll ended");
+		LOGGER.info("downloadMissing ended");
 	}
 	
 }
