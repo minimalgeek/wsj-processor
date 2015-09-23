@@ -33,7 +33,7 @@ public class Forex implements Serializable {
 	private Double low;
 	@Column(name="CLOSE", nullable = false, columnDefinition="DOUBLE")
 	private Double close;
-	@Column(name="VOLUME", nullable = false, columnDefinition="DOUBLE")
+	@Column(name="VOLUME", columnDefinition="DOUBLE")
 	private Double volume;
 	
 	public Forex() {
