@@ -1,0 +1,12 @@
+<div>
+    <h1>Zacks Downloader</h1>
+
+    <button class="myButton" ng-click="data.refreshAllReportDates()">Refresh all report dates</button>
+
+    <h2>Refreshed URLs</h2>
+    <table class="myTable">
+        <tr ng-repeat = "url in data.refreshedURLs">
+            <td>{{ url }}</td>
+        </tr>
+    </table>
+</div>

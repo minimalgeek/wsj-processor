@@ -1,0 +1,34 @@
+<!doctype html>
+<html ng-app="adminApp">
+<head>
+    <title>OTP Alapkezelő - Admin</title>
+    <meta charset="UTF-8">
+    <script src="assets/libs/angular.js"></script>
+    <script src="assets/libs/angular-route.js"></script>
+    <script src="assets/libs/angular-resource.js"></script>
+
+    <script src="app/admin.module.js"></script>
+    <script src="app/admin.routes.js"></script>
+
+    <script src="app/components/zacks-downloader/zacksDownloaderController.js"></script>
+    <script src="app/components/stooq-downloader/stooqDownloaderController.js"></script>
+
+    <script src="app/components/zacks-downloader/zacksDownloaderService.js"></script>
+    <script src="app/components/stooq-downloader/stooqDownloaderService.js"></script>
+
+    <link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body>
+
+<div class="nav">
+    <ul>
+        <li><a href="#zacksDownloader">Zacks Downloader</a></li>
+        <li><a href="#stooqDownloader">Stooq Downloader</a></li>
+        <li><a href="#wsjReceiver">WSJ Receiver</a></li>
+    </ul>
+</div>
+
+<div ng-view class="view"></div>
+
+</body>
+</html>

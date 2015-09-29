@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 
 @RestController
 public class DataSynchronizerService {
@@ -42,9 +44,11 @@ public class DataSynchronizerService {
 	@Autowired
 	private ZacksFileUtils zacksFileUtils;
 	
-	@RequestMapping(value = "/refreshAllReportDates", method = RequestMethod.GET)
-	public void refreshAllReportDates() {
+	@RequestMapping(value = "/refreshAllReportDates", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+	public List<String> refreshAllReportDates() {
 		LOGGER.info("refreshAllReportDates");
+		
+		List<String> refreshedURLs = Lists.newArrayList();
 
 		for (String url : zacksURLList) {
 			try {
@@ -53,10 +57,14 @@ public class DataSynchronizerService {
 				LOGGER.info("ZacksData's title: " + zacksData.getTitle());
 				
 				zacksFileUtils.writeZacksDataToCSVFiles(zacksData);
+				
+				refreshedURLs.add(url);
 			} catch (Exception ex) {
 				LOGGER.error("Exception happened during URL content open or processing", ex);
 			}
 		}
+		
+		return refreshedURLs;
 	}
 	
 	public String getContentForURL(String url) throws IOException, SAXException, TikaException {
