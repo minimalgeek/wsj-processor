@@ -111,6 +111,14 @@ body {
     position: relative;
     background-color:#fff ;
     text-align: center;
+    overflow: scroll;
+}
+
+@media screen and (min-width: 600px) {
+    .functionBox {
+        display: inline-block;
+        width: 550px;
+    }
 }
 
 .generalInput {

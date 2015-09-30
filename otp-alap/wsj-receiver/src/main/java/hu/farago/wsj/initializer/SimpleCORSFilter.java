@@ -1,4 +1,4 @@
-package hu.farago.data.initializer;
+package hu.farago.wsj.initializer;
 
 import java.io.IOException;
 

@@ -1,5 +1,5 @@
 adminApp.service('wsjReceiverService', function($http) {
-    this.baseURL = "http://localhost:8080/wsj-receiver/";
+    this.baseURL = "/wsj-receiver/";
     this.moveArticles = function(func) {
         $http.get(this.baseURL + "moveArticles")
         .success(
