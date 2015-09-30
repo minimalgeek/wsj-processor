@@ -95,5 +95,24 @@ body {
 }
 
 .myTable {
-    border: 1px skyblue solid;
+    border: 1px #14396a solid;
+    margin-top: 5px;
+}
+
+.functionBox {
+    display: block;
+    height: 310px;
+    width:300px;
+    margin:  20px;
+    padding: 12px;
+    -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,.8);
+    -moz-box-shadow: 0px 0px 5px rgba(0,0,0,.8);
+    box-shadow: 0px 0px 5px rgba(0,0,0,.8);
+    position: relative;
+    background-color:#fff ;
+    text-align: center;
+}
+
+.generalInput {
+    margin-bottom: 5px;
 }

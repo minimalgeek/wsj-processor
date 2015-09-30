@@ -57,7 +57,6 @@ public class ForexDataDownloaderService {
 		return downloadedPairs;
 	}
 	
-	@Scheduled(cron = "0 0/60 * * * ?")
 	@RequestMapping(value = "/downloadMissing", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public List<String> downloadMissing() {
 		
@@ -76,6 +75,11 @@ public class ForexDataDownloaderService {
 		}
 		
 		return downloadedPairs;
+	}
+	
+	@Scheduled(cron = "0 0/60 * * * ?")
+	public void downloadMissingScheduled() {
+		downloadMissing();
 	}
 
 	private void saveForexDataFromList(ForexData allData) {

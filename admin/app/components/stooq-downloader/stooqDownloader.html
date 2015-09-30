@@ -1,5 +1,43 @@
 <div>
     <h1>Stooq</h1>
 
-    <p>{{ message }}</p>
+    <div ng-show="data.showLoadingBar">
+        <img src="assets/img/ajax-loader.gif"/>
+    </div>
+
+    <div class="functionBox">
+        <button class="myButton" ng-click="data.downloadAll()">Download all FOREX data from 1970</button>
+        <p>(Be careful, it drops all the data, then donwload everything, which is a pretty time consuming process)</p>
+
+        <table class="myTable">
+            <thead>
+            <tr>
+                <th>Downloaded pairs</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="pair in data.pairs">
+                <td>{{ pair }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="functionBox">
+
+        <button class="myButton" ng-click="data.downloadMissing()">Refresh all FOREX data from the latest refresh date
+        </button>
+
+        <table class="myTable">
+            <thead>
+            <tr>
+                <th>Refreshed pairs</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="pair in data.refreshedPairs">
+                <td>{{ pair }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

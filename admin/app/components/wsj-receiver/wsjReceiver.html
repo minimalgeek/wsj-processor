@@ -1,4 +1,32 @@
 <div>
     <h1>WSJ Receiver</h1>
 
+    <div ng-show="data.showLoadingBar">
+        <img src="assets/img/ajax-loader.gif"/>
+    </div>
+
+    <div class="functionBox">
+        <button class="myButton" ng-click="data.moveArticles()">Move all articles from MySQL to MongoDB</button>
+        <h2>Moved artiles: {{data.movedArticles}}</h2>
+    </div>
+
+    <div class="functionBox">
+        <button class="myButton" ng-click="data.processAllArticle()">Process all article</button>
+        <p>It's an extremely long process, be careful! It runs only on the unprocessed records</p>
+
+        <h2>Moved artiles: {{data.processedArticles}}</h2>
+    </div>
+
+    <div class="functionBox">
+        <div class="generalInput">
+            Article ID: <input type="number" ng-model="data.articleId"/>
+        </div>
+        <button class="myButton" ng-click="data.getArticle()">Get article by ID</button>
+        <h2>Article:</h2>
+
+        <div>
+            {{data.article}}
+        </div>
+    </div>
+
 </div>

@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,9 +38,9 @@ public class MySQLToMongoMapperController implements Converter<Article, ArticleC
 	@Autowired
 	private ArticleWordRepository articleWordRepository;
 	
-	@RequestMapping(value = "/moveArticles", method = RequestMethod.GET)
-	public void moveArticles() {
-		LOGGER.info("moving articles");
+	@RequestMapping(value = "/moveArticles", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Long moveArticles() {
+		LOGGER.info("moveArticles");
 
 		Iterable<Article> articles;
 		long numberOfArticles = articleRepository.count();
@@ -59,7 +60,7 @@ public class MySQLToMongoMapperController implements Converter<Article, ArticleC
 			articleCollectionManager.save(collectionOfArticles);
 		}
 		
-		LOGGER.info("all articles moved from MySQL to MongoDB");
+		return numberOfArticles;
 	}
 	
 	@Override

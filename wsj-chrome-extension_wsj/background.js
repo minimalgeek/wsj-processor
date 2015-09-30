@@ -112,7 +112,7 @@ var downloader = {
 // REST content sender
 
 var contentSender = {
-	restURL: 'http://localhost:8080/save-article',
+	restURL: 'http://localhost:8080/wsj-receiver/save-article',
 	sendContent: function(info) {
 		console.log("Sending article to server...");
 

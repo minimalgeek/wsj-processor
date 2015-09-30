@@ -1,10 +1,10 @@
 adminApp.service("zacksDownloaderService", function($http) {
     this.baseURL = "http://localhost:8080/data-downloader/";
-    this.refreshAllReportDates = function(refreshedURLs) {
+    this.refreshAllReportDates = function(func) {
         $http.get(this.baseURL + "refreshAllReportDates")
-        .success(
+            .success(
             function(response) {
-                refreshedURLs = response;
+                func(response);
             }
         );
     }
