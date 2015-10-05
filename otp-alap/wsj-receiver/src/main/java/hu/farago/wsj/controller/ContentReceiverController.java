@@ -3,9 +3,14 @@ package hu.farago.wsj.controller;
 import hu.farago.wsj.api.Converter;
 import hu.farago.wsj.controller.dto.ArticleDTO;
 import hu.farago.wsj.model.dao.mongo.ArticleCollectionManager;
+import hu.farago.wsj.model.dao.mongo.MetaInfoCollectionManager;
 import hu.farago.wsj.model.entity.mongo.ArticleCollection;
+import hu.farago.wsj.model.entity.mongo.MetaInfoCollection;
+import hu.farago.wsj.model.entity.mongo.MetaInfoCollection.KEYS;
 import hu.farago.wsj.parse.ArticleParser;
 import hu.farago.wsj.parse.wordprocess.CoreNLPWordsProcessor;
+
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -27,6 +32,9 @@ public class ContentReceiverController {
 
 	@Autowired
 	private ArticleCollectionManager articleCollectionManager;
+	@Autowired
+	private MetaInfoCollectionManager metaInfoCollectionManager;
+	
 	@Autowired
 	@Qualifier("mongoConverter")
 	private Converter<ArticleCollection, ArticleDTO> converter;
@@ -64,6 +72,23 @@ public class ContentReceiverController {
 		}
 
 		articleCollectionManager.save(existingArticleEntity);
+		handleLatestArticleDateSaving(existingArticleEntity);
+	}
+
+	private void handleLatestArticleDateSaving(ArticleCollection article) {
+		
+		MetaInfoCollection latestDateInfo = metaInfoCollectionManager.findByKey(KEYS.LATESTDATE.getKeyName());
+		if (latestDateInfo != null) {
+			Date latestDate = (Date)latestDateInfo.getValue();
+			
+			if (latestDate.before(article.getDateTime())) {
+				latestDateInfo.setValue(article.getDateTime());
+				metaInfoCollectionManager.save(latestDateInfo);
+			}
+		} else {
+			metaInfoCollectionManager.save(new MetaInfoCollection(KEYS.LATESTDATE, article.getDateTime()));
+		}
+			
 	}
 
 }

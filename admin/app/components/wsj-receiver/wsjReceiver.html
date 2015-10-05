@@ -29,4 +29,20 @@
         </div>
     </div>
 
+    <div class="functionBox">
+        <button class="myButton" ng-click="data.collectContent()">Collect all missing articles</button>
+        <table class="myTable">
+            <thead>
+            <tr>
+                <th>Opened archive URLs</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="url in data.openedArchiveURLs">
+                <td>{{ url }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>

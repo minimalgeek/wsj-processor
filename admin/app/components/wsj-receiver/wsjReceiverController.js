@@ -26,6 +26,14 @@ adminApp.
                     $scope.data.article = data;
                     $scope.data.showLoadingBar = false;
                 });
+            },
+            openedArchiveURLs : [],
+            collectContent : function() {
+                $scope.data.showLoadingBar = true;
+                wsjReceiverService.collectContent(function (data){
+                    $scope.data.openedArchiveURLs = data;
+                    $scope.data.showLoadingBar = false;
+                });
             }
         }
     })

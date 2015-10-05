@@ -9,7 +9,7 @@
 	<artifactId>wsj-receiver</artifactId>
 	<packaging>war</packaging>
 	<name>WSJ Receiver</name>
-	
+
 	<dependencies>
 		<!-- Test -->
 		<dependency>
@@ -59,7 +59,7 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
@@ -135,11 +135,28 @@
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
 			<classifier>models</classifier>
+		</dependency>
+
+		<!-- Apache, others -->
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
 		</dependency>
 
 		<!-- LOGGING -->
@@ -176,5 +193,5 @@
 		</plugins>
 	</build>
 
-	
+
 </project>

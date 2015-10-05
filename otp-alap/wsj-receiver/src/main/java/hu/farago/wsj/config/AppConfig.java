@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
-@ComponentScan(basePackages = {"hu.farago.wsj.controller", "hu.farago.wsj.parse", "hu.farago.wsj.rssfeed"})
+@ComponentScan(basePackages = {"hu.farago.wsj"})
 @EnableAsync
 @EnableScheduling
 public class AppConfig {

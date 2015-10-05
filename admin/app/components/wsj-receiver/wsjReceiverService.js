@@ -24,4 +24,12 @@ adminApp.service('wsjReceiverService', function($http) {
             }
         );
     };
+    this.collectContent = function(func) {
+        $http.get(this.baseURL + "collectContent")
+            .success(
+            function(response) {
+                func(response);
+            }
+        );
+    };
 });
