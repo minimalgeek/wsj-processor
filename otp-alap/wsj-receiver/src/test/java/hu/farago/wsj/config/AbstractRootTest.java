@@ -1,5 +1,8 @@
 package hu.farago.wsj.config;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -24,6 +27,12 @@ public abstract class AbstractRootTest {
 	@After
 	public void after() {
 
+	}
+	
+	protected Date getNewDate(int year, int month, int day) {
+		Calendar date = Calendar.getInstance();
+		date.set(year, month, day);
+		return date.getTime();
 	}
 
 }

@@ -1,7 +1,7 @@
 package hu.farago.wsj.parse;
 
 import hu.farago.wsj.config.AbstractRootTest;
-import hu.farago.wsj.model.entity.sql.Article;
+import hu.farago.wsj.model.entity.mongo.ArticleCollection;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +22,7 @@ public class ArticleParserTest extends AbstractRootTest {
 	@Autowired
 	private ArticleParser articleParser;
 	
-	private Article article;
+	private ArticleCollection article;
 	
 	private String expectedSampleText;
 
@@ -36,7 +36,7 @@ public class ArticleParserTest extends AbstractRootTest {
 			    .getResourceAsStream(PARSER_SAMPLE_EXPECTED_TXT);
 		expectedSampleText = IOUtils.toString(expectedStream, "UTF-8");
 		
-		article = new Article();
+		article = new ArticleCollection();
 		article.setTitle("Parse title");
 		article.setUrl("http://parse.url");
 		article.setRawText(IOUtils.toString(stream, "UTF-8"));

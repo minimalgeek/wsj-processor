@@ -1,5 +1,6 @@
 package hu.farago.wsj.model.entity.mongo;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ArticleCollection {
 
 	@Id
-	private Long id;
+	private BigInteger id;
 	private String rawText;
 	private String plainText;
 	private String title;
@@ -24,11 +25,21 @@ public class ArticleCollection {
 	public ArticleCollection() {
 	}
 
-	public Long getId() {
+	public ArticleCollection(String rawText, String title, Date dateTime, 
+			String url) {
+		super();
+		this.rawText = rawText;
+		this.title = title;
+		this.dateTime = dateTime;
+		this.url = url;
+	}
+
+	
+	public BigInteger getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

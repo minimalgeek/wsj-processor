@@ -1,6 +1,6 @@
 package hu.farago.wsj.parse;
 
-import hu.farago.wsj.model.entity.sql.Article;
+import hu.farago.wsj.model.entity.mongo.ArticleCollection;
 
 import java.io.IOException;
 
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+
 /**
  * Parses a given article's raw html text to a plain text for further processing. 
  * It uses Apache TIKA.
@@ -23,7 +24,7 @@ import org.xml.sax.SAXException;
 @Service
 public class ArticleParser {
 	
-	public void parseArticleAndSetPlainText(Article article) throws IOException, SAXException, TikaException {
+	public void parseArticleAndSetPlainText(ArticleCollection article) throws IOException, SAXException, TikaException {
 		ContentHandler handler = new BodyContentHandler();
         new HtmlParser().parse(IOUtils.toInputStream(article.getRawText()), handler, new Metadata(), new ParseContext());
         String plainText = StringUtils.normalizeSpace(handler.toString());

@@ -1,15 +1,14 @@
 package hu.farago.wsj.parse.wordprocess;
 
-import hu.farago.wsj.model.entity.sql.Article;
+import hu.farago.wsj.model.entity.mongo.ArticleCollection;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -30,30 +29,27 @@ import edu.stanford.nlp.util.StringUtils;
  * @author Balázs
  *
  */
-@Service("coreNLP")
-public class CoreNLPWordsProcessor extends WordsProcessor {
-
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(CoreNLPWordsProcessor.class);
+@Service
+public class CoreNLPWordsProcessor {
 
 	@Value("${wsj.receiver.annotators}")
 	private String annotators;
 
 	private StanfordCoreNLP coreNLP;
 
-	@Override
-	protected void doBuild(Article existingArticle) throws Exception {
-		List<String> lemmas = lemmatize(existingArticle.getPlainText());
+	public void parseArticlePlainTextAndBuildMapOfWords(ArticleCollection article) {
+		List<String> lemmas = lemmatize(article.getPlainText());
 
+		article.setArticleWords(new HashSet<String>());
 		for (String lemma : lemmas) {
 			if (org.apache.commons.lang3.StringUtils.isNotBlank(lemma)) {
-				addWordToArticle(existingArticle, lemma);
+				article.getArticleWords().add(lemma);
 			}
 		}
 
 	}
 
-	public List<String> lemmatize(String documentText) throws Exception {
+	private List<String> lemmatize(String documentText) {
 		List<String> lemmas = new LinkedList<String>();
 
 		// create an empty Annotation just with the given text
@@ -92,11 +88,6 @@ public class CoreNLPWordsProcessor extends WordsProcessor {
 	@PostConstruct
 	public void postConstruct() {
 		buildCoreNLPIfNull();
-	}
-
-	@Override
-	protected Logger getLogger() {
-		return LOGGER;
 	}
 
 }

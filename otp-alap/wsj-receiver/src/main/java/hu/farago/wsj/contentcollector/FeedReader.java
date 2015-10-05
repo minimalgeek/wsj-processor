@@ -1,4 +1,4 @@
-package hu.farago.wsj.rssfeed;
+package hu.farago.wsj.contentcollector;
 
 import java.awt.Desktop;
 import java.net.URL;
@@ -9,15 +9,13 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
-@Service
+//@Service
 public class FeedReader {
 
 	private static final Logger LOGGER = LoggerFactory
@@ -31,7 +29,7 @@ public class FeedReader {
 
 	private Set<String> openedLinks = new HashSet<String>();
 
-	@Scheduled(fixedDelay = 5000)
+	//@Scheduled(fixedDelay = 5000)
 	public void readFeed() {
 		if (feedEnabled) {
 			for (String url : feedURLList) {

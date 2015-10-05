@@ -46,7 +46,7 @@ public class MySQLToMongoMapperController implements Converter<Article, ArticleC
 		long numberOfArticles = articleRepository.count();
 		long numberOfPages = (long) Math.ceil(numberOfArticles/(double)PAGE_SIZE);
 		
-		articleCollectionManager.deleteAll();
+		//articleCollectionManager.deleteAll();
 		
 		for (int idx = 0; idx < numberOfPages; idx++) {
 			LOGGER.info("processing page " + idx + "...");
@@ -73,7 +73,7 @@ public class MySQLToMongoMapperController implements Converter<Article, ArticleC
 	public ArticleCollection convertTo(Article sqlObject) {
 		ArticleCollection article = new ArticleCollection();
 		
-		article.setId(sqlObject.getId());
+		//article.setId(sqlObject.getId());
 		article.setDateDay(new Date(sqlObject.getDateDay().getTime()));
 		article.setDateTime(new Date(sqlObject.getDateTime().getTime()));
 		article.setPlainText(sqlObject.getPlainText());
