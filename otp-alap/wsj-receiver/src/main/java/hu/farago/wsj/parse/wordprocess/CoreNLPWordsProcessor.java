@@ -43,7 +43,7 @@ public class CoreNLPWordsProcessor {
 		article.setArticleWords(new HashSet<String>());
 		for (String lemma : lemmas) {
 			if (org.apache.commons.lang3.StringUtils.isNotBlank(lemma)) {
-				article.getArticleWords().add(lemma);
+				article.getArticleWords().add(org.apache.commons.lang3.StringUtils.lowerCase(lemma));
 			}
 		}
 

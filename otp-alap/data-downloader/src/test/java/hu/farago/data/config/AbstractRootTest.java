@@ -1,8 +1,12 @@
 package hu.farago.data.config;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import hu.farago.data.config.AppConfig;
 import hu.farago.data.config.WebMvcConfig;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -27,6 +31,13 @@ public abstract class AbstractRootTest {
 	@After
 	public void after() {
 
+	}
+	
+	protected Date getNewDate(int year, int month, int day) {
+		Calendar date = Calendar.getInstance();
+		date.set(year, month, day);
+		date = DateUtils.truncate(date, Calendar.DATE);
+		return date.getTime();
 	}
 
 }

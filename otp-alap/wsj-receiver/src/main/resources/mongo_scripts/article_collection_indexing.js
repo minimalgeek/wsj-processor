@@ -1,0 +1,1 @@
+db.article.createIndex({plainText : "text"});

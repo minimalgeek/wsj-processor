@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,9 +65,11 @@ public class ForexDataDownloaderService {
 		
 		for (String pair : currencyPairs) {
 			Date latestDateForPair = forexRepository.findLatestDateForSymbol(StringUtils.upperCase(pair));
-			Date fromDateForPair = DateUtils.addDays(latestDateForPair, 1);
+			if (latestDateForPair == null) {
+				latestDateForPair = new Date();
+			}
 			
-			ForexData allData = stooqDataDownloader.getDataForSymbolBetweenDates(pair, fromDateForPair, new Date());
+			ForexData allData = stooqDataDownloader.getDataForSymbolBetweenDates(pair, latestDateForPair, new Date());
 			
 			saveForexDataFromList(allData);
 			downloadedPairs.add(pair);
@@ -84,6 +85,11 @@ public class ForexDataDownloaderService {
 
 	private void saveForexDataFromList(ForexData allData) {
 		for (HistoricalForexData histData : allData.getHistoricalForexDataList()) {
+			// sometimes Stooq send an intraday update with wrong CLOSE value, so we
+			// delete data from this date!
+			
+			forexRepository.deleteByDateAndSymbol(histData.getDate(), allData.getSymbol());
+			
 			Forex forex = new Forex();
 			forex.setSymbol(StringUtils.upperCase(allData.getSymbol()));
 			forex.setTickDate(histData.getDate());

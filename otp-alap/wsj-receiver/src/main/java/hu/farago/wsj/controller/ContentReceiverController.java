@@ -71,8 +71,10 @@ public class ContentReceiverController {
 			existingArticleEntity.setProcessed(false);
 		}
 
-		articleCollectionManager.save(existingArticleEntity);
+		existingArticleEntity = articleCollectionManager.save(existingArticleEntity);
 		handleLatestArticleDateSaving(existingArticleEntity);
+		
+		LOGGER.info("article successfully saved: " + articleCollection.getId());
 	}
 
 	private void handleLatestArticleDateSaving(ArticleCollection article) {

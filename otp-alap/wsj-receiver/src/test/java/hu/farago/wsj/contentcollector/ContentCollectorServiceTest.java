@@ -13,6 +13,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -53,6 +54,12 @@ public class ContentCollectorServiceTest extends AbstractRootTest {
 		assertThat(
 				urls,
 				hasItems(getExpectedArchiveURL(now)));
+	}
+	
+	@Test
+	@Ignore("only for manual testing!")
+	public void collectContentTest() {
+		contentCollectorService.collectContent();
 	}
 
 	private String getExpectedArchiveURL(DateTime date) {
