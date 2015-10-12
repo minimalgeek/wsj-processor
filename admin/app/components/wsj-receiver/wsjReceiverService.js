@@ -32,4 +32,12 @@ adminApp.service('wsjReceiverService', function($http) {
             }
         );
     };
+    this.exportDatesToCSV = function(func) {
+        $http.get(this.baseURL + "exportDatesToCSV")
+            .success(
+            function(response) {
+                func(response);
+            }
+        );
+    }
 });

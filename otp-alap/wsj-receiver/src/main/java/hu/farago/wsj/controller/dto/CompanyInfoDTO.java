@@ -3,6 +3,7 @@ package hu.farago.wsj.controller.dto;
 import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class CompanyInfoDTO implements Serializable {
 	
@@ -34,6 +35,11 @@ public class CompanyInfoDTO implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 		return EqualsBuilder.reflectionEquals(this, obj, false);
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

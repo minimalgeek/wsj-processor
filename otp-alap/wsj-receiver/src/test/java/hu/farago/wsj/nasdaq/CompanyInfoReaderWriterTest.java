@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,19 @@ public class CompanyInfoReaderWriterTest extends SimpleAbstractRootTest {
 	
 	private CompanyInfoDTO aapl;
 	private CompanyInfoDTO adbe;
+	private File file;
 	
 	@Before
 	public void before() {
 		aapl = new CompanyInfoDTO("AAPL", "APPLE INC");
 		adbe = new CompanyInfoDTO("ADBE", "ADOBE SYSTEMS INC");
 	}
+	
+	@After
+	public void after() {
+		FileUtils.deleteQuietly(file);
+	}
+
 
 	@Test
 	public void readAllTickersTest() throws IOException {
@@ -46,7 +54,7 @@ public class CompanyInfoReaderWriterTest extends SimpleAbstractRootTest {
 		dates.add(DateTime.parse("2015-03-14"));
 		dates.add(DateTime.parse("2015-08-12"));
 
-		File file = companyInfoReader.writeRelevantDatesToFile(aapl, dates);
+		file = companyInfoReader.writeRelevantDatesToFile(aapl, dates);
 		
 		assertTrue(file.exists());
 		assertThat(FileUtils.readLines(file), hasSize(3));

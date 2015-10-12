@@ -34,6 +34,14 @@ adminApp.
                     $scope.data.openedArchiveURLs = data;
                     $scope.data.showLoadingBar = false;
                 });
+            },
+            indexesWithCount : [],
+            exportDatesToCSV : function() {
+                $scope.data.showLoadingBar = true;
+                wsjReceiverService.exportDatesToCSV(function (data){
+                    $scope.data.indexesWithCount = data;
+                    $scope.data.showLoadingBar = false;
+                });
             }
         }
     })

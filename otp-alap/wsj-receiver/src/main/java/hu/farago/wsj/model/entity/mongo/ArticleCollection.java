@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "article")
@@ -14,6 +15,7 @@ public class ArticleCollection {
 	@Id
 	private BigInteger id;
 	private String rawText;
+	@TextIndexed
 	private String plainText;
 	private String title;
 	private Date dateTime;

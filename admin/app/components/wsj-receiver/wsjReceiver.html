@@ -45,4 +45,20 @@
         </table>
     </div>
 
+    <div class="functionBox">
+        <button class="myButton" ng-click="data.exportDatesToCSV()">Search all article for Nasdaq 100 indexes</button>
+        <table class="myTable">
+            <thead>
+            <tr>
+                <th>Index and article count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="indCnt in data.indexesWithCount">
+                <td>{{ indCnt }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>

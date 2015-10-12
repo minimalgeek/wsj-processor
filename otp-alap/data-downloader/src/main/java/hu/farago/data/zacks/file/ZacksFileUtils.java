@@ -144,7 +144,7 @@ public class ZacksFileUtils {
 						"MM/dd/yyyy");
 			} catch (ParseException ex) {
 				Calendar calendar = Calendar.getInstance();
-				calendar.set(1970, 1, 1);
+				calendar.set(9999, 12, 31);
 				this.lastReportDate = calendar.getTime();
 
 			}
