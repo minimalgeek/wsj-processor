@@ -1,9 +1,10 @@
-package hu.farago.wsj.contentcollector;
+package hu.farago.wsj.controller;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import hu.farago.wsj.config.AbstractRootTest;
+import hu.farago.wsj.controller.ContentCollectorService;
 import hu.farago.wsj.model.dao.mongo.MetaInfoCollectionManager;
 import hu.farago.wsj.model.entity.mongo.MetaInfoCollection;
 import hu.farago.wsj.model.entity.mongo.MetaInfoCollection.KEYS;

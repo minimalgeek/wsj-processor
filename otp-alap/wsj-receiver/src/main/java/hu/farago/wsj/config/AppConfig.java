@@ -17,6 +17,7 @@ public class AppConfig {
 	
 	public static final String APPLICATION = "application";
 	public static final String APPLICATION_TEST = "application-test";
+	public static final String APPLICATION_TEST_SIMPLE = "application-test-simple";
 
 	@Profile(APPLICATION)
 	@Configuration
@@ -28,6 +29,12 @@ public class AppConfig {
 	@Configuration
 	@PropertySource("classpath:application-test.properties")
 	public static class ApplicationTestProperties {
+	}
+	
+	@Profile(APPLICATION_TEST_SIMPLE)
+	@Configuration
+	@PropertySource("classpath:application-test-simple.properties")
+	public static class ApplicationTestSimpleProperties {
 	}
 
 	@Bean

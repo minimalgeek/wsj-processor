@@ -1,4 +1,4 @@
-package hu.farago.wsj.contentcollector;
+package hu.farago.wsj.controller;
 
 import hu.farago.wsj.model.dao.mongo.ArticleCollectionManager;
 import hu.farago.wsj.model.dao.mongo.MetaInfoCollectionManager;
