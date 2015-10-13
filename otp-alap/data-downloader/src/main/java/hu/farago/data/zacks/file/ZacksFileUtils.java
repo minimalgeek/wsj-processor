@@ -35,8 +35,12 @@ public class ZacksFileUtils {
 
 			dto.setCsvFileAndFillFileContent(createFileIfNotExistsForSymbol(company
 					.getSymbol()));
-			dto.setNextReportDateStrWithYYYY(createReportDateWith20YearPrefix(company
-					.getNextReportDate()));
+			String reportDate = createReportDateWith20YearPrefix(company
+					.getNextReportDate());
+			if (reportDate == null) {
+				continue;
+			}
+			dto.setNextReportDateStrWithYYYY(reportDate);
 
 			if (!CollectionUtils.isEmpty(dto.getFileContent())) {
 				updateOrAppendNextReportDateInCSV(dto);
@@ -60,7 +64,7 @@ public class ZacksFileUtils {
 				}
 			});
 			appendNextReportDateInCSV(dto);
-		} else if (dto.getLastReportDate().before(new Date())) {
+		} else if (dto.lastReportDateIsBeforeToday()) {
 			// append the next report date to the list
 			appendNextReportDateInCSV(dto);
 		}
@@ -74,14 +78,12 @@ public class ZacksFileUtils {
 	 */
 	private String createReportDateWith20YearPrefix(String nextReportDate) {
 		String[] dateParts = StringUtils.split(nextReportDate, '/');
-		String nextReportDateWithYYYY;
 		if (dateParts.length == 3) {
-			nextReportDateWithYYYY = dateParts[0] + '/' + dateParts[1] + "/20"
+			return dateParts[0] + '/' + dateParts[1] + "/20"
 					+ dateParts[2];
-		} else {
-			nextReportDateWithYYYY = nextReportDate;
 		}
-		return nextReportDateWithYYYY;
+		
+		return null;
 	}
 
 	private File createFileIfNotExistsForSymbol(String symbol)
@@ -114,10 +116,20 @@ public class ZacksFileUtils {
 		private Date lastReportDate;
 		private String nextReportDateStrWithYYYY;
 		private List<String> fileContent;
+		
+		private Date today;
+		
+		public ZacksFileUtilsParameterDTO() {
+			today = DateUtils.truncate(new Date(), Calendar.DATE);
+		}
 
 		public boolean lastReportDateIsFutureButNotSameWithNextReportDate() {
-			return lastReportDate.after(new Date())
+			return lastReportDate.after(today)
 					&& !lastReportDateStr.equals(nextReportDateStrWithYYYY);
+		}
+		
+		public boolean lastReportDateIsBeforeToday() {
+			return !DateUtils.isSameDay(lastReportDate, today) && lastReportDate.before(today);
 		}
 
 		public File getCsvFile() {
@@ -148,10 +160,6 @@ public class ZacksFileUtils {
 				this.lastReportDate = calendar.getTime();
 
 			}
-		}
-
-		public Date getLastReportDate() {
-			return lastReportDate;
 		}
 		
 		public String getNextReportDateStrWithYYYY() {

@@ -24,9 +24,9 @@ db.article.find(
 
 // 2634
     
-db.article.aggregate(
-[
-    { $match: { $text: { $search: "\"APPLE INC\" AAPL" } } },
+db.article.aggregate(
+[
+    { $match: { $text: { $search: "\"APPLE INC\" AAPL" } } },
     { $project: { _id: 0, url: 1, plainText: 1, dateTime: 1 } }
-]
+]
 );

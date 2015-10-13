@@ -1,7 +1,6 @@
-package hu.farago.data.service;
+package hu.farago.data.zacks.service;
 
 import hu.farago.data.config.AbstractRootTest;
-import hu.farago.data.zacks.service.DataSynchronizerService;
 import hu.farago.data.zacks.service.dto.ZacksData;
 
 import java.io.IOException;
@@ -25,8 +24,10 @@ public class DataSynchronizerServiceTest extends AbstractRootTest {
 	@Value("${zacks.url.test}")
 	private String testURL;
 	
-	private static final String SAMPLE_RESPONSE_PATH = "sample_response.txt";
+	@Value("${zacks.path}")
+	private String pathToCSVs;
 	
+	private static final String SAMPLE_RESPONSE_PATH = "sample_response.txt";
 	private String sampleResponse;
 	
 	@Before
