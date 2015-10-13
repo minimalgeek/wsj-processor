@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.Lists;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -22,7 +24,7 @@ public class ArticleAggregateManagerTest extends AbstractRootTest {
 	
 	@Before
 	public void before() {
-		aapl = new CompanyInfoDTO("AAPL", "APPLE INC");
+		aapl = new CompanyInfoDTO("AAPL", Lists.newArrayList("AAPL", "APPLE INC", "APPLE INCORP"));
 	}
 	
 	@Test

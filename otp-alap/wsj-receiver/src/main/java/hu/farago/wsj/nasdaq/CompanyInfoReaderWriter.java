@@ -20,25 +20,25 @@ import com.google.common.collect.Lists;
 public class CompanyInfoReaderWriter {
 
 	private static final String NAS100_FILE_PATH = "nas100_tickers.csv";
-	
+
 	@Value("${wsj.receiver.csvPath}")
 	private String csvPath;
-	
+
 	public List<CompanyInfoDTO> readAllTickers() throws IOException {
 		InputStream stream = Thread.currentThread().getContextClassLoader()
-			    .getResourceAsStream(NAS100_FILE_PATH);
+				.getResourceAsStream(NAS100_FILE_PATH);
 		List<String> lines = IOUtils.readLines(stream);
-		
+
 		List<CompanyInfoDTO> retList = Lists.newArrayList();
-		
+
 		for (String line : lines) {
 			String[] parts = StringUtils.split(line, ';');
-			CompanyInfoDTO dto = new CompanyInfoDTO(parts[0], parts[1]);
+			CompanyInfoDTO dto = new CompanyInfoDTO(parts[0], Lists.newArrayList(parts));
 			retList.add(dto);
 		}
-		
+
 		return retList;
-		
+
 	}
 
 	public File writeRelevantDatesToFile(CompanyInfoDTO dto,
@@ -47,15 +47,15 @@ public class CompanyInfoReaderWriter {
 		if (!fileToWrite.exists()) {
 			fileToWrite.createNewFile();
 		}
-		
+
 		List<String> lines = Lists.newArrayList();
 		for (DateTime dateTime : dates) {
 			lines.add(dateTime.toString("MM/dd/yyyy"));
 		}
-		
+
 		FileUtils.writeLines(fileToWrite, "UTF-8", lines, true);
-		
+
 		return fileToWrite;
 	}
-	
+
 }

@@ -30,8 +30,8 @@ public class CompanyInfoReaderWriterTest extends SimpleAbstractRootTest {
 	
 	@Before
 	public void before() {
-		aapl = new CompanyInfoDTO("AAPL", "APPLE INC");
-		adbe = new CompanyInfoDTO("ADBE", "ADOBE SYSTEMS INC");
+		aapl = new CompanyInfoDTO("AAPL", Lists.newArrayList("AAPL", "APPLE INC", "APPLE INCORP"));;
+		adbe = new CompanyInfoDTO("ADBE", Lists.newArrayList("ADBE", "ADOBE SYSTEMS INC", "ADOBE SYSTEM"));
 	}
 	
 	@After
