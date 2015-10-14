@@ -6,15 +6,18 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Component
 public class CompanyInfoReaderWriter {
@@ -33,7 +36,7 @@ public class CompanyInfoReaderWriter {
 
 		for (String line : lines) {
 			String[] parts = StringUtils.split(line, ';');
-			CompanyInfoDTO dto = new CompanyInfoDTO(parts[0], Lists.newArrayList(parts));
+			CompanyInfoDTO dto = new CompanyInfoDTO(parts[0], Lists.newArrayList(ArrayUtils.subarray(parts, 1, parts.length)));
 			retList.add(dto);
 		}
 
@@ -48,12 +51,24 @@ public class CompanyInfoReaderWriter {
 			fileToWrite.createNewFile();
 		}
 
-		List<String> lines = Lists.newArrayList();
+		Map<String, Long> datesWithCount = Maps.newLinkedHashMap();
 		for (DateTime dateTime : dates) {
-			lines.add(dateTime.toString("MM/dd/yyyy"));
+			String dateString = dateTime.toString("MM/dd/yyyy");
+			
+			Long dateCount = datesWithCount.get(dateString);
+			if (dateCount != null){
+				datesWithCount.put(dateString, dateCount+1);
+			} else {
+				datesWithCount.put(dateString, 1L);
+			}
+		}
+		
+		List<String> lineToWrite = Lists.newArrayList();
+		for (Map.Entry<String, Long> entry : datesWithCount.entrySet()) {
+			lineToWrite.add(entry.getKey() + "," + entry.getValue());
 		}
 
-		FileUtils.writeLines(fileToWrite, "UTF-8", lines, true);
+		FileUtils.writeLines(fileToWrite, "UTF-8", lineToWrite, true);
 
 		return fileToWrite;
 	}

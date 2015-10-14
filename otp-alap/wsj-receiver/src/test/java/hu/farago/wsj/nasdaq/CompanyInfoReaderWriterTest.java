@@ -30,8 +30,8 @@ public class CompanyInfoReaderWriterTest extends SimpleAbstractRootTest {
 	
 	@Before
 	public void before() {
-		aapl = new CompanyInfoDTO("AAPL", Lists.newArrayList("AAPL", "APPLE INC", "APPLE INCORP"));;
-		adbe = new CompanyInfoDTO("ADBE", Lists.newArrayList("ADBE", "ADOBE SYSTEMS INC", "ADOBE SYSTEM"));
+		aapl = new CompanyInfoDTO("AAPL", Lists.newArrayList("APPLE INC", "APPLE INCORP"));;
+		adbe = new CompanyInfoDTO("ADBE", Lists.newArrayList("ADOBE SYSTEMS INC", "ADOBE SYSTEM"));
 	}
 	
 	@After
@@ -50,9 +50,10 @@ public class CompanyInfoReaderWriterTest extends SimpleAbstractRootTest {
 	public void writeRelevantDatesToFileTest() throws IOException {
 		
 		List<DateTime> dates = Lists.newArrayList();
+		dates.add(DateTime.parse("2015-08-12"));
+		dates.add(DateTime.parse("2015-08-12")); // its a duplicate, it should appear as 1 line in the file
 		dates.add(DateTime.parse("2015-01-01"));
 		dates.add(DateTime.parse("2015-03-14"));
-		dates.add(DateTime.parse("2015-08-12"));
 
 		file = companyInfoReader.writeRelevantDatesToFile(aapl, dates);
 		

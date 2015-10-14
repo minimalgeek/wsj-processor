@@ -1,21 +1,20 @@
 package hu.farago.data.zacks.file;
 
-
 import hu.farago.data.zacks.service.DataSynchronizerService;
 import hu.farago.data.zacks.service.dto.CompanyData;
 import hu.farago.data.zacks.service.dto.ZacksData;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.datetime.joda.DateTimeFormatterFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -32,20 +31,19 @@ public class ZacksFileUtils {
 		for (CompanyData company : data.getData()) {
 
 			ZacksFileUtilsParameterDTO dto = new ZacksFileUtilsParameterDTO();
-
-			dto.setCsvFileAndFillFileContent(createFileIfNotExistsForSymbol(company
-					.getSymbol()));
+			dto.setCsvFile(createFileIfNotExistsForSymbol(company.getSymbol()));
+			
 			String reportDate = createReportDateWith20YearPrefix(company
 					.getNextReportDate());
 			if (reportDate == null) {
 				continue;
 			}
-			dto.setNextReportDateStrWithYYYY(reportDate);
+			dto.setNextReportDateStr(reportDate);
 
-			if (!CollectionUtils.isEmpty(dto.getFileContent())) {
-				updateOrAppendNextReportDateInCSV(dto);
-			} else {
+			if (CollectionUtils.isEmpty(dto.getFileContent())) {
 				appendNextReportDateInCSV(dto);
+			} else {
+				updateOrAppendNextReportDateInCSV(dto);
 			}
 
 		}
@@ -53,10 +51,9 @@ public class ZacksFileUtils {
 
 	private void updateOrAppendNextReportDateInCSV(
 			ZacksFileUtilsParameterDTO dto) throws IOException {
-		dto.setLastReportDateStrAndCreateLastReportDate(Iterables.getLast(dto
-				.getFileContent()));
+		dto.setLastReportDateStr(Iterables.getLast(dto.getFileContent()));
 
-		if (dto.lastReportDateIsFutureButNotSameWithNextReportDate()) {
+		if (dto.lastReportDateIsAfterToday() && dto.lastAndNextAreNotOnTheSameDay()) {
 			Iterables.removeIf(dto.getFileContent(), new Predicate<String>() {
 				@Override
 				public boolean apply(String line) {
@@ -79,10 +76,9 @@ public class ZacksFileUtils {
 	private String createReportDateWith20YearPrefix(String nextReportDate) {
 		String[] dateParts = StringUtils.split(nextReportDate, '/');
 		if (dateParts.length == 3) {
-			return dateParts[0] + '/' + dateParts[1] + "/20"
-					+ dateParts[2];
+			return dateParts[0] + '/' + dateParts[1] + "/20" + dateParts[2];
 		}
-		
+
 		return null;
 	}
 
@@ -95,84 +91,87 @@ public class ZacksFileUtils {
 		}
 		return file;
 	}
-	
 
 	private void appendNextReportDateInCSV(ZacksFileUtilsParameterDTO dto)
 			throws IOException {
-		dto.getFileContent().add(dto.getNextReportDateStrWithYYYY());
-		FileUtils.writeLines(dto.getCsvFile(), DataSynchronizerService.UTF_8, dto.getFileContent(),
-				false);
+		dto.getFileContent().add(dto.getNextReportDateStr());
+		FileUtils.writeLines(dto.getCsvFile(), DataSynchronizerService.UTF_8,
+				dto.getFileContent(), false);
 	}
 
 	/**
-	 * Holds data for the file writing process, and helps to create the 'helper data' as well.
+	 * Holds data for the file writing process, and helps to create the 'helper
+	 * data' as well.
+	 * 
 	 * @author Balázs
 	 *
 	 */
 	private class ZacksFileUtilsParameterDTO {
 
 		private File csvFile;
-		private String lastReportDateStr;
-		private Date lastReportDate;
-		private String nextReportDateStrWithYYYY;
 		private List<String> fileContent;
+
+		private String lastReportDateStr;
+		private String nextReportDateStr;
+
+		private DateTime lastReportDate;
+		private DateTime nextReportDate;
+		private DateTime today;
 		
-		private Date today;
-		
+		private DateTimeFormatter formatter;
+
 		public ZacksFileUtilsParameterDTO() {
-			today = DateUtils.truncate(new Date(), Calendar.DATE);
+			today = DateTime.now(DateTimeZone.UTC).withTimeAtStartOfDay();
+			formatter = new DateTimeFormatterFactory("MM/dd/yyyy").createDateTimeFormatter().withZone(DateTimeZone.UTC);
 		}
 
-		public boolean lastReportDateIsFutureButNotSameWithNextReportDate() {
-			return lastReportDate.after(today)
-					&& !lastReportDateStr.equals(nextReportDateStrWithYYYY);
+		public boolean lastReportDateIsAfterToday() {
+			return lastReportDate.isAfter(today);
+		}
+
+		public boolean lastReportDateIsBeforeToday() {
+			return lastReportDate.isBefore(today);
 		}
 		
-		public boolean lastReportDateIsBeforeToday() {
-			return !DateUtils.isSameDay(lastReportDate, today) && lastReportDate.before(today);
+		public boolean lastAndNextAreNotOnTheSameDay() {
+			return !lastReportDate.equals(nextReportDate);
 		}
 
 		public File getCsvFile() {
-			return this.csvFile;
+			return csvFile;
 		}
 
-		public void setCsvFileAndFillFileContent(File csvFile)
-				throws IOException {
+		public void setCsvFile(File csvFile) throws IOException {
 			this.csvFile = csvFile;
-			this.fileContent = FileUtils.readLines(this.csvFile,
-					DataSynchronizerService.UTF_8);
+			this.fileContent = FileUtils.readLines(csvFile, DataSynchronizerService.UTF_8);
+			Iterables.removeIf(this.fileContent, new Predicate<String>() {
+				@Override
+				public boolean apply(String input) {
+					return StringUtils.isEmpty(input);
+				}
+			});
+		}
+
+		public List<String> getFileContent() {
+			return fileContent;
 		}
 
 		public String getLastReportDateStr() {
 			return lastReportDateStr;
 		}
 
-		public void setLastReportDateStrAndCreateLastReportDate(
-				String lastReportDateStr) {
+		public void setLastReportDateStr(String lastReportDateStr) {
 			this.lastReportDateStr = lastReportDateStr;
-
-			try {
-				this.lastReportDate = DateUtils.parseDate(lastReportDateStr,
-						"MM/dd/yyyy");
-			} catch (ParseException ex) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.set(9999, 12, 31);
-				this.lastReportDate = calendar.getTime();
-
-			}
-		}
-		
-		public String getNextReportDateStrWithYYYY() {
-			return nextReportDateStrWithYYYY;
+			this.lastReportDate = DateTime.parse(this.lastReportDateStr, this.formatter);
 		}
 
-		public void setNextReportDateStrWithYYYY(
-				String nextReportDateStrWithYYYY) {
-			this.nextReportDateStrWithYYYY = nextReportDateStrWithYYYY;
+		public String getNextReportDateStr() {
+			return nextReportDateStr;
 		}
 
-		public List<String> getFileContent() {
-			return fileContent;
+		public void setNextReportDateStr(String nextReportDateStr) {
+			this.nextReportDateStr = nextReportDateStr;
+			this.nextReportDate = DateTime.parse(this.nextReportDateStr, this.formatter);
 		}
 
 	}
