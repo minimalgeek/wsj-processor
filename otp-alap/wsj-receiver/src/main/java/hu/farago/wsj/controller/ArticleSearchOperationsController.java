@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class ArticleSearchOperationsController {
 
 				@Override
 				public DateTime apply(ArticleCollection input) {
-					return new DateTime(input.getDateTime());
+					return new DateTime(input.getDateTime(), DateTimeZone.UTC);
 				}
 				
 			});

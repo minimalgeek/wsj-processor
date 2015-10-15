@@ -66,6 +66,13 @@ public class ZacksFileUtils {
 			appendNextReportDateInCSV(dto);
 		}
 	}
+	
+	private void appendNextReportDateInCSV(ZacksFileUtilsParameterDTO dto)
+			throws IOException {
+		dto.getFileContent().add(dto.getNextReportDateStr());
+		FileUtils.writeLines(dto.getCsvFile(), DataSynchronizerService.UTF_8,
+				dto.getFileContent(), false);
+	}
 
 	/**
 	 * Converts '11/16/15' to '11/16/2015'
@@ -90,13 +97,6 @@ public class ZacksFileUtils {
 			file.createNewFile();
 		}
 		return file;
-	}
-
-	private void appendNextReportDateInCSV(ZacksFileUtilsParameterDTO dto)
-			throws IOException {
-		dto.getFileContent().add(dto.getNextReportDateStr());
-		FileUtils.writeLines(dto.getCsvFile(), DataSynchronizerService.UTF_8,
-				dto.getFileContent(), false);
 	}
 
 	/**
