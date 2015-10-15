@@ -11,7 +11,7 @@
 		<module>wsj-receiver</module>
 		<module>data-downloader</module>
 		<module>yahoo-jdde</module>
-		<module>JForex-SDK</module>
+		
 	</modules>
 
 	<repositories>
