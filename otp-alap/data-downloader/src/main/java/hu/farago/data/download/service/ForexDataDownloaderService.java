@@ -3,6 +3,7 @@ package hu.farago.data.download.service;
 import hu.farago.data.api.ForexDataDownloader;
 import hu.farago.data.api.dto.ForexData;
 import hu.farago.data.api.dto.HistoricalForexData;
+import hu.farago.data.download.yahoo.YahooCurrencyPairDownloader;
 import hu.farago.data.model.dao.sql.ForexRepository;
 import hu.farago.data.model.entity.sql.Forex;
 
@@ -33,6 +34,9 @@ public class ForexDataDownloaderService {
 	
 	@Autowired
 	private ForexDataDownloader stooqDataDownloader;
+	
+	@Autowired
+	private YahooCurrencyPairDownloader yahooCurrencPairDownloader;
 	
 	@Autowired
 	private ForexRepository forexRepository;
@@ -81,6 +85,15 @@ public class ForexDataDownloaderService {
 	@Scheduled(cron = "0 0/60 * * * ?")
 	public void downloadMissingScheduled() {
 		downloadMissing();
+	}
+	
+	@Scheduled(fixedDelay = 5000)
+	public void downloadTickDataScheduled() {
+		for (String pair : currencyPairs) {
+			LOGGER.info("get tick data for " + pair);
+			ForexData data = yahooCurrencPairDownloader.getTickDataForSymbol(pair);
+			saveForexDataFromList(data);
+		}
 	}
 
 	private void saveForexDataFromList(ForexData allData) {

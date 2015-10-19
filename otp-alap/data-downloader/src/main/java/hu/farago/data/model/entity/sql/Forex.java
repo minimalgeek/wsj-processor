@@ -27,11 +27,11 @@ public class Forex implements Serializable {
 	private Date tickDate;
 	@Column(name="OPEN", nullable = false, columnDefinition="DOUBLE")
 	private Double open;
-	@Column(name="HIGH", nullable = false, columnDefinition="DOUBLE")
+	@Column(name="HIGH", nullable = true, columnDefinition="DOUBLE")
 	private Double high;
-	@Column(name="LOW", nullable = false, columnDefinition="DOUBLE")
+	@Column(name="LOW", nullable = true, columnDefinition="DOUBLE")
 	private Double low;
-	@Column(name="CLOSE", nullable = false, columnDefinition="DOUBLE")
+	@Column(name="CLOSE", nullable = true, columnDefinition="DOUBLE")
 	private Double close;
 	@Column(name="VOLUME", columnDefinition="DOUBLE")
 	private Double volume;

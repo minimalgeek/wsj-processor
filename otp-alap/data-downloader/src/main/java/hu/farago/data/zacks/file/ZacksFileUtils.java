@@ -32,7 +32,7 @@ public class ZacksFileUtils {
 
 			ZacksFileUtilsParameterDTO dto = new ZacksFileUtilsParameterDTO();
 			dto.setCsvFile(createFileIfNotExistsForSymbol(company.getSymbol()));
-			
+
 			String reportDate = createReportDateWith20YearPrefix(company
 					.getNextReportDate());
 			if (reportDate == null) {
@@ -53,25 +53,28 @@ public class ZacksFileUtils {
 			ZacksFileUtilsParameterDTO dto) throws IOException {
 		dto.setLastReportDateStr(Iterables.getLast(dto.getFileContent()));
 
-		if (dto.lastReportDateIsAfterToday() && dto.lastAndNextAreNotOnTheSameDay()) {
+		if (dto.lastReportDateIsAfterToday()
+				&& dto.lastAndNextAreNotOnTheSameDay()) {
 			Iterables.removeIf(dto.getFileContent(), new Predicate<String>() {
 				@Override
 				public boolean apply(String line) {
-					return line.equals(dto.getLastReportDateStr());
+					return StringUtils.equalsIgnoreCase(line, dto.getLastReportDateStr());
 				}
 			});
 			appendNextReportDateInCSV(dto);
 		} else if (dto.lastReportDateIsBeforeToday()) {
-			// append the next report date to the list
 			appendNextReportDateInCSV(dto);
 		}
 	}
-	
+
 	private void appendNextReportDateInCSV(ZacksFileUtilsParameterDTO dto)
 			throws IOException {
-		dto.getFileContent().add(dto.getNextReportDateStr());
-		FileUtils.writeLines(dto.getCsvFile(), DataSynchronizerService.UTF_8,
-				dto.getFileContent(), false);
+		if (!StringUtils.equalsIgnoreCase(dto.getLastReportDateStr(),
+				dto.getNextReportDateStr())) {
+			dto.getFileContent().add(dto.getNextReportDateStr());
+			FileUtils.writeLines(dto.getCsvFile(),
+					DataSynchronizerService.UTF_8, dto.getFileContent(), false);
+		}
 	}
 
 	/**
@@ -117,12 +120,13 @@ public class ZacksFileUtils {
 		private DateTime lastReportDate;
 		private DateTime nextReportDate;
 		private DateTime today;
-		
+
 		private DateTimeFormatter formatter;
 
 		public ZacksFileUtilsParameterDTO() {
 			today = DateTime.now(DateTimeZone.UTC).withTimeAtStartOfDay();
-			formatter = new DateTimeFormatterFactory("MM/dd/yyyy").createDateTimeFormatter().withZone(DateTimeZone.UTC);
+			formatter = new DateTimeFormatterFactory("MM/dd/yyyy")
+					.createDateTimeFormatter().withZone(DateTimeZone.UTC);
 		}
 
 		public boolean lastReportDateIsAfterToday() {
@@ -132,7 +136,7 @@ public class ZacksFileUtils {
 		public boolean lastReportDateIsBeforeToday() {
 			return lastReportDate.isBefore(today);
 		}
-		
+
 		public boolean lastAndNextAreNotOnTheSameDay() {
 			return !lastReportDate.equals(nextReportDate);
 		}
@@ -143,7 +147,8 @@ public class ZacksFileUtils {
 
 		public void setCsvFile(File csvFile) throws IOException {
 			this.csvFile = csvFile;
-			this.fileContent = FileUtils.readLines(csvFile, DataSynchronizerService.UTF_8);
+			this.fileContent = FileUtils.readLines(csvFile,
+					DataSynchronizerService.UTF_8);
 			Iterables.removeIf(this.fileContent, new Predicate<String>() {
 				@Override
 				public boolean apply(String input) {
@@ -162,7 +167,8 @@ public class ZacksFileUtils {
 
 		public void setLastReportDateStr(String lastReportDateStr) {
 			this.lastReportDateStr = lastReportDateStr;
-			this.lastReportDate = DateTime.parse(this.lastReportDateStr, this.formatter);
+			this.lastReportDate = DateTime.parse(this.lastReportDateStr,
+					this.formatter);
 		}
 
 		public String getNextReportDateStr() {
@@ -171,7 +177,8 @@ public class ZacksFileUtils {
 
 		public void setNextReportDateStr(String nextReportDateStr) {
 			this.nextReportDateStr = nextReportDateStr;
-			this.nextReportDate = DateTime.parse(this.nextReportDateStr, this.formatter);
+			this.nextReportDate = DateTime.parse(this.nextReportDateStr,
+					this.formatter);
 		}
 
 	}
