@@ -65,7 +65,6 @@ public class MySQLToMongoMapperController implements Converter<Article, ArticleC
 	
 	@Override
 	public Article convertFrom(ArticleCollection obj) {
-		// TODO
 		return null;
 	}
 	

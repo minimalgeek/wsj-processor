@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.datetime.joda.DateTimeFormatterFactory;
@@ -53,8 +54,7 @@ public class ZacksFileUtils {
 			ZacksFileUtilsParameterDTO dto) throws IOException {
 		dto.setLastReportDateStr(Iterables.getLast(dto.getFileContent()));
 
-		if (dto.lastReportDateIsAfterToday()
-				&& dto.lastAndNextAreNotOnTheSameDay()) {
+		if (future(dto) || pastWithin30Days(dto)) {
 			Iterables.removeIf(dto.getFileContent(), new Predicate<String>() {
 				@Override
 				public boolean apply(String line) {
@@ -67,8 +67,19 @@ public class ZacksFileUtils {
 		}
 	}
 
+	private boolean pastWithin30Days(ZacksFileUtilsParameterDTO dto) {
+		return dto.lastReportDateIsBeforeToday() && dto.daysBetweenLastAndNextIsLessThan30();
+	}
+
+	private boolean future(ZacksFileUtilsParameterDTO dto) {
+		return dto.lastReportDateIsAfterToday()
+				&& dto.lastAndNextAreNotOnTheSameDay();
+	}
+
 	private void appendNextReportDateInCSV(ZacksFileUtilsParameterDTO dto)
 			throws IOException {
+		
+		//FIXME this if block shouldn't be necessary, investigate it!
 		if (!StringUtils.equalsIgnoreCase(dto.getLastReportDateStr(),
 				dto.getNextReportDateStr())) {
 			dto.getFileContent().add(dto.getNextReportDateStr());
@@ -140,6 +151,10 @@ public class ZacksFileUtils {
 		public boolean lastAndNextAreNotOnTheSameDay() {
 			return !lastReportDate.equals(nextReportDate);
 		}
+		
+		public boolean daysBetweenLastAndNextIsLessThan30() {
+			return Days.daysBetween(lastReportDate.toLocalDate(), nextReportDate.toLocalDate()).getDays() < 30;
+		}
 
 		public File getCsvFile() {
 			return csvFile;
@@ -168,7 +183,7 @@ public class ZacksFileUtils {
 		public void setLastReportDateStr(String lastReportDateStr) {
 			this.lastReportDateStr = lastReportDateStr;
 			this.lastReportDate = DateTime.parse(this.lastReportDateStr,
-					this.formatter);
+					this.formatter).withTimeAtStartOfDay();
 		}
 
 		public String getNextReportDateStr() {
@@ -178,7 +193,7 @@ public class ZacksFileUtils {
 		public void setNextReportDateStr(String nextReportDateStr) {
 			this.nextReportDateStr = nextReportDateStr;
 			this.nextReportDate = DateTime.parse(this.nextReportDateStr,
-					this.formatter);
+					this.formatter).withTimeAtStartOfDay();
 		}
 
 	}
