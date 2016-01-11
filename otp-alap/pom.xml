@@ -10,8 +10,6 @@
 	<modules>
 		<module>wsj-receiver</module>
 		<module>data-downloader</module>
-		<module>yahoo-jdde</module>
-		
 	</modules>
 
 	<repositories>
