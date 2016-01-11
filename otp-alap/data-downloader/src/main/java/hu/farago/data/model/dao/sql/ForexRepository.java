@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ForexRepository extends PagingAndSortingRepository<Forex, Long> {
 
 	@Query("select max(f.tickDate) from hu.farago.data.model.entity.sql.Forex f "
-			+ "where f.symbol = :symbol")
+			+ "where f.symbol = :symbol and f.high is not null and f.low is not null")
 	Date findLatestDateForSymbol(@Param("symbol") String symbol);
 	
 	@Modifying
