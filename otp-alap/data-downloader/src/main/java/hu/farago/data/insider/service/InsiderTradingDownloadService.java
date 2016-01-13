@@ -12,21 +12,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class InsiderTradingDownloadService {
-	
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(InsiderTradingDownloadService.class);
-	
+
 	private InsiderTradingDownloader insiderTradingParser;
-	
-	@Scheduled(cron = "0 0 12 * * ?") // every day at 12:00
+
+	@Scheduled(cron = "0 0 12 * * ?")
+	// every day at 12:00
 	public void scheduledCollectContent() {
 		collectContent();
 	}
-	
-	@RequestMapping(value = "/collectContent", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+
+	@RequestMapping(value = "/collectContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public void collectContent() {
 		LOGGER.info("collectContent");
-		insiderTradingParser.parseAll();
+		try {
+			insiderTradingParser.parseAll();
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
 	}
 
 }

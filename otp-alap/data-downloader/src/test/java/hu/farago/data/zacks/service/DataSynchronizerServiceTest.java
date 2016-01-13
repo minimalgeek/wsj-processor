@@ -1,6 +1,7 @@
 package hu.farago.data.zacks.service;
 
 import hu.farago.data.config.AbstractRootTest;
+import hu.farago.data.utils.URLUtils;
 import hu.farago.data.zacks.service.dto.ZacksData;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class DataSynchronizerServiceTest extends AbstractRootTest {
 	
 	@Test
 	public void getContentForURLTest() throws IOException, SAXException, TikaException {
-		String content = dataSync.getContentForURL(testURL);
+		String content = URLUtils.getContentForURL(testURL);
 		Assert.assertNotNull(content);
 		Assert.assertFalse(StringUtils.isEmpty(content));
 	}

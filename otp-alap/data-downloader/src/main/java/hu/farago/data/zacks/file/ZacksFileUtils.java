@@ -1,6 +1,6 @@
 package hu.farago.data.zacks.file;
 
-import hu.farago.data.zacks.service.DataSynchronizerService;
+import hu.farago.data.utils.URLUtils;
 import hu.farago.data.zacks.service.dto.CompanyData;
 import hu.farago.data.zacks.service.dto.ZacksData;
 
@@ -84,7 +84,7 @@ public class ZacksFileUtils {
 				dto.getNextReportDateStr())) {
 			dto.getFileContent().add(dto.getNextReportDateStr());
 			FileUtils.writeLines(dto.getCsvFile(),
-					DataSynchronizerService.UTF_8, dto.getFileContent(), false);
+					URLUtils.UTF_8, dto.getFileContent(), false);
 		}
 	}
 
@@ -163,7 +163,7 @@ public class ZacksFileUtils {
 		public void setCsvFile(File csvFile) throws IOException {
 			this.csvFile = csvFile;
 			this.fileContent = FileUtils.readLines(csvFile,
-					DataSynchronizerService.UTF_8);
+					URLUtils.UTF_8);
 			Iterables.removeIf(this.fileContent, new Predicate<String>() {
 				@Override
 				public boolean apply(String input) {

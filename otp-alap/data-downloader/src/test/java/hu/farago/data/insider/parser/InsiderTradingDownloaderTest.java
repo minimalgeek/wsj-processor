@@ -2,6 +2,10 @@ package hu.farago.data.insider.parser;
 
 import static org.junit.Assert.*;
 import hu.farago.data.config.AbstractRootTest;
+import hu.farago.data.insider.dto.InsiderData;
+
+import java.util.List;
+import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -24,6 +28,12 @@ public class InsiderTradingDownloaderTest extends AbstractRootTest {
 	@Test
 	public void testIndexes() {
 		assertTrue(InsiderTradingDownloader.INDEXES.size() > 0);
+	}
+	
+	@Test
+	public void parseAllTest() throws Exception {
+		Map<String, List<InsiderData>> insiderMap = insiderTradingParser.parseAll();
+		assertEquals(InsiderTradingDownloader.INDEXES.size(), insiderMap.size());
 	}
 
 }

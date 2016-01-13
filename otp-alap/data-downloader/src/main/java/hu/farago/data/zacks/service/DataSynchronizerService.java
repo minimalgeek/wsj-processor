@@ -1,5 +1,6 @@
 package hu.farago.data.zacks.service;
 
+import hu.farago.data.utils.URLUtils;
 import hu.farago.data.zacks.file.ZacksFileUtils;
 import hu.farago.data.zacks.service.dto.ZacksData;
 
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import sun.net.util.URLUtil;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,8 +36,6 @@ import com.google.common.collect.Lists;
 @RestController
 public class DataSynchronizerService {
 	
-	public static final String UTF_8 = "UTF-8";
-
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DataSynchronizerService.class);
 
@@ -52,7 +53,7 @@ public class DataSynchronizerService {
 
 		for (String url : zacksURLList) {
 			try {
-				String content = getContentForURL(url);
+				String content = URLUtils.getContentForURL(url);
 				ZacksData zacksData = createZacksDataFromContent(content);
 				LOGGER.info("ZacksData's title: " + zacksData.getTitle());
 				
@@ -67,13 +68,6 @@ public class DataSynchronizerService {
 		return refreshedURLs;
 	}
 	
-	public String getContentForURL(String url) throws IOException, SAXException, TikaException {
-		ContentHandler handler = new BodyContentHandler(-1);
-		String rawText = IOUtils.toString(new URL(url), UTF_8);
-        new HtmlParser().parse(IOUtils.toInputStream(rawText), handler, new Metadata(), new ParseContext());
-        String plainText = StringUtils.normalizeSpace(handler.toString());
-		return plainText;
-	}
 
 	public ZacksData createZacksDataFromContent(String massContent) throws JsonParseException, JsonMappingException, IOException {
 		String jsonContent = StringUtils.substringBetween(massContent, "growth_portfoliosList\" : ", ", \"value_portfoliosList\"");
