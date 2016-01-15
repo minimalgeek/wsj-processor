@@ -21,11 +21,13 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.tika.exception.TikaException;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -57,11 +59,11 @@ public class InsiderTradingDownloader {
 	{
 		NumberFormat nfSimple = NumberFormat.getNumberInstance(Locale.US);
 		simpleNumberFormat = (DecimalFormat)nfSimple;
-		simpleNumberFormat.applyPattern("###,###,###");
+		simpleNumberFormat.applyPattern("###,###,###,###,###,###");
 		
 		NumberFormat nfDollar = NumberFormat.getNumberInstance(Locale.US);
 		dollarNumberFormat = (DecimalFormat)nfDollar;
-		dollarNumberFormat.applyPattern("$###,###,##0.####");
+		dollarNumberFormat.applyPattern("$###,###,###,###,###,##0.####");
 	}
 		
 	public static List<String> INDEXES;
@@ -97,42 +99,52 @@ public class InsiderTradingDownloader {
 		Map<String, List<InsiderData>> insiderList = Maps.newHashMap();
 		
 		for (String index : INDEXES) {
-			
-			List<InsiderData> insiderDataList = Lists.newArrayList();
-			
-			boolean jumpToNext = true;
-			int pageIndex = 0;
-			
-			while(jumpToNext) {
-				String urlStr = buildUrl(index, ++pageIndex);
-				String siteContent = URLUtils.getContentForURL(urlStr);
-				
-				if (siteContent.contains("Next Insider Trading") || siteContent.contains("Next Previous Insider Trading")) {
-					jumpToNext = true;
-				} else {
-					jumpToNext = false;
-				}
-				
-				String[] parts = siteContent.split("Transaction Form ");
-				if (parts.length != 2) {
-					throw new InsiderTradingException();
-				}
-				
-				String dataPart = parts[1];
-				String[] transactions = dataPart.split(" Form \\d ");
-				
-				for (String transactionRow : transactions) {
-					if (!validTransactionRow(transactionRow)) {
-						continue;
-					}
-					
-					insiderDataList.add(createInsiderData(transactionRow, index));
-				}
-			}
-			insiderList.put(index, insiderDataList);
+			insiderList.put(index, collectAllInsiderDataForIndex(index));
 		}
 		
 		return insiderList;
+	}
+
+	private List<InsiderData> collectAllInsiderDataForIndex(String index)
+			throws IOException, SAXException, TikaException,
+			InsiderTradingException, ParseException {
+		List<InsiderData> insiderDataList = Lists.newArrayList();
+		
+		boolean jumpToNext = true;
+		int pageIndex = 0;
+		
+		while(jumpToNext) {
+			String urlStr = buildUrl(index, ++pageIndex);
+			String siteContent = URLUtils.getContentForURL(urlStr);
+			
+			if (siteContent.contains("Next Insider Trading") || 
+				siteContent.contains("Next Previous Insider Trading")) {
+				jumpToNext = true;
+			} else {
+				jumpToNext = false;
+			}
+			
+			String[] parts = siteContent.split("Transaction Form ");
+			if (parts.length != 2) {
+				throw new InsiderTradingException("page was not processable");
+			}
+			
+			String dataPart = parts[1];
+			String[] transactions = dataPart.split(" Form \\d ");
+			
+			for (String transactionRow : transactions) {
+				if (!validTransactionRow(transactionRow)) {
+					continue;
+				}
+				
+				try {
+					insiderDataList.add(createInsiderData(transactionRow, index));
+				} catch (Exception e) {
+					LOGGER.error("Failed to process: (" + transactionRow + ")", e);
+				}
+			}
+		}
+		return insiderDataList;
 	}
 	
 	private boolean validTransactionRow(String transactionRow) {
@@ -194,10 +206,12 @@ public class InsiderTradingDownloader {
 			data.reportingOwnerName += dataRowParts[idx] + " ";
 		}
 		
-		data.transactionShares = tryToParseDouble(simpleNumberFormat, dataRowParts[endIndexOfOwnerRelationShip + 1]);
-		data.pricePerShare = tryToParseDouble(dollarNumberFormat, dataRowParts[endIndexOfOwnerRelationShip + 2]);
-		data.totalValue = tryToParseDouble(dollarNumberFormat, dataRowParts[endIndexOfOwnerRelationShip + 3]);
-		data.sharesOwned = tryToParseDouble(simpleNumberFormat, dataRowParts[endIndexOfOwnerRelationShip + 4]);
+		int length = dataRowParts.length;
+		
+		data.transactionShares = tryToParseDouble(simpleNumberFormat, dataRowParts[length - 4]);
+		data.pricePerShare = tryToParseDouble(dollarNumberFormat, dataRowParts[length - 3]);
+		data.totalValue = tryToParseDouble(dollarNumberFormat, dataRowParts[length - 2]);
+		data.sharesOwned = tryToParseDouble(simpleNumberFormat, dataRowParts[length - 1]);
 		
 		return data;
 	}

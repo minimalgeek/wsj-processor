@@ -1,7 +1,6 @@
 package hu.farago.data.zacks.file;
 
 import hu.farago.data.utils.URLUtils;
-import hu.farago.data.zacks.service.dto.CompanyData;
 import hu.farago.data.zacks.service.dto.ZacksData;
 
 import java.io.File;
@@ -29,13 +28,12 @@ public class ZacksFileUtils {
 	private String pathToCSVs;
 
 	public void writeZacksDataToCSVFiles(ZacksData data) throws IOException {
-		for (CompanyData company : data.getData()) {
+		for (List<String> company : data.getData()) {
 
 			ZacksFileUtilsParameterDTO dto = new ZacksFileUtilsParameterDTO();
-			dto.setCsvFile(createFileIfNotExistsForSymbol(company.getSymbol()));
+			dto.setCsvFile(createFileIfNotExistsForSymbol(Iterables.getFirst(company, null)));
 
-			String reportDate = createReportDateWith20YearPrefix(company
-					.getNextReportDate());
+			String reportDate = createReportDateWith20YearPrefix(Iterables.getLast(company));
 			if (reportDate == null) {
 				continue;
 			}

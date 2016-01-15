@@ -50,7 +50,7 @@ public class DataSynchronizerServiceTest extends AbstractRootTest {
 	@Test
 	public void createZacksDataFromContentTest() throws IOException {
 		ZacksData zacksData = dataSync.createZacksDataFromContent(sampleResponse);
-		Assert.assertEquals(zacksData.getTitle(), "ZACKS Portfolio");
+		Assert.assertEquals(4, zacksData.getData().size());
 	}
 	
 	@Test

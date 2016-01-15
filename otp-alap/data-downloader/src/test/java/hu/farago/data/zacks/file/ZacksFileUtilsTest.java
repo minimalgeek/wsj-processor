@@ -8,6 +8,7 @@ import hu.farago.data.zacks.service.dto.ZacksData;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
@@ -62,21 +63,21 @@ public class ZacksFileUtilsTest extends AbstractRootTest {
 			return;
 		}
 
-		CompanyData cd3 = new CompanyData();
-		cd3.setSymbol("AAPL");
-		cd3.setNextReportDate("01/20/16");
+		List<String> cd3 = Lists.newArrayList();
+		cd3.add("AAPL");
+		cd3.add("01/20/16");
 
-		CompanyData cd4 = new CompanyData();
-		cd4.setSymbol("ISTC");
-		cd4.setNextReportDate("10/25/15");
+		List<String> cd4 = Lists.newArrayList();
+		cd4.add("ISTC");
+		cd4.add("10/25/15");
 
-		CompanyData cd2 = new CompanyData();
-		cd2.setSymbol("WWD");
-		cd2.setNextReportDate("11/10/15");
+		List<String> cd2 = Lists.newArrayList();
+		cd2.add("WWD");
+		cd2.add("11/10/15");
 
-		CompanyData cd1 = new CompanyData();
-		cd1.setSymbol("ZBRA");
-		cd1.setNextReportDate("10/10/15");
+		List<String> cd1 = Lists.newArrayList();
+		cd1.add("ZBRA");
+		cd1.add("10/10/15");
 
 		zacksDataSample = new ZacksData();
 		zacksDataSample.setData(Lists.newArrayList(cd1, cd2, cd3, cd4));

@@ -7,31 +7,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ZacksData {
 
-	private String title;
-	private Boolean header;
-	private List<CompanyData> data;
+	private List<List<String>> data;
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public Boolean getHeader() {
-		return header;
-	}
-
-	public void setHeader(Boolean header) {
-		this.header = header;
-	}
-
-	public List<CompanyData> getData() {
+	public List<List<String>> getData() {
 		return data;
 	}
 
-	public void setData(List<CompanyData> data) {
+	public void setData(List<List<String>> data) {
 		this.data = data;
 	}
 
