@@ -1,22 +1,16 @@
 package hu.farago.data.insider.parser;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import hu.farago.data.config.AbstractRootTest;
-import hu.farago.data.insider.dto.InsiderData;
 import hu.farago.data.insider.service.InsiderTradingDownloadService;
-
-import java.util.List;
-import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class InsiderTradingDownloaderTest extends AbstractRootTest {
+public class InsiderTradingDownloadServiceTest extends AbstractRootTest {
 	
-	@Autowired
-	private InsiderTradingDownloader insiderTradingParser;
 	@Autowired
 	private InsiderTradingDownloadService downloadService;
 
@@ -31,12 +25,6 @@ public class InsiderTradingDownloaderTest extends AbstractRootTest {
 	@Test
 	public void testIndexes() {
 		assertTrue(InsiderTradingDownloader.INDEXES.size() > 0);
-	}
-	
-	@Test
-	public void parseAllTest() throws Exception {
-		Map<String, List<InsiderData>> insiderMap = insiderTradingParser.parseAll(0);
-		assertEquals(InsiderTradingDownloader.INDEXES.size(), insiderMap.size());
 	}
 	
 	@Test
