@@ -36,8 +36,10 @@ public class InsiderTradingDownloadService {
 	public void collectContent() {
 		LOGGER.info("collectContent");
 		try {
-			Map<String, List<InsiderData>> map = insiderTradingParser.parseAll();
-			insiderFileUtils.writeInsiderDataToCSVFiles(map);
+			for (int i = 0; i < InsiderTradingDownloader.pages(); i++) {
+				Map<String, List<InsiderData>> map = insiderTradingParser.parseAll(0);
+				insiderFileUtils.writeInsiderDataToCSVFiles(map);
+			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}

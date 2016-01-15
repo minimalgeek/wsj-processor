@@ -35,7 +35,7 @@ public class InsiderTradingDownloaderTest extends AbstractRootTest {
 	
 	@Test
 	public void parseAllTest() throws Exception {
-		Map<String, List<InsiderData>> insiderMap = insiderTradingParser.parseAll();
+		Map<String, List<InsiderData>> insiderMap = insiderTradingParser.parseAll(0);
 		assertEquals(InsiderTradingDownloader.INDEXES.size(), insiderMap.size());
 	}
 	

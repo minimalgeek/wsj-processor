@@ -55,6 +55,7 @@ public class InsiderTradingDownloader {
 	private static final SimpleDateFormat dfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private static DecimalFormat simpleNumberFormat;
 	private static DecimalFormat dollarNumberFormat;
+	private static final int PAGE_SIZE = 20;
 	
 	{
 		NumberFormat nfSimple = NumberFormat.getNumberInstance(Locale.US);
@@ -94,11 +95,16 @@ public class InsiderTradingDownloader {
 		}
 	}
 	
-	public Map<String, List<InsiderData>> parseAll() throws Exception  {
+	public static int pages() {
+		return (int) (INDEXES.size() / PAGE_SIZE);
+	}
+	
+	public Map<String, List<InsiderData>> parseAll(int pageIdx) throws Exception  {
 		
 		Map<String, List<InsiderData>> insiderList = Maps.newHashMap();
 		
-		for (String index : INDEXES) {
+		for (int i = pageIdx * PAGE_SIZE; i < (pageIdx + 1) * PAGE_SIZE; i++) {
+			String index = INDEXES.get(i);
 			insiderList.put(index, collectAllInsiderDataForIndex(index));
 		}
 		
