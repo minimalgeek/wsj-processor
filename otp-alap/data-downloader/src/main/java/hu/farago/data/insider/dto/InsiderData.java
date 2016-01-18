@@ -1,16 +1,24 @@
 package hu.farago.data.insider.dto;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import org.joda.time.DateTime;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "insider_data")
 public class InsiderData implements Serializable {
 
 	private static final long serialVersionUID = 5800207901368724144L;
 
+	@Id
+	private BigInteger id;
+	
 	public BuySell type;
 	public DateTime transactionDate;
 	public DateTime acceptanceDate;
+	public String issuerName;
 	public String issuerTradingSymbol;
 	public String reportingOwnerName;
 	public OwnerRelationShip ownerRelationShip;

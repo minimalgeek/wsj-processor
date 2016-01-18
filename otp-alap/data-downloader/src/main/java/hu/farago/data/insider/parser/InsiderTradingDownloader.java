@@ -21,8 +21,12 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.exception.TikaException;
 import org.joda.time.DateTime;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.*;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -133,47 +137,29 @@ public class InsiderTradingDownloader {
 
 		while (jumpToNext) {
 			String urlStr = buildUrl(index, ++pageIndex);
-			String siteContent = URLUtils.getContentForURL(urlStr);
+			String siteContent = URLUtils.getHTMLContentForURL(urlStr);
+			Document document = Jsoup.parse(siteContent);
 
-			if (siteContent.contains("Next Insider Trading")
-					|| siteContent.contains("Next Previous Insider Trading")) {
+			if (siteContent.contains(">Next</a>")) {
 				jumpToNext = true;
 			} else {
 				jumpToNext = false;
 			}
-
-			String[] parts = siteContent.split("Transaction Form ");
-			if (parts.length != 2) {
-				throw new InsiderTradingException("page was not processable");
-			}
-
-			String dataPart = parts[1];
-			String[] transactions = dataPart.split(" Form \\d ");
-
-			for (String transactionRow : transactions) {
-				if (!validTransactionRow(transactionRow)) {
-					continue;
-				}
-
+			
+			Element table = document.getElementById("tracker");
+			Elements transactions = table.getElementsByTag("tbody").get(0).getElementsByTag("tr");
+			
+			for (Element transactionRow : transactions) {
 				try {
 					insiderDataList
 							.add(createInsiderData(transactionRow, index));
 				} catch (Exception e) {
-					LOGGER.error("Failed to process: (" + transactionRow + ")",
+					LOGGER.error("Failed to process: (" + transactionRow.text() + ")",
 							e);
 				}
 			}
 		}
 		return insiderDataList;
-	}
-
-	private boolean validTransactionRow(String transactionRow) {
-		if (transactionRow.startsWith("Buy ")
-				|| transactionRow.startsWith("Sell ")) {
-			return true;
-		}
-
-		return false;
 	}
 
 	private String buildUrl(String index, int page) {
@@ -188,58 +174,24 @@ public class InsiderTradingDownloader {
 		return builder.toString();
 	}
 
-	private InsiderData createInsiderData(String dataRow, String index)
+	private InsiderData createInsiderData(Element dataRow, String index)
 			throws ParseException, InsiderTradingException {
-		String[] dataRowParts = dataRow.split(" ");
-
-		int idxOfSymbol = searchForSymbolIndexInDataRow(dataRowParts, index);
-		int endIndexOfOwnerRelationShip = 0;
-
+		
+		Elements tds = dataRow.getElementsByTag("td");
 		InsiderData data = new InsiderData();
-		data.type = BuySell.createByName(dataRowParts[0]);
-		if (data.type == null) {
-			throw new InsiderTradingException("buy/sell type not found");
-		}
 
-		data.transactionDate = new DateTime(dfDate.parse(dataRowParts[1]));
-		data.acceptanceDate = new DateTime(dfTime.parse(dataRowParts[2] + " "
-				+ dataRowParts[3]));
+		data.type = BuySell.createByName(StringUtils.strip(tds.get(0).text()));
+		data.transactionDate = new DateTime(dfDate.parse(tds.get(1).text()));
+		data.acceptanceDate = new DateTime(dfTime.parse(tds.get(2).text()));
+		data.issuerName = tds.get(3).text();
 		data.issuerTradingSymbol = index;
-
-		for (int idx = 4; idx < dataRowParts.length - 1; idx++) {
-			OwnerRelationShip ors = OwnerRelationShip
-					.createByName(dataRowParts[idx] + " "
-							+ dataRowParts[idx + 1]);
-			if (ors != null) {
-				data.ownerRelationShip = ors;
-				endIndexOfOwnerRelationShip = idx + 1;
-				break;
-			}
-			ors = OwnerRelationShip.createByName(dataRowParts[idx]);
-			if (ors != null) {
-				data.ownerRelationShip = ors;
-				endIndexOfOwnerRelationShip = idx;
-				break;
-			}
-		}
-		if (endIndexOfOwnerRelationShip != 0) {
-			data.reportingOwnerName = "";
-			for (int idx = idxOfSymbol + 1; idx < endIndexOfOwnerRelationShip; idx++) {
-				data.reportingOwnerName += dataRowParts[idx] + " ";
-			}
-		}
-
-		int length = dataRowParts.length;
-
-		data.transactionShares = tryToParseDouble(simpleNumberFormat,
-				dataRowParts[length - 4]);
-		data.pricePerShare = tryToParseDouble(dollarNumberFormat,
-				dataRowParts[length - 3]);
-		data.totalValue = tryToParseDouble(dollarNumberFormat,
-				dataRowParts[length - 2]);
-		data.sharesOwned = tryToParseDouble(simpleNumberFormat,
-				dataRowParts[length - 1]);
-
+		data.reportingOwnerName = tds.get(5).text();
+		data.ownerRelationShip = OwnerRelationShip.createByName(StringUtils.strip(tds.get(6).text()));
+		data.transactionShares = tryToParseDouble(simpleNumberFormat, tds.get(7).text());
+		data.pricePerShare = tryToParseDouble(dollarNumberFormat, tds.get(8).text());
+		data.totalValue = tryToParseDouble(dollarNumberFormat, tds.get(9).text());
+		data.sharesOwned = tryToParseDouble(simpleNumberFormat, tds.get(10).text());
+		
 		return data;
 	}
 
@@ -250,18 +202,6 @@ public class InsiderTradingDownloader {
 			LOGGER.error(e.getMessage(), e);
 			return 0.0;
 		}
-	}
-
-	private int searchForSymbolIndexInDataRow(String[] dataRowParts,
-			String index) throws InsiderTradingException {
-
-		for (int idx = 4; idx < dataRowParts.length; idx++) {
-			if (dataRowParts[idx].equalsIgnoreCase(index)) {
-				return idx;
-			}
-		}
-
-		throw new InsiderTradingException("index not found");
 	}
 
 }

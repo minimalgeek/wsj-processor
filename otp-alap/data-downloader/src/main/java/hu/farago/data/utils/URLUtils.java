@@ -25,4 +25,9 @@ public class URLUtils {
 		return plainText;
 	}
 	
+	public static String getHTMLContentForURL(String url) throws IOException, SAXException, TikaException {
+		String rawText = IOUtils.toString(new URL(url), UTF_8);
+		return rawText;
+	}
+	
 }

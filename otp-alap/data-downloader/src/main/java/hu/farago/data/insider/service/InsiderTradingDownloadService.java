@@ -1,5 +1,6 @@
 package hu.farago.data.insider.service;
 
+import hu.farago.data.insider.dao.mongo.InsiderDataDAO;
 import hu.farago.data.insider.dto.InsiderData;
 import hu.farago.data.insider.file.InsiderFileUtils;
 import hu.farago.data.insider.parser.InsiderTradingDownloader;
@@ -26,6 +27,8 @@ public class InsiderTradingDownloadService {
 	private InsiderTradingDownloader insiderTradingParser;
 	@Autowired
 	private InsiderFileUtils insiderFileUtils;
+	@Autowired
+	private InsiderDataDAO insiderDataDao;
 
 	@Scheduled(cron = "0 0 12 * * ?") // every day at 12:00
 	public void scheduledCollectContent() {
