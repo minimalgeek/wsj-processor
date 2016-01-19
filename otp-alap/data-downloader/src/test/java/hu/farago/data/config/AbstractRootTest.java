@@ -5,6 +5,7 @@ import java.util.Date;
 
 import hu.farago.data.config.AppConfig;
 import hu.farago.data.config.WebMvcConfig;
+import hu.farago.data.config.MongoContext;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.After;
@@ -19,7 +20,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ActiveProfiles(AppConfig.APPLICATION_TEST)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfig.class, WebMvcConfig.class,
-		PersistenceContext.class }, loader = AnnotationConfigWebContextLoader.class)
+		PersistenceContext.class, MongoContext.class }, loader = AnnotationConfigWebContextLoader.class)
 @WebAppConfiguration
 public abstract class AbstractRootTest {
 

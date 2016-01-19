@@ -8,6 +8,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface InsiderDataDAO extends MongoRepository<InsiderData, BigInteger> {
 	
-	//InsiderData findByUrl(String lastname);
-	
 }

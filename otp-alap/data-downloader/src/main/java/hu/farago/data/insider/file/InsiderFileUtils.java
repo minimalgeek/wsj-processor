@@ -24,6 +24,9 @@ public class InsiderFileUtils {
 	private String pathToCSVBuys;
 	@Value("${insider.pathSell}")
 	private String pathToCSVSells;
+	
+	@Value("${insider.dateFormat}")
+	private String dateFormat;
 
 	public void writeInsiderDataToCSVFiles(Map<String, List<InsiderData>> data)
 			throws IOException {
@@ -94,7 +97,7 @@ public class InsiderFileUtils {
 		}
 
 		public String toString() {
-			return dateOfAcceptance.toString("yyyy-MM-dd") + ","
+			return dateOfAcceptance.toString(dateFormat) + ","
 					+ transactionSum;
 		}
 	}
