@@ -6,6 +6,7 @@ import hu.farago.data.utils.URLUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -64,6 +65,13 @@ public class InsiderFileUtils {
 				}
 			}
 		}
+		
+		dataDTOList.sort(new Comparator<CSVDataDTO>() {
+			@Override
+			public int compare(CSVDataDTO o1, CSVDataDTO o2) {
+				return o1.dateOfAcceptance.compareTo(o2.dateOfAcceptance);
+			}
+		});
 
 		for (CSVDataDTO csvDataDTO : dataDTOList) {
 			dto.getFileContent().add(csvDataDTO.toString());
