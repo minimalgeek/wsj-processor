@@ -1,6 +1,7 @@
 package hu.farago.data.seekingalpha;
 
 import hu.farago.data.api.DataDownloader;
+import hu.farago.data.api.WordProcessor;
 import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.utils.URLUtils;
 
@@ -36,7 +37,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	private String urlMiddle;
 	
 	@Autowired
-	private CoreNLPWordsProcessor wordProcessor;
+	private WordProcessor simpleWordProcessor;
 	
 	@PostConstruct
 	private void readFile() {
@@ -101,7 +102,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 				break;
 			}
 		}
-		data.words = wordProcessor.parseArticlePlainTextAndBuildMapOfWords(data.rawText);
+		data.words = simpleWordProcessor.parseArticlePlainTextAndBuildMapOfWords(data.rawText);
 		
 		return data;
 	}

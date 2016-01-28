@@ -1,5 +1,7 @@
 package hu.farago.data.seekingalpha;
 
+import hu.farago.data.api.WordProcessor;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -28,8 +30,8 @@ import edu.stanford.nlp.util.StringUtils;
  * @author Balázs
  *
  */
-@Component
-public class CoreNLPWordsProcessor {
+//@Component
+public class CoreNLPWordsProcessor implements WordProcessor {
 
 	@Value("${nlp.annotators}")
 	private String annotators;
