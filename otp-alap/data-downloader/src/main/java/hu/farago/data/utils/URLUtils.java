@@ -17,7 +17,7 @@ public class URLUtils {
 
 	public static final String UTF_8 = "UTF-8";
 	
-	public static String getContentForURL(String url) throws IOException, SAXException, TikaException {
+	public static String getContentOfURL(String url) throws IOException, SAXException, TikaException {
 		ContentHandler handler = new BodyContentHandler(-1);
 		String rawText = IOUtils.toString(new URL(url), UTF_8);
         new HtmlParser().parse(IOUtils.toInputStream(rawText), handler, new Metadata(), new ParseContext());
@@ -25,9 +25,16 @@ public class URLUtils {
 		return plainText;
 	}
 	
-	public static String getHTMLContentForURL(String url) throws IOException, SAXException, TikaException {
+	public static String getHTMLContentOfURL(String url) throws IOException, SAXException, TikaException {
 		String rawText = IOUtils.toString(new URL(url), UTF_8);
 		return rawText;
+	}
+	
+	public static String getContentOfHTMLContent(String content) throws IOException, SAXException, TikaException {
+		ContentHandler handler = new BodyContentHandler(-1);
+        new HtmlParser().parse(IOUtils.toInputStream(content), handler, new Metadata(), new ParseContext());
+        String plainText = StringUtils.normalizeSpace(handler.toString());
+		return plainText;
 	}
 	
 }

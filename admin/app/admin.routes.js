@@ -1,9 +1,9 @@
 adminApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
 
-        when('/zacksDownloader', {
-            templateUrl: 'app/components/zacks-downloader/zacksDownloader.html',
-            controller: 'zacksDownloaderController'
+        when('/dataDownloader', {
+            templateUrl: 'app/components/data-downloader/dataDownloader.html',
+            controller: 'dataDownloaderController'
         }).
 
         when('/stooqDownloader', {
@@ -17,6 +17,6 @@ adminApp.config(['$routeProvider', function($routeProvider) {
         }).
 
         otherwise({
-            redirectTo: '/zacksDownloader'
+            redirectTo: '/dataDownloader'
         });
 }]);

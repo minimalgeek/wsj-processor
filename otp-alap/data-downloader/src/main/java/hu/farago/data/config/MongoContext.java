@@ -9,7 +9,7 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 
 @Configuration
-@EnableMongoRepositories("hu.farago.data.insider.dao.mongo")
+@EnableMongoRepositories("hu.farago.data.model.dao.mongo")
 public class MongoContext extends AbstractMongoConfiguration {
 	
 	@Value("${mongo.host}")

@@ -1,0 +1,58 @@
+<div>
+    <h1>Data Downloader</h1>
+
+    <div ng-show="data.showLoadingBar">
+        <img src="assets/img/ajax-loader.gif"/>
+    </div>
+
+    <div class="functionBox">
+        <button class="myButton" ng-click="data.refreshAllReportDates()">Refresh all report dates</button>
+
+        <table class="myTable">
+            <thead>
+            <tr>
+                <th>Refreshed URLs</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="url in data.refreshedURLs">
+                <td>{{ url }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="functionBox">
+        <button class="myButton" ng-click="data.collectInsiderContent()">Collect http://insidertrading.org/ data</button>
+
+        <table class="myTable">
+            <thead>
+            <tr>
+                <th>Refreshed indexes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="index in data.downloadedInsiders">
+                <td>{{ index }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="functionBox">
+        <button class="myButton" ng-click="data.collectEarningsCalls()">Collect http://seekingalpha.com/ data</button>
+
+        <table class="myTable">
+            <thead>
+            <tr>
+                <th>Refreshed indexes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="index in data.downloadedEarningsCalls">
+                <td>{{ index }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
