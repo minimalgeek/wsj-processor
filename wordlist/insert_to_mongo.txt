@@ -1,0 +1,2 @@
+mongoimport -d insider -c harvard_words --type csv --file "C:\DEV\eclipse_workspace\wsj-processor\wordlist\harvard_short_wordlist.csv" --headerline
+mongoimport -d insider -c henry_words --type csv --file "C:\DEV\eclipse_workspace\wsj-processor\wordlist\henry_wordlist.csv" --headerline
