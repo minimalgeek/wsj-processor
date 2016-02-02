@@ -1,27 +1,5 @@
 package hu.farago.data.seekingalpha;
 
-import hu.farago.data.api.WordProcessor;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import com.google.common.collect.Lists;
-
-import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
-import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
-import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
-import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.pipeline.Annotation;
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import edu.stanford.nlp.util.CoreMap;
-import edu.stanford.nlp.util.StringUtils;
 
 /**
  * Split the given plain text to sentences, then to words. It's
@@ -31,7 +9,7 @@ import edu.stanford.nlp.util.StringUtils;
  *
  */
 //@Component
-public class CoreNLPWordsProcessor implements WordProcessor {
+public class CoreNLPWordsProcessor {} /*implements WordProcessor {
 
 	@Value("${nlp.annotators}")
 	private String annotators;
@@ -92,4 +70,4 @@ public class CoreNLPWordsProcessor implements WordProcessor {
 		buildCoreNLPIfNull();
 	}
 
-}
+}*/

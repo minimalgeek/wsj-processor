@@ -33,7 +33,7 @@ public abstract class DataDownloader<T> {
 	protected static DecimalFormat simpleNumberFormat;
 	protected static DecimalFormat dollarNumberFormat;
 	
-	protected static final int PAGE_SIZE = 10;
+	protected static final int PAGE_SIZE = 3;
 	
 	{
 		NumberFormat nfSimple = NumberFormat.getNumberInstance(Locale.US);

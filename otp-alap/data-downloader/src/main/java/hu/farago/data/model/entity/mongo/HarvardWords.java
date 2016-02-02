@@ -33,9 +33,9 @@ public class HarvardWords {
 	
 	public String getRealEntry() {
 		if (!StringUtils.contains(entry, "#")) {
-			return entry;
+			return StringUtils.lowerCase(entry);
 		} else {
-			return StringUtils.removePattern(entry, "#\\d*");
+			return StringUtils.lowerCase(StringUtils.removePattern(entry, "#\\d*"));
 		}
 	}
 	

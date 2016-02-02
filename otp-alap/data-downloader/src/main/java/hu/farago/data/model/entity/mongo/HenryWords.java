@@ -19,6 +19,10 @@ public class HenryWords {
 	@Field("Negativ")
 	public String negativ;
 	
+	public String getRealWord() {
+		return StringUtils.lowerCase(word);
+	}
+	
 	public boolean isPositive() {
 		return StringUtils.isNotBlank(positiv);
 	}

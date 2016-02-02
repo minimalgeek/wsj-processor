@@ -1,23 +1,22 @@
 package hu.farago.data.seekingalpha.dto;
 
-import hu.farago.data.model.entity.mongo.EarningsCall;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class HTone {
-
-	public EarningsCall call;
 	
 	public int positiveCount;
 	public int negativeCount;
 	
 	// tone 1
 	
-	public double getToneOnePN() {
-		return positiveCount / negativeCount;
+	public double getHToneOnePN() {
+		return (double)positiveCount / (double)negativeCount;
 	}
 	
 	// tone 2
 	
-	public double getToneTwoPN() {
-		return (positiveCount - negativeCount) / (positiveCount + negativeCount);
+	public double getHToneTwoPN() {
+		return (double)(positiveCount - negativeCount) / (double)(positiveCount + negativeCount);
 	}
 }

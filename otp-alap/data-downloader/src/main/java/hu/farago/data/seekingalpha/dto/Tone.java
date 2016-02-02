@@ -1,10 +1,9 @@
 package hu.farago.data.seekingalpha.dto;
 
-import hu.farago.data.model.entity.mongo.EarningsCall;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class Tone {
-
-	public EarningsCall call;
 	
 	public int positiveCount;
 	public int negativeCount;
@@ -21,36 +20,36 @@ public class Tone {
 	// tone 1
 	
 	public double getToneOnePN() {
-		return positiveCount / negativeCount;
+		return (double)positiveCount / (double)negativeCount;
 	}
 	
 	public double getToneOneAP() {
-		return activeCount / passiveCount;
+		return (double)activeCount / (double)passiveCount;
 	}
 	
 	public double getToneOneSW() {
-		return strongCount / weakCount;
+		return (double)strongCount / (double)weakCount;
 	}
 	
 	public double getToneOneOU() {
-		return overstatedCount / understatedCount;
+		return (double)overstatedCount / (double)understatedCount;
 	}
 	
 	// tone 2
 	
 	public double getToneTwoPN() {
-		return (positiveCount - negativeCount) / (positiveCount + negativeCount);
+		return (double)(positiveCount - negativeCount) / (double)(positiveCount + negativeCount);
 	}
 	
 	public double getToneTwoAP() {
-		return (activeCount - passiveCount) / (activeCount + passiveCount);
+		return (double)(activeCount - passiveCount) / (double)(activeCount + passiveCount);
 	}
 	
 	public double getToneTwoSW() {
-		return (strongCount - weakCount) / (strongCount + weakCount);
+		return (double)(strongCount - weakCount) / (double)(strongCount + weakCount);
 	}
 	
 	public double getToneTwoOU() {
-		return (overstatedCount - understatedCount) / (overstatedCount + understatedCount);
+		return (double)(overstatedCount - understatedCount) / (double)(overstatedCount + understatedCount);
 	}
 }

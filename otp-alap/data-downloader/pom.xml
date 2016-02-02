@@ -144,6 +144,7 @@
 		
 		<!-- NLP - Stanford NLP -->
 
+<!-- 
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
@@ -154,7 +155,7 @@
 			<artifactId>stanford-corenlp</artifactId>
 			<classifier>models</classifier>
 		</dependency>
-
+-->
 		<!-- LOGGING -->
 
 		<dependency>

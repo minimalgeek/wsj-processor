@@ -39,6 +39,9 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	@Autowired
 	private WordProcessor simpleWordProcessor;
 	
+	@Autowired
+	private ToneCalculator toneCalculator;
+	
 	@PostConstruct
 	private void readFile() {
 		readFileFromPathAndFillIndexes(filePath);
@@ -73,7 +76,15 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 		for (Element earningsCallArticle : articles) {
 			if (earningsCallArticle.hasAttr("sasource") && earningsCallArticle.attr("sasource").equals("qp_transcripts")) {
 				try {
-					dataList.add(createEarningsCall(earningsCallArticle, index));
+					EarningsCall call = createEarningsCall(earningsCallArticle, index);
+					
+					if (call.words.size() > 200) {
+						// it is probably a real earnings call, not only a link to some audio shit
+						call.tone = toneCalculator.getToneOf(call);
+						call.hTone = toneCalculator.getHToneOf(call);
+					}
+					
+					dataList.add(call);
 					Thread.sleep(2000);
 				} catch (Exception e) {
 					LOGGER.error("Failed to process: (" + earningsCallArticle.text() + ")", e);
