@@ -10,6 +10,7 @@
 	<modules>
 		<module>wsj-receiver</module>
 		<module>data-downloader</module>
+		<module>mongo-exporter</module>
 	</modules>
 
 	<repositories>

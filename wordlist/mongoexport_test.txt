@@ -1,0 +1,1 @@
+mongoexport -d insider -c earnings_call --type=csv -f publishDate,tone.activeCount,tone.negativeCount -o C:/DEV/export/test.csv
