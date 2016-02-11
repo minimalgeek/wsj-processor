@@ -9,13 +9,13 @@
 
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>c:/DEV/temp/data-downloader.log</file>
+		<file>c:/DEV/temp/mongo-exporter.log</file>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
 		</encoder>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<FileNamePattern>c:/DEV/temp/data-downloader.%i.log.zip</FileNamePattern>
+			<FileNamePattern>c:/DEV/temp/mongo-exporter.%i.log.zip</FileNamePattern>
 			<MinIndex>1</MinIndex>
 			<MaxIndex>20</MaxIndex>
 		</rollingPolicy>

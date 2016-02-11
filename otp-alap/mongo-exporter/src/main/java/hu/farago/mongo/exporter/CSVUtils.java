@@ -97,6 +97,7 @@ public class CSVUtils<T> {
 
 		public void setCsvFile(File csvFile) throws IOException {
 			this.csvFile = csvFile;
+			this.fileContent = FileUtils.readLines(csvFile);
 		}
 
 		public void writeLinesToFile() throws IOException {
