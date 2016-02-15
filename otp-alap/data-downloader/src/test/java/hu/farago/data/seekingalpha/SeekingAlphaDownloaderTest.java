@@ -1,5 +1,6 @@
 package hu.farago.data.seekingalpha;
 
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import hu.farago.data.config.AbstractRootTest;
@@ -13,7 +14,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Ignore("It takes too much time")
+@Ignore("It is very time consuming")
 public class SeekingAlphaDownloaderTest extends AbstractRootTest {
 	
 	@Autowired
@@ -47,5 +48,5 @@ public class SeekingAlphaDownloaderTest extends AbstractRootTest {
 		assertNotNull(firstAppleArticle.words);
 		assertTrue(firstAppleArticle.words.size() > 0);
 	}
-
+	
 }

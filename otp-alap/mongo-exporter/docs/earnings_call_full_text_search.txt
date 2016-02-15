@@ -1,0 +1,5 @@
+db.earnings_call.createIndex( { rawText: "text" } )
+
+db.earnings_call.find( { $text: { $search: "\"Question-and-Answer\"" } } )
+
+db.earnings_call.find( { $text: { $search: "\"Copyright policy\"" } } )

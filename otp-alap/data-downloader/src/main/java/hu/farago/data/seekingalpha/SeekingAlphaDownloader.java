@@ -24,6 +24,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 
+	public static final String QUESTION_AND_ANSWER = "(?i)question-and-answer";
+	public static final String COPYRIGHT_POLICY = "(?i)copyright policy";
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SeekingAlphaDownloader.class);
 		
@@ -80,8 +83,8 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 					
 					if (call.words.size() > 200) {
 						// it is probably a real earnings call, not only a link to some audio shit
-						call.tone = toneCalculator.getToneOf(call);
-						call.hTone = toneCalculator.getHToneOf(call);
+						call.tone = toneCalculator.getToneOf(call.words);
+						call.hTone = toneCalculator.getHToneOf(call.words);
 					}
 					
 					dataList.add(call);
@@ -118,4 +121,20 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 		return data;
 	}
 
+	public void retrieveRelevantQAndAPartAndProcessTone(EarningsCall earningsCall) {
+		String[] qAndAParts = earningsCall.rawText.split(QUESTION_AND_ANSWER);
+		if (qAndAParts.length == 2) {
+			String qAndA = qAndAParts[1];
+			qAndA = qAndA.split(COPYRIGHT_POLICY)[0];
+			
+			earningsCall.qAndAText = qAndA;
+			earningsCall.qAndAWords = simpleWordProcessor.parseArticlePlainTextAndBuildMapOfWords(earningsCall.qAndAText);
+			
+			if (earningsCall.qAndAWords.size() > 50) {
+				// it is probably a real earnings call, not only a link to some audio shit
+				earningsCall.qAndATone = toneCalculator.getToneOf(earningsCall.qAndAWords);
+				earningsCall.qAndAHTone = toneCalculator.getHToneOf(earningsCall.qAndAWords);
+			}
+		}
+	}
 }

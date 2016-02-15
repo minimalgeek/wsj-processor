@@ -32,7 +32,7 @@ public class EarningsCallWordCounterTest extends AbstractRootTest {
 	
 	@Test
 	public void collectToneForSampleArticle() {
-		Tone tone = toneCalculator.getToneOf(sampleCall);
+		Tone tone = toneCalculator.getToneOf(sampleCall.words);
 		Assert.assertNotNull(tone);
 		
 		Assert.assertNotEquals(tone.getToneOneAP(), 0);
@@ -48,7 +48,7 @@ public class EarningsCallWordCounterTest extends AbstractRootTest {
 	
 	@Test
 	public void collectHToneForSampleArticle() {
-		HTone tone = toneCalculator.getHToneOf(sampleCall);
+		HTone tone = toneCalculator.getHToneOf(sampleCall.words);
 		Assert.assertNotNull(tone);
 		
 		Assert.assertNotEquals(tone.getHToneOnePN(), 0);

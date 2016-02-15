@@ -87,10 +87,10 @@ public class ToneCalculator {
 		}
 	}
 	
-	public Tone getToneOf(EarningsCall call) {
+	public Tone getToneOf(List<String> words) {
 		Tone tone = new Tone();
 		
-		for (String word : call.words) {
+		for (String word : words) {
 			if (harvardMap.containsKey(word)) {
 				HarvardWords harvardWord = harvardMap.get(word);
 				
@@ -111,10 +111,10 @@ public class ToneCalculator {
 		return tone;
 	}
 
-	public HTone getHToneOf(EarningsCall call) {
+	public HTone getHToneOf(List<String> words) {
 		HTone tone = new HTone();
 		
-		for (String word : call.words) {
+		for (String word : words) {
 			if (henryMap.containsKey(word)) {
 				HenryWords henryWord = henryMap.get(word);
 				

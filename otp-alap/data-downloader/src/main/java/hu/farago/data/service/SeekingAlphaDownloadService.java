@@ -50,4 +50,28 @@ public class SeekingAlphaDownloadService {
 		return ret;
 	}
 
+	@RequestMapping(value = "/processOnlyQAndA", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<String> processOnlyQAndA() {
+		LOGGER.info("processOnlyQAndA");
+		
+		List<String> ret = Lists.newArrayList();
+		try {
+			for (String index : seekingAlphaDownloader.getIndexes()) {
+				List<EarningsCall> calls = earningsCallRepository.findByTradingSymbol(index);
+				
+				for (EarningsCall call : calls) {
+					seekingAlphaDownloader.retrieveRelevantQAndAPartAndProcessTone(call);
+				}
+				
+				earningsCallRepository.save(calls);
+				LOGGER.info(index + " processed");
+				ret.add(index);
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		
+		return ret;
+	}
+	
 }
