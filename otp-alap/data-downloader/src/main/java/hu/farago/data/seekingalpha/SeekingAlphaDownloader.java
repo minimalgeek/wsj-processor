@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 
 	public static final String QUESTION_AND_ANSWER = "(?i)question-and-answer";
+	public static final String QUESTION_AND_ANSWER_2 = "(?i)question and answer";
 	public static final String COPYRIGHT_POLICY = "(?i)copyright policy";
 
 	private static final Logger LOGGER = LoggerFactory
@@ -124,17 +125,29 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	public void retrieveRelevantQAndAPartAndProcessTone(EarningsCall earningsCall) {
 		String[] qAndAParts = earningsCall.rawText.split(QUESTION_AND_ANSWER);
 		if (qAndAParts.length == 2) {
-			String qAndA = qAndAParts[1];
-			qAndA = qAndA.split(COPYRIGHT_POLICY)[0];
-			
-			earningsCall.qAndAText = qAndA;
-			earningsCall.qAndAWords = simpleWordProcessor.parseArticlePlainTextAndBuildMapOfWords(earningsCall.qAndAText);
-			
-			if (earningsCall.qAndAWords.size() > 50) {
-				// it is probably a real earnings call, not only a link to some audio shit
-				earningsCall.qAndATone = toneCalculator.getToneOf(earningsCall.qAndAWords);
-				earningsCall.qAndAHTone = toneCalculator.getHToneOf(earningsCall.qAndAWords);
-			}
+			processQAndA(earningsCall, qAndAParts);
+			return;
+		}
+		
+		qAndAParts = earningsCall.rawText.split(QUESTION_AND_ANSWER_2);
+		if (qAndAParts.length == 2) {
+			processQAndA(earningsCall, qAndAParts);
+			return;
+		}
+		
+	}
+
+	private void processQAndA(EarningsCall earningsCall, String[] qAndAParts) {
+		String qAndA = qAndAParts[1];
+		qAndA = qAndA.split(COPYRIGHT_POLICY)[0];
+		
+		earningsCall.qAndAText = qAndA;
+		earningsCall.qAndAWords = simpleWordProcessor.parseArticlePlainTextAndBuildMapOfWords(earningsCall.qAndAText);
+		
+		if (earningsCall.qAndAWords.size() > 50) {
+			// it is probably a real earnings call, not only a link to some audio shit
+			earningsCall.qAndATone = toneCalculator.getToneOf(earningsCall.qAndAWords);
+			earningsCall.qAndAHTone = toneCalculator.getHToneOf(earningsCall.qAndAWords);
 		}
 	}
 }

@@ -3,6 +3,7 @@ package hu.farago.data.service;
 import hu.farago.data.model.dao.mongo.EarningsCallRepository;
 import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
+import hu.farago.data.seekingalpha.YahooStockDownloader;
 
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ public class SeekingAlphaDownloadService {
 	private SeekingAlphaDownloader seekingAlphaDownloader;
 	@Autowired
 	private EarningsCallRepository earningsCallRepository;
+	@Autowired
+	private YahooStockDownloader stockDownloader;
 
 	@RequestMapping(value = "/collectEarningsCalls", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<String> collectEarningsCalls() {
@@ -61,6 +64,35 @@ public class SeekingAlphaDownloadService {
 				
 				for (EarningsCall call : calls) {
 					seekingAlphaDownloader.retrieveRelevantQAndAPartAndProcessTone(call);
+					if (call.tone != null) {
+						stockDownloader.addStockData(call);
+					}
+				}
+				
+				earningsCallRepository.save(calls);
+				LOGGER.info(index + " processed");
+				ret.add(index);
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/addStockPrices", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<String> addStockPrices() {
+		LOGGER.info("addStockPrices");
+		
+		List<String> ret = Lists.newArrayList();
+		try {
+			for (String index : seekingAlphaDownloader.getIndexes()) {
+				List<EarningsCall> calls = earningsCallRepository.findByTradingSymbol(index);
+				
+				for (EarningsCall call : calls) {
+					if (call.tone != null) {
+						stockDownloader.addStockData(call);
+					}
 				}
 				
 				earningsCallRepository.save(calls);

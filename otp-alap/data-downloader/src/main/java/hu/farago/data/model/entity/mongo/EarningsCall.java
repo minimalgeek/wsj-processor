@@ -1,6 +1,7 @@
 package hu.farago.data.model.entity.mongo;
 
 import hu.farago.data.seekingalpha.dto.HTone;
+import hu.farago.data.seekingalpha.dto.StockData;
 import hu.farago.data.seekingalpha.dto.Tone;
 
 import java.io.Serializable;
@@ -36,4 +37,6 @@ public class EarningsCall implements Serializable {
 	public Tone qAndATone;
 	@Field("q_and_a_h_tone")
 	public HTone qAndAHTone;
+	
+	public List<StockData> stockData;
 }
