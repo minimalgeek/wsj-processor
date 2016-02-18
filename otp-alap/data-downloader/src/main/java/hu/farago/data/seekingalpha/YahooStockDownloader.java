@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,8 @@ import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 
+import com.google.common.collect.Ordering;
+
 @Component
 public class YahooStockDownloader  {
 
@@ -26,6 +29,7 @@ public class YahooStockDownloader  {
 	
 	public void addStockData(EarningsCall call) {
 		try {
+			Thread.sleep(200);
 			Stock stock = YahooFinance.get(call.tradingSymbol, 
 					call.publishDate.toCalendar(Locale.US), 
 					call.publishDate.plusDays(30).toCalendar(Locale.US), Interval.DAILY);
@@ -42,6 +46,40 @@ public class YahooStockDownloader  {
 			
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage(), e);
+		} catch (InterruptedException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+	
+	public void calculateYields(EarningsCall call) {
+		if (call.stockData != null) {
+			Ordering<StockData> o = new Ordering<StockData>() {
+			    @Override
+			    public int compare(StockData left, StockData right) {
+			        return left.dateTime.compareTo(right.dateTime);
+			    }
+			};
+			
+			StockData minData = o.min(call.stockData);
+			
+			for (StockData tempStockData : call.stockData) {
+				Duration duration = new Duration(minData.dateTime, tempStockData.dateTime);
+				
+				if (duration.getStandardDays()>=1 && duration.getStandardDays()<=3) {
+					call.oneDayYieldPerc = (float) (tempStockData.closePrice / minData.closePrice);
+				}
+				
+				if (duration.getStandardDays()>=4 && duration.getStandardDays()<=6) {
+					call.fiveDayYieldPerc = (float) (tempStockData.closePrice / minData.closePrice);
+				}
+				
+				if (duration.getStandardDays()>=9 && duration.getStandardDays()<=11) {
+					call.tenDayYieldPerc = (float) (tempStockData.closePrice / minData.closePrice);
+				}
+			}
+			
+			//if (call.oneDayYieldPerc == 0f || call.fiveDayYieldPerc == 0f || call.tenDayYieldPerc == 0f)
+			
 		}
 	}
 

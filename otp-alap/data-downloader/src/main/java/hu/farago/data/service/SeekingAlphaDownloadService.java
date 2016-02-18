@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,6 +53,29 @@ public class SeekingAlphaDownloadService {
 		
 		return ret;
 	}
+	
+	@RequestMapping(value = "/collectEarningsCallsFor/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<String> collectEarningsCallsFor(@PathVariable("id") String index) {
+		LOGGER.info("collectEarningsCallsFor");
+		
+		List<String> ret = Lists.newArrayList();
+		try {
+			List<EarningsCall> list = seekingAlphaDownloader.collectAllDataForIndex(index);
+			
+			for (EarningsCall call : list) {
+				if (call.tone != null && call.stockData == null) {
+					seekingAlphaDownloader.retrieveRelevantQAndAPartAndProcessTone(call);
+					stockDownloader.addStockData(call);
+				}
+			}
+			
+			earningsCallRepository.save(list);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		
+		return ret;
+	}
 
 	@RequestMapping(value = "/processOnlyQAndA", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<String> processOnlyQAndA() {
@@ -63,8 +87,8 @@ public class SeekingAlphaDownloadService {
 				List<EarningsCall> calls = earningsCallRepository.findByTradingSymbol(index);
 				
 				for (EarningsCall call : calls) {
-					seekingAlphaDownloader.retrieveRelevantQAndAPartAndProcessTone(call);
-					if (call.tone != null) {
+					if (call.tone != null && call.stockData == null) {
+						seekingAlphaDownloader.retrieveRelevantQAndAPartAndProcessTone(call);
 						stockDownloader.addStockData(call);
 					}
 				}
@@ -93,6 +117,30 @@ public class SeekingAlphaDownloadService {
 					if (call.tone != null) {
 						stockDownloader.addStockData(call);
 					}
+				}
+				
+				earningsCallRepository.save(calls);
+				LOGGER.info(index + " processed");
+				ret.add(index);
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/calculateYield", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<String> calculateYield() {
+		LOGGER.info("calculateYield");
+		
+		List<String> ret = Lists.newArrayList();
+		try {
+			for (String index : seekingAlphaDownloader.getIndexes()) {
+				List<EarningsCall> calls = earningsCallRepository.findByTradingSymbol(index);
+				
+				for (EarningsCall call : calls) {
+					stockDownloader.calculateYields(call);
 				}
 				
 				earningsCallRepository.save(calls);

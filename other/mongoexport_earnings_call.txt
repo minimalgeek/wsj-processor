@@ -1,0 +1,49 @@
+mongoexport --db insider --collection forcsv --out C:\DEV\export\earnings_call_q_and_a.csv --type=csv --fields tradingSymbol,publishDate,tone.positiveCount,tone.negativeCount,tone.strongCount,tone.weakCount,tone.activeCount,tone.passiveCount,tone.overstatedCount,tone.understatedCount,h_tone.positiveCount,h_tone.negativeCount,q_and_a_tone.positiveCount,q_and_a_tone.negativeCount,q_and_a_tone.strongCount,q_and_a_tone.weakCount,q_and_a_tone.activeCount,q_and_a_tone.passiveCount,q_and_a_tone.overstatedCount,q_and_a_tone.understatedCount,q_and_a_h_tone.positiveCount,q_and_a_h_tone.negativeCount,stockData.dateTime,stockData.closePrice
+
+
+--sample
+
+db.earnings_call.aggregate( [
+   { $project : { _id: 0, tradingSymbol : 1 , publishDate : 1, tone: 1, h_tone: 1, q_and_a_tone: 1, q_and_a_h_tone: 1, stockData: 1 }},
+   { $unwind: "$stockData" },
+   { $out: "forcsv" }
+])
+
+/* 27 */
+{
+    "_id" : ObjectId("56c44a73db7c35a86188ad84"),
+    "tradingSymbol" : "ES",
+    "publishDate" : ISODate("2015-07-31T18:21:07.000Z"),
+    "tone" : {
+        "positiveCount" : 423,
+        "negativeCount" : 182,
+        "strongCount" : 835,
+        "weakCount" : 196,
+        "activeCount" : 680,
+        "passiveCount" : 364,
+        "overstatedCount" : 490,
+        "understatedCount" : 200
+    },
+    "h_tone" : {
+        "positiveCount" : 109,
+        "negativeCount" : 45
+    },
+    "q_and_a_tone" : {
+        "positiveCount" : 204,
+        "negativeCount" : 104,
+        "strongCount" : 367,
+        "weakCount" : 121,
+        "activeCount" : 335,
+        "passiveCount" : 185,
+        "overstatedCount" : 274,
+        "understatedCount" : 128
+    },
+    "q_and_a_h_tone" : {
+        "positiveCount" : 56,
+        "negativeCount" : 19
+    },
+    "stockData" : {
+        "dateTime" : ISODate("2015-08-24T04:00:00.000Z"),
+        "closePrice" : 48.9199980000000000
+    }
+}

@@ -39,4 +39,8 @@ public class EarningsCall implements Serializable {
 	public HTone qAndAHTone;
 	
 	public List<StockData> stockData;
+	
+	public float oneDayYieldPerc;
+	public float fiveDayYieldPerc;
+	public float tenDayYieldPerc;
 }

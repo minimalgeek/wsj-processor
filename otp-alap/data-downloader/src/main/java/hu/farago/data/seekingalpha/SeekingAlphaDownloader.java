@@ -124,13 +124,13 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 
 	public void retrieveRelevantQAndAPartAndProcessTone(EarningsCall earningsCall) {
 		String[] qAndAParts = earningsCall.rawText.split(QUESTION_AND_ANSWER);
-		if (qAndAParts.length == 2) {
+		if (qAndAParts.length >= 2) {
 			processQAndA(earningsCall, qAndAParts);
 			return;
 		}
 		
 		qAndAParts = earningsCall.rawText.split(QUESTION_AND_ANSWER_2);
-		if (qAndAParts.length == 2) {
+		if (qAndAParts.length >= 2) {
 			processQAndA(earningsCall, qAndAParts);
 			return;
 		}
@@ -138,7 +138,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	}
 
 	private void processQAndA(EarningsCall earningsCall, String[] qAndAParts) {
-		String qAndA = qAndAParts[1];
+		String qAndA = qAndAParts[qAndAParts.length - 1];
 		qAndA = qAndA.split(COPYRIGHT_POLICY)[0];
 		
 		earningsCall.qAndAText = qAndA;

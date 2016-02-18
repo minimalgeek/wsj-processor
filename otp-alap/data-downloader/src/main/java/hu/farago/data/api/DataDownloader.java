@@ -103,7 +103,7 @@ public abstract class DataDownloader<T> {
 		}
 	}
 
-	private List<T> collectAllDataForIndex(String index)
+	public List<T> collectAllDataForIndex(String index)
 			throws IOException, SAXException, TikaException, ParseException {
 		List<T> dataList = Lists.newArrayList();
 		boolean jumpToNext = true;
