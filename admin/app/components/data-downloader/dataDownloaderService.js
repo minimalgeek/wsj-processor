@@ -23,5 +23,13 @@ adminApp.service("dataDownloaderService", function($http) {
                 func(response);
             }
         );
-    }
+    };
+    this.collectEarningsCallsFor = function(id, func) {
+        $http.get(this.baseURL + "collectEarningsCallsFor/" + id)
+            .success(
+            function(response) {
+                func(response);
+            }
+        );
+    };
 });

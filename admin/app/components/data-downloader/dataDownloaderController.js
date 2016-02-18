@@ -2,6 +2,8 @@ adminApp.
     controller("dataDownloaderController", function ($scope, dataDownloaderService) {
         $scope.data = {
             showLoadingBar : false,
+            tradingSymbol: "",
+            tradingSymbolResponse: "",
             refreshedURLs: [],
             downloadedInsiders: [],
             downloadedEarningsCalls: [],
@@ -23,6 +25,13 @@ adminApp.
                 $scope.data.showLoadingBar = true;
                 dataDownloaderService.collectEarningsCalls(function() {
                     $scope.data.downloadedEarningsCalls = data;
+                    $scope.data.showLoadingBar = false;
+                });
+            },
+            collectEarningsCallsForSymbol : function() {
+                $scope.data.showLoadingBar = true;
+                dataDownloaderService.collectEarningsCallsFor($scope.data.tradingSymbol, function(data) {
+                    $scope.data.tradingSymbolResponse = data;
                     $scope.data.showLoadingBar = false;
                 });
             }

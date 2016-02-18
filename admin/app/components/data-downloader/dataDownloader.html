@@ -55,4 +55,15 @@
             </tbody>
         </table>
     </div>
+
+    <div class="functionBox">
+        <div class="generalInput">
+            Trading symbol: <input type="text" ng-model="data.tradingSymbol"/>
+        </div>
+        <button class="myButton" ng-click="data.collectEarningsCallsForSymbol()">Collect earnings calls and process tone with Q&A parts</button>
+        <h2>Result: </h2>
+        <div>
+            {{data.tradingSymbolResponse}}
+        </div>
+    </div>
 </div>

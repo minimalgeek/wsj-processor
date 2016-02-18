@@ -55,10 +55,11 @@ public class SeekingAlphaDownloadService {
 	}
 	
 	@RequestMapping(value = "/collectEarningsCallsFor/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public List<String> collectEarningsCallsFor(@PathVariable("id") String index) {
+	public String collectEarningsCallsFor(@PathVariable("id") String index) {
 		LOGGER.info("collectEarningsCallsFor");
 		
-		List<String> ret = Lists.newArrayList();
+		StringBuilder ret = new StringBuilder();
+
 		try {
 			List<EarningsCall> list = seekingAlphaDownloader.collectAllDataForIndex(index);
 			
@@ -69,17 +70,24 @@ public class SeekingAlphaDownloadService {
 				}
 			}
 			
+			// remove older entries
+			earningsCallRepository.delete(earningsCallRepository.findByTradingSymbol(index));
 			earningsCallRepository.save(list);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
+			ret.append(e.getMessage());
 		}
 		
-		return ret;
+		if (ret.length() == 0) {
+			ret.append("success");
+		}
+		
+		return ret.toString();
 	}
 
-	@RequestMapping(value = "/processOnlyQAndA", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public List<String> processOnlyQAndA() {
-		LOGGER.info("processOnlyQAndA");
+	@RequestMapping(value = "/processQAndAAndAddStockData", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<String> processQAndAAndAddStockData() {
+		LOGGER.info("processQAndAAndAddStockData");
 		
 		List<String> ret = Lists.newArrayList();
 		try {
@@ -89,32 +97,6 @@ public class SeekingAlphaDownloadService {
 				for (EarningsCall call : calls) {
 					if (call.tone != null && call.stockData == null) {
 						seekingAlphaDownloader.retrieveRelevantQAndAPartAndProcessTone(call);
-						stockDownloader.addStockData(call);
-					}
-				}
-				
-				earningsCallRepository.save(calls);
-				LOGGER.info(index + " processed");
-				ret.add(index);
-			}
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		
-		return ret;
-	}
-	
-	@RequestMapping(value = "/addStockPrices", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public List<String> addStockPrices() {
-		LOGGER.info("addStockPrices");
-		
-		List<String> ret = Lists.newArrayList();
-		try {
-			for (String index : seekingAlphaDownloader.getIndexes()) {
-				List<EarningsCall> calls = earningsCallRepository.findByTradingSymbol(index);
-				
-				for (EarningsCall call : calls) {
-					if (call.tone != null) {
 						stockDownloader.addStockData(call);
 					}
 				}
