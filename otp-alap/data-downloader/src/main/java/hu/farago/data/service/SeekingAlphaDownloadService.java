@@ -1,7 +1,10 @@
 package hu.farago.data.service;
 
 import hu.farago.data.model.dao.mongo.EarningsCallRepository;
+import hu.farago.data.model.dao.mongo.InsiderDataRepository;
 import hu.farago.data.model.entity.mongo.EarningsCall;
+import hu.farago.data.model.entity.mongo.InsiderData;
+import hu.farago.data.seekingalpha.EarningsCallAndInsiderDataAggregator;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
 import hu.farago.data.seekingalpha.YahooStockDownloader;
 
@@ -11,6 +14,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +33,10 @@ public class SeekingAlphaDownloadService {
 	private SeekingAlphaDownloader seekingAlphaDownloader;
 	@Autowired
 	private EarningsCallRepository earningsCallRepository;
+	@Autowired
+	private InsiderDataRepository insiderDataRepo;
+	@Autowired
+	private EarningsCallAndInsiderDataAggregator aggregator;
 	@Autowired
 	private YahooStockDownloader stockDownloader;
 
@@ -112,6 +120,30 @@ public class SeekingAlphaDownloadService {
 		return ret;
 	}
 	
+	@RequestMapping(value = "/appendInsiderDataToEarningsCall", method = RequestMethod.GET)
+	public void appendInsiderDataToEarningsCall() {
+		LOGGER.info("appendInsiderDataToEarningsCall");
+		
+		for (String index : seekingAlphaDownloader.getIndexes()) {
+			List<EarningsCall> calls = earningsCallRepository.findByTradingSymbol(index, new Sort(Sort.Direction.ASC, "publishDate"));
+			List<InsiderData> insiderDataList = insiderDataRepo.findByIssuerTradingSymbol(index);
+			
+			EarningsCall previousCall = null;
+			
+			for (EarningsCall call : calls) {
+				if (call.tone != null && call.qAndATone != null && previousCall != null) {
+					aggregator.processCall(call, previousCall, insiderDataList);
+				}
+				
+				previousCall = call;
+			}
+			
+			earningsCallRepository.save(calls);
+			LOGGER.info(index + " processed");
+		}
+	}
+	
+	/*
 	@RequestMapping(value = "/calculateYield", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<String> calculateYield() {
 		LOGGER.info("calculateYield");
@@ -135,5 +167,6 @@ public class SeekingAlphaDownloadService {
 		
 		return ret;
 	}
+	*/
 	
 }

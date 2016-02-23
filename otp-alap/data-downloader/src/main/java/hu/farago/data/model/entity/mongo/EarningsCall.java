@@ -40,7 +40,7 @@ public class EarningsCall implements Serializable {
 	
 	public List<StockData> stockData;
 	
-	public float oneDayYieldPerc;
-	public float fiveDayYieldPerc;
-	public float tenDayYieldPerc;
+	public double sumOfSharesOwnedBeforePublishDate;
+	public double sumOfBuyTransactionShares;
+	public double sumOfSellTransactionShares;
 }

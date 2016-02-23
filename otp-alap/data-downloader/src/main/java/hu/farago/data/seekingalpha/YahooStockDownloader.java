@@ -52,6 +52,7 @@ public class YahooStockDownloader  {
 	}
 	
 	public void calculateYields(EarningsCall call) {
+		/*
 		if (call.stockData != null) {
 			Ordering<StockData> o = new Ordering<StockData>() {
 			    @Override
@@ -81,6 +82,7 @@ public class YahooStockDownloader  {
 			//if (call.oneDayYieldPerc == 0f || call.fiveDayYieldPerc == 0f || call.tenDayYieldPerc == 0f)
 			
 		}
+		*/
 	}
 
 }

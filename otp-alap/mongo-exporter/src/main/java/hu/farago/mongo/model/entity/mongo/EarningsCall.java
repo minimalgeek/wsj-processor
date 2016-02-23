@@ -1,6 +1,7 @@
 package hu.farago.mongo.model.entity.mongo;
 
 import hu.farago.mongo.model.entity.mongo.composit.HTone;
+import hu.farago.mongo.model.entity.mongo.composit.StockData;
 import hu.farago.mongo.model.entity.mongo.composit.Tone;
 
 import java.io.Serializable;
@@ -29,4 +30,17 @@ public class EarningsCall implements Serializable {
 	@Field("h_tone")
 	public HTone hTone;
 	
+	public String qAndAText;
+	public List<String> qAndAWords;
+	
+	@Field("q_and_a_tone")
+	public Tone qAndATone;
+	@Field("q_and_a_h_tone")
+	public HTone qAndAHTone;
+	
+	public List<StockData> stockData;
+	
+	public float oneDayYieldPerc;
+	public float fiveDayYieldPerc;
+	public float tenDayYieldPerc;
 }
