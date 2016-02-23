@@ -8,6 +8,7 @@ import hu.farago.data.seekingalpha.EarningsCallAndInsiderDataAggregator;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
 import hu.farago.data.seekingalpha.YahooStockDownloader;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -125,7 +126,15 @@ public class SeekingAlphaDownloadService {
 		LOGGER.info("appendInsiderDataToEarningsCall");
 		
 		for (String index : seekingAlphaDownloader.getIndexes()) {
-			List<EarningsCall> calls = earningsCallRepository.findByTradingSymbol(index, new Sort(Sort.Direction.ASC, "publishDate"));
+			List<EarningsCall> calls = earningsCallRepository.findByTradingSymbol(index);
+			calls.sort(new Comparator<EarningsCall>() {
+
+				@Override
+				public int compare(EarningsCall o1, EarningsCall o2) {
+					return o1.publishDate.compareTo(o2.publishDate);
+				}
+				
+			});
 			List<InsiderData> insiderDataList = insiderDataRepo.findByIssuerTradingSymbol(index);
 			
 			EarningsCall previousCall = null;
