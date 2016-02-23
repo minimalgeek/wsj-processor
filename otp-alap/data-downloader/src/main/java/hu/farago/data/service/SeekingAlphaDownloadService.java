@@ -131,7 +131,7 @@ public class SeekingAlphaDownloadService {
 			EarningsCall previousCall = null;
 			
 			for (EarningsCall call : calls) {
-				if (call.tone != null && call.qAndATone != null && previousCall != null) {
+				if (call.tone != null && previousCall != null) {
 					aggregator.processCall(call, previousCall, insiderDataList);
 				}
 				
