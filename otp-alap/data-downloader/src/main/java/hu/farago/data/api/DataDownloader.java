@@ -52,6 +52,10 @@ public abstract class DataDownloader<T> {
 	protected abstract boolean notLastPage(String siteContent);
 	protected abstract void processDocument(String index, Document document, List<T> insiderDataList);
 	
+	public void clean() {
+		
+	}
+	
 	public Map<String, List<T>> parseAll(int pageIdx)
 			throws Exception {
 

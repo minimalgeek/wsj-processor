@@ -21,18 +21,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InsiderTradingDownloader extends DataDownloader<InsiderData> {
+public class InsiderDownloader extends DataDownloader<InsiderData> {
 
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(InsiderTradingDownloader.class);
+			.getLogger(InsiderDownloader.class);
 
 	@Value("${insider.filePath}")
 	private String filePath;
 	@Value("${insider.urlBase}")
 	private String urlBase;
-	
-//	@Value("#{new java.text.SimpleDateFormat('${insider.dateFormat}').parse('${insider.toDate}')}")
-//	private Date toDate;
 	
 	@Value("${insider.fromDate}")
 	private String fromDateString;
@@ -68,14 +65,13 @@ public class InsiderTradingDownloader extends DataDownloader<InsiderData> {
 	}
 
 	@Override
-	protected void processDocument(String index, Document document, List<InsiderData> insiderDataList) {
+	protected void processDocument(String index, Document document, List<InsiderData> dataList) {
 		Element table = document.getElementById("tracker");
 		Elements transactions = table.getElementsByTag("tbody").get(0).getElementsByTag("tr");
 		
 		for (Element transactionRow : transactions) {
 			try {
-				insiderDataList
-						.add(createInsiderData(transactionRow, index));
+				dataList.add(createInsiderData(transactionRow, index));
 			} catch (Exception e) {
 				LOGGER.error("Failed to process: (" + transactionRow.text() + ")",
 						e);

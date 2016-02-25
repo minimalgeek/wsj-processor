@@ -1,9 +1,12 @@
 package hu.farago.data.service;
 
 import hu.farago.data.insider.InsiderFileUtils;
-import hu.farago.data.insider.InsiderTradingDownloader;
+import hu.farago.data.insider.InsiderGroupDownloader;
+import hu.farago.data.insider.InsiderDownloader;
+import hu.farago.data.model.dao.mongo.InsiderDataGroupRepository;
 import hu.farago.data.model.dao.mongo.InsiderDataRepository;
 import hu.farago.data.model.entity.mongo.InsiderData;
+import hu.farago.data.model.entity.mongo.InsiderDataGroup;
 
 import java.util.List;
 import java.util.Map;
@@ -26,15 +29,19 @@ public class InsiderTradingDownloadService {
 			.getLogger(InsiderTradingDownloadService.class);
 
 	@Autowired
-	private InsiderTradingDownloader insiderTradingParser;
+	private InsiderDownloader insiderTradingParser;
+	@Autowired
+	private InsiderGroupDownloader insiderGroupParser;
 	@Autowired
 	private InsiderFileUtils insiderFileUtils;
 	@Autowired
 	private InsiderDataRepository insiderDataDao;
+	@Autowired
+	private InsiderDataGroupRepository insiderDataGroupDao;
 
 	@Scheduled(cron = "0 0 12 * * ?") // every day at 12:00
 	public void scheduledCollectContent() {
-		collectContent();
+		//collectContent();
 	}
 
 	@RequestMapping(value = "/collectContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -51,6 +58,28 @@ public class InsiderTradingDownloadService {
 					insiderDataDao.save(entry.getValue());
 				}
 				
+				ret.addAll(map.keySet());
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/collectGroupContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<String> collectGroupContent() {
+		LOGGER.info("collectGroupContent");
+		List<String> ret = Lists.newArrayList();
+		try {
+			insiderDataGroupDao.deleteAll();
+			insiderGroupParser.clean();
+			for (int i = 0; i < insiderTradingParser.pages(); i++) {
+				Map<String, List<InsiderDataGroup>> map = insiderGroupParser.parseAll(i);
+				
+				for (Map.Entry<String, List<InsiderDataGroup>> entry : map.entrySet()) {
+					insiderDataGroupDao.save(entry.getValue());
+				}
 				ret.addAll(map.keySet());
 			}
 		} catch (Exception e) {
