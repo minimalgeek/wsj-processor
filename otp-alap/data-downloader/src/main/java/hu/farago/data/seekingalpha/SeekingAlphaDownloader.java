@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,6 +28,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	public static final String QUESTION_AND_ANSWER = "(?i)question-and-answer";
 	public static final String QUESTION_AND_ANSWER_2 = "(?i)question and answer";
 	public static final String COPYRIGHT_POLICY = "(?i)copyright policy";
+	public static final String EARNINGS_CALL_TRANSCRIPT = "earnings call transcript";
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SeekingAlphaDownloader.class);
@@ -78,14 +80,14 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 		Elements articles = container.getElementsByTag("a");
 		
 		for (Element earningsCallArticle : articles) {
-			if (earningsCallArticle.hasAttr("sasource") && earningsCallArticle.attr("sasource").equals("qp_transcripts")) {
+			if (elementIsLegalTranscript(earningsCallArticle)) {
 				try {
 					EarningsCall call = createEarningsCall(earningsCallArticle, index);
 					
 					if (call.words.size() > 200) {
 						// it is probably a real earnings call, not only a link to some audio shit
-						call.tone = toneCalculator.getToneOf(call.words);
-						call.hTone = toneCalculator.getHToneOf(call.words);
+						processTone(call);
+						retrieveRelevantQAndAPartAndProcessTone(call);
 					}
 					
 					dataList.add(call);
@@ -95,6 +97,18 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 				}
 			}
 		}
+	}
+
+	private void processTone(EarningsCall call) {
+		call.tone = toneCalculator.getToneOf(call.words);
+		call.hTone = toneCalculator.getHToneOf(call.words);
+	}
+
+	private boolean elementIsLegalTranscript(Element earningsCallArticle) {
+		boolean isQP = earningsCallArticle.hasAttr("sasource") && earningsCallArticle.attr("sasource").equals("qp_transcripts");
+		String linkText = earningsCallArticle.text();
+		boolean isTranscript = linkText.toLowerCase().contains(EARNINGS_CALL_TRANSCRIPT);
+		return isQP && isTranscript;
 	}
 	
 	private EarningsCall createEarningsCall(Element dataRow, String index)
@@ -113,7 +127,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 		data.rawText = articleBody;
 		for (Element dateTime : doc.getElementsByTag("time")) {
 			if (StringUtils.equals(dateTime.attr("itemprop"), "datePublished")) {
-				data.publishDate = DateTime.parse(dateTime.attr("content"));
+				data.publishDate = parseDate(dateTime);
 				break;
 			}
 		}
@@ -148,6 +162,16 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 			// it is probably a real earnings call, not only a link to some audio shit
 			earningsCall.qAndATone = toneCalculator.getToneOf(earningsCall.qAndAWords);
 			earningsCall.qAndAHTone = toneCalculator.getHToneOf(earningsCall.qAndAWords);
+		}
+	}
+	
+	private DateTime parseDate(Element dateTime) {
+		try {
+			return new DateTime(dfDate.parse(dateTime.attr("content")))
+					.withZoneRetainFields(DateTimeZone.UTC);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			return null;
 		}
 	}
 }

@@ -9,7 +9,7 @@ adminApp.service("dataDownloaderService", function($http) {
         );
     };
     this.collectInsiderContent = function(func) {
-        $http.get(this.baseURL + "collectContent")
+        $http.get(this.baseURL + "collectGroupContent")
             .success(
             function(response) {
                 func(response);

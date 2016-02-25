@@ -15,7 +15,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +49,7 @@ public class SeekingAlphaDownloadService {
 			earningsCallRepository.deleteAll();
 			for (int i = 0; i < seekingAlphaDownloader.pages(); i++) {
 				Map<String, List<EarningsCall>> map = seekingAlphaDownloader.parseAll(i);
+				
 				for (Map.Entry<String, List<EarningsCall>> entry : map.entrySet()) {
 					earningsCallRepository.save(entry.getValue());
 				}
@@ -71,13 +71,6 @@ public class SeekingAlphaDownloadService {
 
 		try {
 			List<EarningsCall> list = seekingAlphaDownloader.collectAllDataForIndex(index);
-			
-			for (EarningsCall call : list) {
-				if (call.tone != null && call.stockData == null) {
-					seekingAlphaDownloader.retrieveRelevantQAndAPartAndProcessTone(call);
-					stockDownloader.addStockData(call);
-				}
-			}
 			
 			// remove older entries
 			earningsCallRepository.delete(earningsCallRepository.findByTradingSymbol(index));
@@ -151,31 +144,5 @@ public class SeekingAlphaDownloadService {
 			LOGGER.info(index + " processed");
 		}
 	}
-	
-	/*
-	@RequestMapping(value = "/calculateYield", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public List<String> calculateYield() {
-		LOGGER.info("calculateYield");
-		
-		List<String> ret = Lists.newArrayList();
-		try {
-			for (String index : seekingAlphaDownloader.getIndexes()) {
-				List<EarningsCall> calls = earningsCallRepository.findByTradingSymbol(index);
-				
-				for (EarningsCall call : calls) {
-					stockDownloader.calculateYields(call);
-				}
-				
-				earningsCallRepository.save(calls);
-				LOGGER.info(index + " processed");
-				ret.add(index);
-			}
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		
-		return ret;
-	}
-	*/
 	
 }
