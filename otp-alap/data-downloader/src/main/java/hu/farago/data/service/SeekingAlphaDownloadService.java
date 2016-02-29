@@ -7,6 +7,7 @@ import hu.farago.data.model.entity.mongo.InsiderData;
 import hu.farago.data.seekingalpha.EarningsCallAndInsiderDataAggregator;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
 import hu.farago.data.seekingalpha.YahooStockDownloader;
+import hu.farago.data.zacks.ZacksECDateManager;
 
 import java.util.Comparator;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +41,8 @@ public class SeekingAlphaDownloadService {
 	private EarningsCallAndInsiderDataAggregator aggregator;
 	@Autowired
 	private YahooStockDownloader stockDownloader;
+	@Autowired
+	private ZacksECDateManager manager;
 
 	@RequestMapping(value = "/collectEarningsCalls", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<String> collectEarningsCalls() {
@@ -114,6 +118,19 @@ public class SeekingAlphaDownloadService {
 		return ret;
 	}
 	
+	@RequestMapping(value = "/lookForTranscripts", method = RequestMethod.GET)
+	public void lookForTranscripts() {
+		LOGGER.info("lookForTranscripts");
+		manager.lookForTranscripts();
+	}
+	
+	// every day at midnight
+	@Scheduled(cron = "0 0 12 * * ?")
+	public void lookForTranscriptsScheduled() {
+		lookForTranscripts();
+	}
+	
+	/*
 	@RequestMapping(value = "/appendInsiderDataToEarningsCall", method = RequestMethod.GET)
 	public void appendInsiderDataToEarningsCall() {
 		LOGGER.info("appendInsiderDataToEarningsCall");
@@ -144,5 +161,5 @@ public class SeekingAlphaDownloadService {
 			LOGGER.info(index + " processed");
 		}
 	}
-	
+	*/
 }

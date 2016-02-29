@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.datetime.joda.DateTimeFormatterFactory;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,9 @@ public class ZacksFileUtils {
 
 	@Value("${zacks.path}")
 	private String pathToCSVs;
+	
+	@Autowired
+	private ZacksECDateManager manager;
 
 	public void writeZacksDataToCSVFiles(ZacksData data) throws IOException {
 		for (List<String> company : data.getData()) {
