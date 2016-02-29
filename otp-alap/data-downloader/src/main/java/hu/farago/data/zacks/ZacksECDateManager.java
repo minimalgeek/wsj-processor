@@ -27,16 +27,9 @@ public class ZacksECDateManager {
 		ZacksEarningsCallDates dateToStore = createMongoObjectFromParameterObject(obj);
 		
 		List<ZacksEarningsCallDates> listOfCallDates = zacksRepository.findByTradingSymbol(dateToStore.tradingSymbol);
-		ZacksEarningsCallDates foundDate = Iterables.tryFind(listOfCallDates, new Predicate<ZacksEarningsCallDates>() {
-
-			@Override
-			public boolean apply(ZacksEarningsCallDates input) {
-				return input.nextReportDate.equals(dateToStore.nextReportDate);
-			}
-			
-		}).orNull();
+		ZacksEarningsCallDates foundCallDate = Iterables.tryFind(listOfCallDates, findByDatePredicate(dateToStore)).orNull();
 		
-		if (foundDate == null) {
+		if (foundCallDate == null) {
 			zacksRepository.save(dateToStore);
 		}
 	}
@@ -45,8 +38,21 @@ public class ZacksECDateManager {
 		ZacksEarningsCallDates dateToStore = createMongoObjectFromParameterObject(obj);
 		
 		List<ZacksEarningsCallDates> listOfCallDates = zacksRepository.findByTradingSymbol(dateToStore.tradingSymbol);
+		ZacksEarningsCallDates foundCallDate = Iterables.find(listOfCallDates, findByDatePredicate(dateToStore));
 		
 		zacksRepository.save(dateToStore);
+	}
+
+	private Predicate<ZacksEarningsCallDates> findByDatePredicate(
+			ZacksEarningsCallDates dateToStore) {
+		return new Predicate<ZacksEarningsCallDates>() {
+
+			@Override
+			public boolean apply(ZacksEarningsCallDates input) {
+				return input.nextReportDate.equals(dateToStore.nextReportDate);
+			}
+			
+		};
 	}
 	
 	public void lookForTranscripts() {
