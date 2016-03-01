@@ -5,13 +5,11 @@ import hu.farago.data.api.WordProcessor;
 import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.utils.URLUtils;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tika.exception.TikaException;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.jsoup.Jsoup;
@@ -23,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
 
@@ -79,8 +76,10 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	}
 
 	@Override
-	protected void processDocument(String index, Document document,
-			List<EarningsCall> dataList) {
+	protected List<EarningsCall> processDocument(String index, Document document) {
+		
+		List<EarningsCall> ret = Lists.newArrayList();
+		
 		Element container = document.getElementById("portfolo_selections");
 		Elements articles = container.getElementsByTag("a");
 		
@@ -95,13 +94,15 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 						retrieveRelevantQAndAPartAndProcessTone(call);
 					}
 					
-					dataList.add(call);
+					ret.add(call);
 					Thread.sleep(2000);
 				} catch (Exception e) {
 					LOGGER.error("Failed to process: (" + earningsCallArticle.text() + ")", e);
 				}
 			}
 		}
+		
+		return ret;
 	}
 
 	private void processTone(EarningsCall call) {
@@ -161,9 +162,31 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 		String siteContent = URLUtils.getHTMLContentOfURL(urlStr);
 		Document document = Jsoup.parse(siteContent);
 		
-		List<EarningsCall> callsOnTheFirstPage = Lists.newArrayList();
-		processDocument(tradingSymbol, document, callsOnTheFirstPage);
-		return callsOnTheFirstPage.get(0);
+		return processFirstArticle(tradingSymbol, document);
+	}
+	
+	private EarningsCall processFirstArticle(String index, Document document) {
+		Element container = document.getElementById("portfolo_selections");
+		Elements articles = container.getElementsByTag("a");
+		
+		for (Element earningsCallArticle : articles) {
+			if (elementIsLegalTranscript(earningsCallArticle)) {
+				try {
+					EarningsCall call = createEarningsCall(earningsCallArticle, index);
+					
+					if (call.words.size() > 200) {
+						// it is probably a real earnings call, not only a link to some audio shit
+						processTone(call);
+						retrieveRelevantQAndAPartAndProcessTone(call);
+						return call;
+					}
+				} catch (Exception e) {
+					LOGGER.error("Failed to process: (" + earningsCallArticle.text() + ")", e);
+				}
+			}
+		}
+		
+		return null;
 	}
 
 	private void processQAndA(EarningsCall earningsCall, String[] qAndAParts) {
@@ -182,8 +205,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	
 	private DateTime parseDate(Element dateTime) {
 		try {
-			return new DateTime(dfDate.parse(dateTime.attr("content")))
-					.withZoneRetainFields(DateTimeZone.UTC);
+			return new DateTime(dfDate.parse(dateTime.attr("content")));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return null;

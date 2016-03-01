@@ -21,7 +21,6 @@ public class ZacksEarningsCallDates implements Serializable {
 	
 	public DateTime nextReportDate;
 	public String tradingSymbol;
-	
 	public List<DateTime> seekingAlphaCheckDate = Lists.newArrayList();
 	
 	public BigInteger foundEarningsCallId;

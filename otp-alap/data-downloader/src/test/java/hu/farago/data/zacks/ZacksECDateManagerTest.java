@@ -1,7 +1,10 @@
 package hu.farago.data.zacks;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertNotNull;
 import hu.farago.data.config.AbstractRootTest;
 import hu.farago.data.model.dao.mongo.ZacksEarningsCallDatesRepository;
@@ -16,7 +19,6 @@ import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
-import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

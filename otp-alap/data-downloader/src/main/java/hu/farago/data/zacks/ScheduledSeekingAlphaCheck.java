@@ -32,7 +32,10 @@ public class ScheduledSeekingAlphaCheck implements Runnable {
 
 	@Override
 	public void run() {
-		jobScheduledBy = zacksRepository.findByTradingSymbolAndNextReportDate(jobScheduledBy.tradingSymbol, jobScheduledBy.nextReportDate);
+		jobScheduledBy = zacksRepository.findByTradingSymbolAndNextReportDate(
+				jobScheduledBy.tradingSymbol, 
+				jobScheduledBy.nextReportDate);
+		
 		if (jobScheduledBy.foundEarningsCallId == null) {
 			searchForEarningsCall();
 		}
@@ -41,7 +44,7 @@ public class ScheduledSeekingAlphaCheck implements Runnable {
 	private void searchForEarningsCall() {
 		try {
 			EarningsCall call = downloader.collectLatestForIndex(jobScheduledBy.tradingSymbol);
-			if (call.publishDate.isAfter(jobScheduledBy.nextReportDate.minusDays(1))) {
+			if (call != null && call.publishDate.isAfter(jobScheduledBy.nextReportDate.minusDays(1))) {
 				call = ecRepository.save(call);
 				
 				jobScheduledBy.foundEarningsCallId = call.id;

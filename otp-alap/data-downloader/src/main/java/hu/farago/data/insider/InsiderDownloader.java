@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.Lists;
+
 @Component
 public class InsiderDownloader extends DataDownloader<InsiderData> {
 
@@ -65,18 +67,22 @@ public class InsiderDownloader extends DataDownloader<InsiderData> {
 	}
 
 	@Override
-	protected void processDocument(String index, Document document, List<InsiderData> dataList) {
+	protected List<InsiderData> processDocument(String index, Document document) {
+		List<InsiderData> ret = Lists.newArrayList();
+		
 		Element table = document.getElementById("tracker");
 		Elements transactions = table.getElementsByTag("tbody").get(0).getElementsByTag("tr");
 		
 		for (Element transactionRow : transactions) {
 			try {
-				dataList.add(createInsiderData(transactionRow, index));
+				ret.add(createInsiderData(transactionRow, index));
 			} catch (Exception e) {
 				LOGGER.error("Failed to process: (" + transactionRow.text() + ")",
 						e);
 			}
 		}
+		
+		return ret;
 	}
 
 	private InsiderData createInsiderData(Element dataRow, String index)

@@ -78,9 +78,10 @@ public class InsiderGroupDownloader extends DataDownloader<InsiderDataGroup> {
 	}
 
 	@Override
-	protected void processDocument(String index, Document document,
-			List<InsiderDataGroup> insiderList) {
+	protected List<InsiderDataGroup> processDocument(String index, Document document) {
 
+		List<InsiderDataGroup> insiderList = Lists.newArrayList();
+		
 		Element table = document.getElementById("tracker");
 		Elements transactions = table.getElementsByTag("tbody").get(0)
 				.getElementsByTag("tr");
@@ -99,6 +100,7 @@ public class InsiderGroupDownloader extends DataDownloader<InsiderDataGroup> {
 			}
 		}
 
+		return insiderList;
 	}
 	
 	@Override
@@ -187,8 +189,7 @@ public class InsiderGroupDownloader extends DataDownloader<InsiderDataGroup> {
 
 	private DateTime parseDate(Elements tds, int idx) {
 		try {
-			return new DateTime(dfDate.parse(tds.get(idx).text()))
-					.withZoneRetainFields(DateTimeZone.UTC);
+			return new DateTime(dfDate.parse(tds.get(idx).text()));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return null;

@@ -94,10 +94,10 @@ public class ZacksECDateManager {
 			ManagerParameterObject obj) {
 		ZacksEarningsCallDates dateToStore = new ZacksEarningsCallDates();
 		
-		dateToStore.nextReportDate = obj.nextReportDate.withZoneRetainFields(DateTimeZone.UTC);
-		dateToStore.seekingAlphaCheckDate.add(obj.nextReportDate);
-		dateToStore.seekingAlphaCheckDate.add(obj.nextReportDate.plusDays(1));
-		dateToStore.seekingAlphaCheckDate.add(obj.nextReportDate.plusDays(2));
+		dateToStore.nextReportDate = obj.nextReportDate;
+		dateToStore.seekingAlphaCheckDate.add(dateToStore.nextReportDate);
+		dateToStore.seekingAlphaCheckDate.add(dateToStore.nextReportDate.plusDays(1));
+		dateToStore.seekingAlphaCheckDate.add(dateToStore.nextReportDate.plusDays(2));
 		dateToStore.tradingSymbol = obj.tradingSymbol;
 		
 		return dateToStore;

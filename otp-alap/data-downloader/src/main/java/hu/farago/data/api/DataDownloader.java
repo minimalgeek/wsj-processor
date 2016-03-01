@@ -50,7 +50,7 @@ public abstract class DataDownloader<T> {
 	protected abstract Logger getLogger();
 	protected abstract String buildUrl(String index, int pageIndex);
 	protected abstract boolean notLastPage(String siteContent);
-	protected abstract void processDocument(String index, Document document, List<T> insiderDataList);
+	protected abstract List<T> processDocument(String index, Document document);
 	
 	public void clean() {
 		
@@ -119,7 +119,7 @@ public abstract class DataDownloader<T> {
 			Document document = Jsoup.parse(siteContent);
 
 			jumpToNext = notLastPage(siteContent);
-			processDocument(index, document, dataList);
+			dataList.addAll(processDocument(index, document));
 		}
 		return dataList;
 	}
