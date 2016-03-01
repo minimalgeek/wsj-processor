@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Ignore("It is very time consuming")
 public class SeekingAlphaDownloaderTest extends AbstractRootTest {
 	
+	private static final String AAPL = "AAPL";
+
 	@Autowired
 	private SeekingAlphaDownloader downloader;
 
@@ -36,17 +38,16 @@ public class SeekingAlphaDownloaderTest extends AbstractRootTest {
 	
 	@Test
 	public void testParseAll() throws Exception {
-		assertTrue(earningsCallData.get("AAPL").size() > 0);
+		assertTrue(earningsCallData.get(AAPL).size() > 0);
 	}
 	
 	@Test
 	public void testWordSplit() throws Exception {
-		EarningsCall firstAppleArticle = earningsCallData.get("AAPL").get(0);
+		EarningsCall firstAppleArticle = earningsCallData.get(AAPL).get(0);
 		assertNotNull(firstAppleArticle.rawText);
 		assertNotNull(firstAppleArticle.tradingSymbol);
 		assertNotNull(firstAppleArticle.publishDate);
 		assertNotNull(firstAppleArticle.words);
 		assertTrue(firstAppleArticle.words.size() > 0);
 	}
-	
 }

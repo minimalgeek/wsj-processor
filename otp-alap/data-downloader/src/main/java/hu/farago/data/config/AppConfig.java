@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @Configuration
 @ComponentScan(basePackages = {"hu.farago.data"})
@@ -35,5 +36,14 @@ public class AppConfig {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
+	@Bean(name = "taskScheduler")
+	public ThreadPoolTaskScheduler taskScheduler() {
+	    ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+	    scheduler.setPoolSize(5);
+	    scheduler.setWaitForTasksToCompleteOnShutdown(true);
+	    scheduler.setRemoveOnCancelPolicy(true);
+
+	    return scheduler;
+	}
 	
 }

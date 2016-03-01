@@ -5,11 +5,13 @@ import hu.farago.data.api.WordProcessor;
 import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.utils.URLUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tika.exception.TikaException;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.jsoup.Jsoup;
@@ -21,6 +23,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.xml.sax.SAXException;
+
+import com.google.common.collect.Lists;
 
 @Component
 public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
@@ -150,6 +155,16 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 		}
 		
 	}
+	
+	public EarningsCall collectLatestForIndex(String tradingSymbol) throws Exception {
+		String urlStr = buildUrl(tradingSymbol, 0);
+		String siteContent = URLUtils.getHTMLContentOfURL(urlStr);
+		Document document = Jsoup.parse(siteContent);
+		
+		List<EarningsCall> callsOnTheFirstPage = Lists.newArrayList();
+		processDocument(tradingSymbol, document, callsOnTheFirstPage);
+		return callsOnTheFirstPage.get(0);
+	}
 
 	private void processQAndA(EarningsCall earningsCall, String[] qAndAParts) {
 		String qAndA = qAndAParts[qAndAParts.length - 1];
@@ -174,4 +189,5 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 			return null;
 		}
 	}
+
 }

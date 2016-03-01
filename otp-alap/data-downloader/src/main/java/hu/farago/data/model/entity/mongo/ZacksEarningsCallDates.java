@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,5 +25,13 @@ public class ZacksEarningsCallDates implements Serializable {
 	public List<DateTime> seekingAlphaCheckDate = Lists.newArrayList();
 	
 	public BigInteger foundEarningsCallId;
+	
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+			.append(tradingSymbol)
+			.append(nextReportDate)
+			.build();
+	}
 	
 }

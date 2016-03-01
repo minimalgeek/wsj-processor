@@ -1,23 +1,27 @@
 package hu.farago.data.zacks;
 
-import static org.junit.Assert.fail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertNotNull;
+import hu.farago.data.config.AbstractRootTest;
+import hu.farago.data.model.dao.mongo.ZacksEarningsCallDatesRepository;
+import hu.farago.data.model.entity.mongo.EarningsCall;
+import hu.farago.data.model.entity.mongo.ZacksEarningsCallDates;
+import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
+import hu.farago.data.zacks.ZacksECDateManager.ManagerParameterObject;
 
 import java.util.List;
 
-import hu.farago.data.config.AbstractRootTest;
-import hu.farago.data.model.dao.mongo.ZacksEarningsCallDatesRepository;
-import hu.farago.data.model.entity.mongo.ZacksEarningsCallDates;
-import hu.farago.data.zacks.ZacksECDateManager.ManagerParameterObject;
+import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -25,16 +29,22 @@ import com.google.common.collect.Iterables;
 public class ZacksECDateManagerTest extends AbstractRootTest {
 	
 	private static final String AAPL = "AAPL";
+	private static final String IBM = "IBM";
 
 	@Autowired
 	private ZacksECDateManager manager;
-	
 	@Autowired
 	private ZacksEarningsCallDatesRepository repository;
+	@Autowired
+	private SeekingAlphaDownloader downloader;
+	
+	@Resource
+    private ThreadPoolTaskScheduler taskScheduler;
 	
 	private ManagerParameterObject sample;
 	private ManagerParameterObject updatedSample;
 	private ManagerParameterObject earlyReport;
+	private ManagerParameterObject ibmSample;
 	
 	@Before
 	public void before() {
@@ -52,7 +62,12 @@ public class ZacksECDateManagerTest extends AbstractRootTest {
 		earlyReport.nextReportDate = new DateTime(2015, 10, 10, 0, 0);
 		earlyReport.tradingSymbol = AAPL;
 		
-		DateTimeUtils.setCurrentMillisFixed(sample.nextReportDate.minusDays(2).getMillis());
+		ibmSample = new ManagerParameterObject();
+		ibmSample.nextReportDate = new DateTime(2016, 1, 4, 0, 0);
+		ibmSample.tradingSymbol = IBM;
+		
+		DateTimeUtils.setCurrentMillisFixed(
+				sample.nextReportDate.minusDays(2).getMillis()); // 2016. 01. 03.
 	}
 
 	@After
@@ -113,9 +128,20 @@ public class ZacksECDateManagerTest extends AbstractRootTest {
 	}
 
 	@Test
-	@Ignore
 	public void testLookForTranscripts() {
-		fail("Not yet implemented");
+		manager.addDate(sample);
+		manager.addDate(ibmSample);
+		manager.addDate(earlyReport);
+		
+		manager.lookForTranscripts();
+		
+		assertThat(taskScheduler.getActiveCount(), greaterThan(0));
 	}
 
+	@Test
+	public void testCollectLatestForIndex() throws Exception {
+		EarningsCall call = downloader.collectLatestForIndex(AAPL);
+		
+		assertNotNull(call);
+	}
 }
