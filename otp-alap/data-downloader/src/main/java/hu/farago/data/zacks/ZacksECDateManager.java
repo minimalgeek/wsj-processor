@@ -10,7 +10,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,5 +117,16 @@ public class ZacksECDateManager {
 	public static class ManagerParameterObject {
 		public String tradingSymbol;
 		public DateTime nextReportDate;
+		
+		public ManagerParameterObject() {
+			super();
+		}
+
+		public ManagerParameterObject(String tradingSymbol,
+				DateTime nextReportDate) {
+			super();
+			this.tradingSymbol = tradingSymbol;
+			this.nextReportDate = nextReportDate;
+		}
 	}
 }

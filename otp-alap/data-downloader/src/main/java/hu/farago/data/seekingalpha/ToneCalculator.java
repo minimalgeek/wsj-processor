@@ -2,7 +2,6 @@ package hu.farago.data.seekingalpha;
 
 import hu.farago.data.model.dao.mongo.HarvardWordsRepository;
 import hu.farago.data.model.dao.mongo.HenryWordsRepository;
-import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.model.entity.mongo.HarvardWords;
 import hu.farago.data.model.entity.mongo.HenryWords;
 import hu.farago.data.seekingalpha.dto.HTone;

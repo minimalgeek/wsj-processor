@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -18,8 +17,6 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
-
-import com.google.common.collect.Ordering;
 
 @Component
 public class YahooStockDownloader  {

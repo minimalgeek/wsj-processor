@@ -1,6 +1,7 @@
 package hu.farago.data.zacks;
 
 import hu.farago.data.utils.URLUtils;
+import hu.farago.data.zacks.ZacksECDateManager.ManagerParameterObject;
 import hu.farago.data.zacks.dto.ZacksData;
 
 import java.io.File;
@@ -35,7 +36,9 @@ public class ZacksFileUtils {
 		for (List<String> company : data.getData()) {
 
 			ZacksFileUtilsParameterDTO dto = new ZacksFileUtilsParameterDTO();
-			dto.setCsvFile(createFileIfNotExistsForSymbol(Iterables.getFirst(company, null)));
+			String tradingSymbol = Iterables.getFirst(company, null);
+			dto.tradingSymbol = tradingSymbol;
+			dto.setCsvFile(createFileIfNotExistsForSymbol(tradingSymbol));
 
 			String reportDate = createReportDateWith20YearPrefix(Iterables.getLast(company));
 			if (reportDate == null) {
@@ -64,8 +67,10 @@ public class ZacksFileUtils {
 				}
 			});
 			appendNextReportDateInCSV(dto);
+			manager.overrideDate(new ManagerParameterObject(dto.tradingSymbol, dto.nextReportDate));
 		} else if (dto.lastReportDateIsBeforeToday()) {
 			appendNextReportDateInCSV(dto);
+			manager.addDate(new ManagerParameterObject(dto.tradingSymbol, dto.nextReportDate));
 		}
 	}
 
@@ -124,6 +129,8 @@ public class ZacksFileUtils {
 	 */
 	private class ZacksFileUtilsParameterDTO {
 
+		public String tradingSymbol;
+		
 		private File csvFile;
 		private List<String> fileContent;
 

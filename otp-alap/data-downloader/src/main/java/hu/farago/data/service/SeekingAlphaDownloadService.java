@@ -3,13 +3,11 @@ package hu.farago.data.service;
 import hu.farago.data.model.dao.mongo.EarningsCallRepository;
 import hu.farago.data.model.dao.mongo.InsiderDataRepository;
 import hu.farago.data.model.entity.mongo.EarningsCall;
-import hu.farago.data.model.entity.mongo.InsiderData;
 import hu.farago.data.seekingalpha.EarningsCallAndInsiderDataAggregator;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
 import hu.farago.data.seekingalpha.YahooStockDownloader;
 import hu.farago.data.zacks.ZacksECDateManager;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
