@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,19 +54,19 @@ public class ZacksECDateManagerTest extends AbstractRootTest {
 		repository.deleteAll();
 		
 		sample = new ManagerParameterObject();
-		sample.nextReportDate = new DateTime(2016, 1, 5, 0, 0);
+		sample.nextReportDate = createInUTC(2016, 1, 5);
 		sample.tradingSymbol = AAPL;
 		
 		updatedSample = new ManagerParameterObject();
-		updatedSample.nextReportDate = new DateTime(2016, 1, 7, 0 , 0);
+		updatedSample.nextReportDate = createInUTC(2016, 1, 7);
 		updatedSample.tradingSymbol = AAPL;
 		
 		earlyReport = new ManagerParameterObject();
-		earlyReport.nextReportDate = new DateTime(2015, 10, 10, 0, 0);
+		earlyReport.nextReportDate = createInUTC(2015, 10, 10);
 		earlyReport.tradingSymbol = AAPL;
 		
 		ibmSample = new ManagerParameterObject();
-		ibmSample.nextReportDate = new DateTime(2016, 1, 4, 0, 0);
+		ibmSample.nextReportDate = createInUTC(2016, 1, 4);
 		ibmSample.tradingSymbol = IBM;
 		
 		DateTimeUtils.setCurrentMillisFixed(
@@ -88,10 +89,12 @@ public class ZacksECDateManagerTest extends AbstractRootTest {
 		assertThat(repository.count(), equalTo(1L));
 		
 		ZacksEarningsCallDates ret = repository.findAll().get(0);
-		assertThat(ret.seekingAlphaCheckDate, hasSize(3));
-		assertThat(ret.seekingAlphaCheckDate, contains(new DateTime(2016, 1, 5, 0, 0),
-													   new DateTime(2016, 1, 6, 0, 0),
-													   new DateTime(2016, 1, 7, 0, 0)));
+		assertThat(ret.seekingAlphaCheckDate, hasSize(4));
+		assertThat(ret.seekingAlphaCheckDate, contains(
+				createInSystem(2016, 1, 5),
+				createInSystem(2016, 1, 6),
+				createInSystem(2016, 1, 7),
+				createInSystem(2016, 1, 8)));
 		
 	}
 	
@@ -123,14 +126,16 @@ public class ZacksECDateManagerTest extends AbstractRootTest {
 			}
 		});
 		
-		assertThat(ret.seekingAlphaCheckDate, hasSize(3));
-		assertThat(ret.seekingAlphaCheckDate, contains(new DateTime(2016, 1, 7, 0, 0),
-													   new DateTime(2016, 1, 8, 0, 0),
-													   new DateTime(2016, 1, 9, 0, 0)));
+		assertThat(ret.seekingAlphaCheckDate, hasSize(4));
+		assertThat(ret.seekingAlphaCheckDate, contains(
+				createInSystem(2016, 1, 7),
+				createInSystem(2016, 1, 8),
+				createInSystem(2016, 1, 9),
+				createInSystem(2016, 1, 10)));
 	}
 
 	@Test
-	public void testLookForTranscripts() {
+	public void testLookForTranscripts() throws InterruptedException {
 		manager.addDate(sample);
 		manager.addDate(ibmSample);
 		manager.addDate(earlyReport);
@@ -145,5 +150,13 @@ public class ZacksECDateManagerTest extends AbstractRootTest {
 		EarningsCall call = downloader.collectLatestForIndex(AAPL);
 		
 		assertNotNull(call);
+	}
+	
+	private DateTime createInSystem(int year, int month, int day) {
+		return new DateTime(year, month, day, 0, 0).withZoneRetainFields(DateTimeZone.UTC).withZone(DateTimeZone.getDefault());
+	}
+	
+	private DateTime createInUTC(int year, int month, int day) {
+		return new DateTime(year, month, day, 0, 0).withZoneRetainFields(DateTimeZone.UTC);
 	}
 }

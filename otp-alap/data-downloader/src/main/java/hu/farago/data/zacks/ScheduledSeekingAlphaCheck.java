@@ -32,11 +32,13 @@ public class ScheduledSeekingAlphaCheck implements Runnable {
 
 	@Override
 	public void run() {
+		LOGGER.info("Scheduled Job on: " + jobScheduledBy.toString());
+		
 		jobScheduledBy = zacksRepository.findByTradingSymbolAndNextReportDate(
 				jobScheduledBy.tradingSymbol, 
 				jobScheduledBy.nextReportDate);
 		
-		if (jobScheduledBy.foundEarningsCallId == null) {
+		if (jobScheduledBy != null && jobScheduledBy.foundEarningsCallId == null) {
 			searchForEarningsCall();
 		}
 	}

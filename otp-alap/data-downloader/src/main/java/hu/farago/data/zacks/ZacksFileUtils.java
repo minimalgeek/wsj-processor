@@ -48,6 +48,7 @@ public class ZacksFileUtils {
 
 			if (CollectionUtils.isEmpty(dto.getFileContent())) {
 				appendNextReportDateInCSV(dto);
+				manager.addDate(new ManagerParameterObject(dto.tradingSymbol, dto.nextReportDate));
 			} else {
 				updateOrAppendNextReportDateInCSV(dto);
 			}

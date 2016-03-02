@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -157,6 +158,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	}
 	
 	public EarningsCall collectLatestForIndex(String tradingSymbol) throws Exception {
+		LOGGER.info("Collect latest for index: " + tradingSymbol);
 		String urlStr = buildUrl(tradingSymbol, 0);
 		String siteContent = URLUtils.getHTMLContentOfURL(urlStr);
 		Document document = Jsoup.parse(siteContent);
@@ -204,7 +206,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	
 	private DateTime parseDate(Element dateTime) {
 		try {
-			return new DateTime(dfDate.parse(dateTime.attr("content")));
+			return new DateTime(dfDate.parse(dateTime.attr("content"))).withZoneRetainFields(DateTimeZone.UTC);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return null;

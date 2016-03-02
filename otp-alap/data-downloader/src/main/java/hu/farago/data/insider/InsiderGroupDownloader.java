@@ -189,7 +189,7 @@ public class InsiderGroupDownloader extends DataDownloader<InsiderDataGroup> {
 
 	private DateTime parseDate(Elements tds, int idx) {
 		try {
-			return new DateTime(dfDate.parse(tds.get(idx).text()));
+			return new DateTime(dfDate.parse(tds.get(idx).text())).withZoneRetainFields(DateTimeZone.UTC);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return null;

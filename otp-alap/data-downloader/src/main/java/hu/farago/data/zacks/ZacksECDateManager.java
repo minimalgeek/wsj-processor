@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class ZacksECDateManager {
 		ZacksEarningsCallDates dateToStore = createMongoObjectFromParameterObject(obj);
 		
 		List<ZacksEarningsCallDates> listOfCallDates = zacksRepository.findByTradingSymbol(dateToStore.tradingSymbol);
-		ZacksEarningsCallDates foundCallDate = Iterables.tryFind(listOfCallDates, findByDatePredicate(dateToStore.nextReportDate)).orNull();
+		ZacksEarningsCallDates foundCallDate = Iterables.tryFind(listOfCallDates, findByDatePredicate(dateToStore.nextReportDateInLocal())).orNull();
 		
 		if (foundCallDate == null) {
 			zacksRepository.save(dateToStore);
@@ -57,9 +58,9 @@ public class ZacksECDateManager {
 			DateTime maxDate = listOfCallDates.stream().map(u -> u.nextReportDate).max(DateTime::compareTo).get();
 			ZacksEarningsCallDates foundCallDate = Iterables.tryFind(listOfCallDates, findByDatePredicate(maxDate)).orNull();
 			
-			if (foundCallDate != null && foundCallDate.nextReportDate.isAfter(DateTime.now())) {
+			if (foundCallDate != null) {
 				zacksRepository.delete(foundCallDate);
-				LOGGER.info("Report date changed: " + foundCallDate.nextReportDate.toString() + 
+				LOGGER.info("Report date changed: " + foundCallDate.toString() + 
 							" to " + dateToStore.nextReportDate.toString());
 			}
 		}
@@ -69,7 +70,7 @@ public class ZacksECDateManager {
 
 	public void lookForTranscripts() {
 		List<DateTime> dateTimesToCheck = Lists.newArrayList();
-		DateTime today = DateTime.now().withTimeAtStartOfDay();
+		DateTime today = DateTime.now().withZone(DateTimeZone.UTC).withTimeAtStartOfDay();
 		
 		dateTimesToCheck.add(today);
 		dateTimesToCheck.add(today.plusDays(1));
@@ -97,6 +98,7 @@ public class ZacksECDateManager {
 		dateToStore.seekingAlphaCheckDate.add(dateToStore.nextReportDate);
 		dateToStore.seekingAlphaCheckDate.add(dateToStore.nextReportDate.plusDays(1));
 		dateToStore.seekingAlphaCheckDate.add(dateToStore.nextReportDate.plusDays(2));
+		dateToStore.seekingAlphaCheckDate.add(dateToStore.nextReportDate.plusDays(3));
 		dateToStore.tradingSymbol = obj.tradingSymbol;
 		
 		return dateToStore;

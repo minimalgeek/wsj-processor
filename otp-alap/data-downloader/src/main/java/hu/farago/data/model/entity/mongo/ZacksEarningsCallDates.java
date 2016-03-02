@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,6 +25,10 @@ public class ZacksEarningsCallDates implements Serializable {
 	public List<DateTime> seekingAlphaCheckDate = Lists.newArrayList();
 	
 	public BigInteger foundEarningsCallId;
+	
+	public DateTime nextReportDateInLocal() {
+		return nextReportDate.withZone(DateTimeZone.getDefault());
+	}
 	
 	@Override
 	public String toString() {
