@@ -3,7 +3,6 @@ package hu.farago.data.service;
 import hu.farago.data.model.dao.mongo.EarningsCallRepository;
 import hu.farago.data.model.dao.mongo.InsiderDataRepository;
 import hu.farago.data.model.entity.mongo.EarningsCall;
-import hu.farago.data.seekingalpha.EarningsCallAndInsiderDataAggregator;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
 import hu.farago.data.seekingalpha.YahooStockDownloader;
 import hu.farago.data.zacks.ZacksECDateManager;
@@ -35,8 +34,8 @@ public class SeekingAlphaDownloadService {
 	private EarningsCallRepository earningsCallRepository;
 	@Autowired
 	private InsiderDataRepository insiderDataRepo;
-	@Autowired
-	private EarningsCallAndInsiderDataAggregator aggregator;
+//	@Autowired
+//	private EarningsCallAndInsiderDataAggregator aggregator;
 	@Autowired
 	private YahooStockDownloader stockDownloader;
 	@Autowired
