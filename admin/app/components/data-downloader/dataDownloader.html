@@ -40,6 +40,17 @@
     </div>
 
     <div class="functionBox">
+        <div class="generalInput">
+            Trading Symbol: <input type="text" ng-model="data.insiderTradingSymbol"/>
+        </div>
+        <button class="myButton" ng-click="data.collectInsiderContentFor()">Collect http://insidertrading.org/ data for Trading Symbol</button>
+        <h2>Result: </h2>
+        <div>
+            {{data.insiderResponse}}
+        </div>
+    </div>
+
+    <div class="functionBox">
         <button class="myButton" ng-click="data.collectEarningsCalls()">Collect http://seekingalpha.com/ data</button>
 
         <table class="myTable">
@@ -58,9 +69,9 @@
 
     <div class="functionBox">
         <div class="generalInput">
-            Trading symbol: <input type="text" ng-model="data.tradingSymbol"/>
+            Trading Symbol: <input type="text" ng-model="data.tradingSymbol"/>
         </div>
-        <button class="myButton" ng-click="data.collectEarningsCallsForSymbol()">Collect earnings calls and process tone with Q&A parts</button>
+        <button class="myButton" ng-click="data.collectEarningsCallsForSymbol()">Collect http://seekingalpha.com/ data for Trading Symbol</button>
         <h2>Result: </h2>
         <div>
             {{data.tradingSymbolResponse}}

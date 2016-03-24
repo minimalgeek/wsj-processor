@@ -16,6 +16,14 @@ adminApp.service("dataDownloaderService", function($http) {
             }
         );
     };
+    this.collectInsiderContentFor = function(id, func) {
+        $http.get(this.baseURL + "collectGroupContentFor/" + id)
+            .success(
+            function(response) {
+                func(response);
+            }
+        );
+    };
     this.collectEarningsCalls = function(func) {
         $http.get(this.baseURL + "collectEarningsCalls")
             .success(

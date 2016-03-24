@@ -1,8 +1,8 @@
 package hu.farago.data.service;
 
+import hu.farago.data.insider.InsiderDownloader;
 import hu.farago.data.insider.InsiderFileUtils;
 import hu.farago.data.insider.InsiderGroupDownloader;
-import hu.farago.data.insider.InsiderDownloader;
 import hu.farago.data.model.dao.mongo.InsiderDataGroupRepository;
 import hu.farago.data.model.dao.mongo.InsiderDataRepository;
 import hu.farago.data.model.entity.mongo.InsiderData;
@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -87,6 +88,31 @@ public class InsiderTradingDownloadService {
 		}
 		
 		return ret;
+	}
+	
+	@RequestMapping(value = "/collectGroupContentFor/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public String collectGroupContentFor(@PathVariable("id") String index) {
+		LOGGER.info("collectGroupContentFor");
+		
+		StringBuilder ret = new StringBuilder();
+
+		try {
+			insiderGroupParser.clean();
+			List<InsiderDataGroup> list = insiderGroupParser.collectAllDataForIndex(index);
+			
+			// remove older entries
+			insiderDataGroupDao.delete(insiderDataGroupDao.findByIssuerTradingSymbol(index));
+			insiderDataGroupDao.save(list);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			ret.append(e.getMessage());
+		}
+		
+		if (ret.length() == 0) {
+			ret.append("success");
+		}
+		
+		return ret.toString();
 	}
 
 }
