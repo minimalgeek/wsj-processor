@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
 
+/*
 @Component
 public class SAndPDownloader {
 
@@ -96,3 +97,4 @@ public class SAndPDownloader {
 		return ret;
 	}
 }
+*/

@@ -1,11 +1,16 @@
 package hu.farago.data.model.entity.mongo;
 
+import hu.farago.data.model.entity.mongo.embedded.SAndPOperation;
+
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 
-import org.joda.time.DateTime;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.google.common.collect.Lists;
 
 @Document(collection = "s_and_p_index")
 public class SAndPIndex implements Serializable {
@@ -15,16 +20,27 @@ public class SAndPIndex implements Serializable {
 	@Id
 	public BigInteger id;
 	public String company;
-	public String index;
-	public IndexGroup indexGroup;
-	public Operation lastOperation;
-	public DateTime lastOperationDate;
+	public String tradingSymbol;
+	public List<SAndPOperation> operations = Lists.newArrayList();
 	
-	public static enum Operation {
-		ADDED, DELETED;
+	@Override
+	public boolean equals(Object obj) {
+		EqualsBuilder eb = new EqualsBuilder();
+		eb.append(this.tradingSymbol, ((SAndPIndex) obj).tradingSymbol);
+		
+		return eb.isEquals();
 	}
 	
-	public static enum IndexGroup {
-		SP100, SP200, SP300, SP400, SP500, SP600;
+	public void merge(SAndPIndex other) {
+		root : for (SAndPOperation operation : other.operations) {
+			for (SAndPOperation oldOperation : this.operations) {
+				if (operation.equals(oldOperation)) {
+					break root;
+				}
+			}
+			
+			this.operations.addAll(other.operations);
+		}
 	}
+	
 }
