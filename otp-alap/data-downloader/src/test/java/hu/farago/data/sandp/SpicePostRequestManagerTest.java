@@ -36,7 +36,7 @@ public class SpicePostRequestManagerTest extends AbstractRootTest {
 		company.closeAsOfDate = new Date();
 		company.currentCompanyName = "XYZ Kft";
 		company.currentTicker = "XYZ";
-		company.eventName = "Merge/Acquisition";
+		company.eventName = "Add";
 		company.indexId = 340;
 		company.indexKey = "SPUSA-500-USDUF--P-US-L--";
 		company.indexName = "S&P 500";

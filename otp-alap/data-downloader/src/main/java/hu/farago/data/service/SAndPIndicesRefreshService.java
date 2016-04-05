@@ -3,6 +3,7 @@ package hu.farago.data.service;
 import hu.farago.data.model.dao.mongo.SAndPIndexRepository;
 import hu.farago.data.model.entity.mongo.SAndPIndex;
 import hu.farago.data.model.entity.mongo.embedded.SAndPOperation.SAndPGroup;
+import hu.farago.data.sandp.SAndPFileWriter;
 import hu.farago.data.sandp.SpicePostRequestManager;
 import hu.farago.data.sandp.SpiceToSAndPMapper;
 import hu.farago.data.sandp.dto.CompanyJSON;
@@ -30,6 +31,9 @@ public class SAndPIndicesRefreshService {
 
 	@Autowired
 	private SAndPIndexRepository repository;
+	
+	@Autowired
+	private SAndPFileWriter fileWriter;
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SAndPIndicesRefreshService.class);
@@ -39,11 +43,14 @@ public class SAndPIndicesRefreshService {
 		LOGGER.info("refreshSAndPIndices");
 
 		try {
+			fileWriter.reloadFileDatas();
+			
 			Map<SAndPGroup, ResponseJSON> mapOfResponses = requestBuilder
 					.downloadAllIndices();
 			for (Map.Entry<SAndPGroup, ResponseJSON> entry : mapOfResponses
 					.entrySet()) {
-				LOGGER.info("Saving " + entry.getKey().getName());
+				String indexGroupName = entry.getKey().getName();
+				LOGGER.info("Saving " + indexGroupName);
 
 				for (CompanyJSON company : entry.getValue().companies) {
 					if (StringUtils.isNotEmpty(company.eventName) && 
@@ -55,20 +62,24 @@ public class SAndPIndicesRefreshService {
 					}
 				}
 			}
+			
+			fileWriter.writeFileDatas();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
-	private void processIndex(SAndPIndex index) {
+	private void processIndex(SAndPIndex index) throws Exception {
 		SAndPIndex foundIndex = repository
 				.findByTradingSymbol(index.tradingSymbol);
 
 		if (foundIndex != null) {
 			foundIndex.merge(index);
 			repository.save(foundIndex);
+			fileWriter.addSAndPIndex(foundIndex);
 		} else {
 			repository.save(index);
+			fileWriter.addSAndPIndex(index);
 		}
 	}
 
