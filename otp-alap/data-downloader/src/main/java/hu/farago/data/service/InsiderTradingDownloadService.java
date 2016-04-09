@@ -14,15 +14,16 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
 
+/**
+ * It's functionality is implemented by {@link EdgarDownloadService}
+ * @author Balázs
+ *
+ */
 @RestController
 public class InsiderTradingDownloadService {
 
@@ -40,12 +41,13 @@ public class InsiderTradingDownloadService {
 	@Autowired
 	private InsiderDataGroupRepository insiderDataGroupDao;
 
-	@Scheduled(cron = "0 0 12 * * ?") // every day at 12:00
+	//@Scheduled(cron = "0 0 12 * * ?") // every day at 12:00
 	public void scheduledCollectContent() {
 		//collectContent();
 	}
+	
 
-	@RequestMapping(value = "/collectContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	//@RequestMapping(value = "/collectContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<String> collectContent() {
 		LOGGER.info("collectContent");
 		List<String> ret = Lists.newArrayList();
@@ -68,7 +70,7 @@ public class InsiderTradingDownloadService {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/collectGroupContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	//@RequestMapping(value = "/collectGroupContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<String> collectGroupContent() {
 		LOGGER.info("collectGroupContent");
 		List<String> ret = Lists.newArrayList();
@@ -90,7 +92,7 @@ public class InsiderTradingDownloadService {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/collectGroupContentFor/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	//@RequestMapping(value = "/collectGroupContentFor/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public String collectGroupContentFor(@PathVariable("id") String index) {
 		LOGGER.info("collectGroupContentFor");
 		

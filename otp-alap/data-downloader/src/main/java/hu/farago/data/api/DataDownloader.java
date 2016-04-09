@@ -96,9 +96,7 @@ public abstract class DataDownloader<T> {
 	}
 	
 	protected void readFileFromPathAndFillIndexes(String path) {
-		URL url = Thread.currentThread().getContextClassLoader()
-				.getResource(path);
-		File file = new File(url.getFile());
+		File file = new File(path);
 
 		try {
 			indexes = FileUtils.readLines(file, Charset.forName("UTF-8"));
@@ -115,6 +113,7 @@ public abstract class DataDownloader<T> {
 
 		while (jumpToNext) {
 			String urlStr = buildUrl(index, ++pageIndex);
+			getLogger().info("Processing page: " + urlStr);
 			String siteContent = URLUtils.getHTMLContentOfURL(urlStr);
 			Document document = Jsoup.parse(siteContent);
 

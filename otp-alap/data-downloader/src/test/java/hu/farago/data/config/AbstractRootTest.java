@@ -23,16 +23,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 		PersistenceContext.class, MongoContext.class }, loader = AnnotationConfigWebContextLoader.class)
 @WebAppConfiguration
 public abstract class AbstractRootTest {
-
-	@Before
-	public void before() {
-
-	}
-
-	@After
-	public void after() {
-
-	}
 	
 	protected Date getNewDate(int year, int month, int day) {
 		Calendar date = Calendar.getInstance();
