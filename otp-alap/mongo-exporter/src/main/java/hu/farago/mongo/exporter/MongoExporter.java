@@ -5,7 +5,6 @@ import hu.farago.mongo.model.dao.mongo.EarningsCallRepository;
 import hu.farago.mongo.model.entity.mongo.EarningsCall;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +28,6 @@ public class MongoExporter {
 	@Value("${exporter.path}")
 	private String exporterPath;
 
-	@Value("${exporter.mongoBinPath}")
-	private String exporterMongoBinPath;
-
 	@Value("${exporter.earningsCallPath}")
 	private String exporterEarningsCallPath;
 
@@ -39,16 +35,6 @@ public class MongoExporter {
 
 	@Autowired
 	private EarningsCallRepository earningsCallRepository;
-
-	public void executeCommand(String command) throws IOException {
-		Runtime rt = Runtime.getRuntime();
-		Process pr = rt.exec(command);
-
-		if (pr.getErrorStream() != null) {
-			LOGGER.error(pr.getErrorStream().toString());
-		}
-
-	}
 
 	public void exportEarningsCall() throws IOException {
 
