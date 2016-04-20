@@ -24,8 +24,10 @@ public class ShortInterestDownloader {
 	private String nasdaqshortInterestUrlEnd;
 	
 	public List<ShortInterest> downloadShortInterestsForTradingSymbol(String tradingSymbol) {
-		List<ShortInterest> ret = Lists.newArrayList();
+		String url = nasdaqshortInterestUrlBase + tradingSymbol + nasdaqshortInterestUrlEnd;
+		LOGGER.info("Downloading short interest from: " + url);
 		
+		List<ShortInterest> ret = Lists.newArrayList();
 		return ret;
 	}
 }
