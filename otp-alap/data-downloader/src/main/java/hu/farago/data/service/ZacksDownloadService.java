@@ -22,10 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
 @RestController
-public class DataSynchronizerService {
+public class ZacksDownloadService {
 	
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DataSynchronizerService.class);
+			.getLogger(ZacksDownloadService.class);
 
 	@Value("#{'${zacks.urls}'.split(',')}")
 	private List<String> zacksURLList;

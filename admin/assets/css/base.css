@@ -124,3 +124,22 @@ body {
 .generalInput {
     margin-bottom: 5px;
 }
+
+.functionBox .title {
+    color: mediumblue;
+}
+
+.functionBox .description {
+    text-align: left;
+}
+
+.functionBox .description b {
+    color: indianred;
+}
+
+.functionBox .cronTime {
+    background-color: #14396a;
+    color: coral;
+    height: 50px;
+    line-height: 50px;
+}

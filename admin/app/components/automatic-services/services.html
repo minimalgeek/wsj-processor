@@ -1,0 +1,47 @@
+<div>
+    <h1>Automatic Services</h1>
+
+    <div class="functionBox">
+        <h2 class="title">Stooq - Download missing forex data</h2>
+        <h4 class="cronTime">Every 1 hour, at HH:00</h4>
+        <h4 class="description">
+            Downloads the latest forex data from <b>http://stooq.com</b>, and saves it into MySQL </b>forex</b> table
+        </h4>
+    </div>
+
+    <div class="functionBox">
+        <h2 class="title">Yahoo - Download tick forex data</h2>
+        <h4 class="cronTime">Every 5 seconds - at the moment it's turned off!</h4>
+        <h4 class="description">
+            Downloads the latest forex data from <b>Yahoo Finance</b>, and saves it into MySQL </b>forex</b> table
+        </h4>
+    </div>
+
+    <div class="functionBox">
+        <h2 class="title">Spice Indices - Download S&P members</h2>
+        <h4 class="cronTime">Every day, at 00:00</h4>
+        <h4 class="description">Checks for changes in the S&P 100, 400, 500, 600 lists on <b>https://www.spice-indices.com</b>, and saves them to <b>z:\Quant_CO2\SAndP\</b><br/>
+        The <b>US.tls</b> file is very important, because it is used in several services as the main ticker list
+        </h4>
+    </div>
+
+    <div class="functionBox">
+        <h2 class="title">SeekingAlpha and Zacks integration</h2>
+        <h4 class="cronTime">Every day, at 00:00</h4>
+        <h4 class="description">When we have a future <b>report date</b> on <b>http://zacks.com</b>, it schedules 4 jobs for the following 4 days, to check arriving Earnings Call Transcripts on <b>http://seekingalpha.com/</b>
+        <br/>We save it to <b>earnings_call</b> collection, and the <b>report dates</b> are stored previously in <b>zacks_earnings_call_dates</b></h4>
+    </div>
+
+    <div class="functionBox">
+        <h2 class="title">MongoDB - Create flat collections</h2>
+        <h4 class="cronTime">Every day, at 08:00</h4>
+        <h4 class="description">We check the JavaScript (xyz.js) files of <b>z:\Quant_CO2\mongo_scripts\</b>, and run them on MongoDB, <b>insider</b> database
+        <br/>It is necessary for the <b>AmiBroker - MongoDB Bridge</b>, because AmiBroker can not work on complex objects</h4>
+    </div>
+
+    <div class="functionBox">
+        <h2 class="title">WSJ - collect new article contents</h2>
+        <h4 class="cronTime">Every 30 minutes, at HH:30 and HH:00 - at the moment it's turned off!</h4>
+        <h4 class="description">It opens the archive site to check for new articles on <b>http://wsj.com</b>, then saves them to <b>wsj database, article collection</b></h4>
+    </div>
+</div>

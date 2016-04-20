@@ -1,7 +1,7 @@
 package hu.farago.data.service;
 
 import hu.farago.data.config.AbstractRootTest;
-import hu.farago.data.service.DataSynchronizerService;
+import hu.farago.data.service.ZacksDownloadService;
 import hu.farago.data.utils.URLUtils;
 import hu.farago.data.zacks.dto.ZacksData;
 
@@ -20,10 +20,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.xml.sax.SAXException;
 
-public class DataSynchronizerServiceTest extends AbstractRootTest {
+public class ZacksDownloadServiceTest extends AbstractRootTest {
 
 	@Autowired
-	private DataSynchronizerService dataSync;
+	private ZacksDownloadService dataSync;
 	
 	@Value("${zacks.url.test}")
 	private String testURL;

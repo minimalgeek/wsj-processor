@@ -85,7 +85,7 @@ public class SAndPIndicesRefreshService {
 
 	// every day at midnight
 	@Scheduled(cron = "0 0 12 * * ?")
-	public void lookForTranscriptsScheduled() {
+	public void refreshSAndPIndicesScheduled() {
 		refreshSAndPIndices();
 	}
 

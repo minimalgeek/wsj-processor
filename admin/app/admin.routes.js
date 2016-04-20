@@ -16,6 +16,11 @@ adminApp.config(['$routeProvider', function($routeProvider) {
             controller: 'wsjReceiverController'
         }).
 
+        when('/automaticServices', {
+            templateUrl: 'app/components/automatic-services/services.html',
+            controller: 'servicesController'
+        }).
+
         otherwise({
             redirectTo: '/dataDownloader'
         });

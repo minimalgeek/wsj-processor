@@ -6,7 +6,7 @@
     </div>
 
     <div class="functionBox">
-        <button class="myButton" ng-click="data.refreshAllReportDates()">Refresh all report dates</button>
+        <button class="myButton" ng-click="data.refreshAllReportDates()">Refresh all report dates from http://zacks.com</button>
 
         <table class="myTable">
             <thead>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="functionBox">
-        <button class="myButton" ng-click="data.collectInsiderContent()">Collect http://insidertrading.org/ data</button>
+        <button class="myButton" ng-click="data.collectInsiderContent()">Collect http://sec.gov/ Edgar data (form4, insider trading information)</button>
 
         <table class="myTable">
             <thead>
@@ -43,7 +43,7 @@
         <div class="generalInput">
             Trading Symbol: <input type="text" ng-model="data.insiderTradingSymbol"/>
         </div>
-        <button class="myButton" ng-click="data.collectInsiderContentFor()">Collect http://insidertrading.org/ data for Trading Symbol</button>
+        <button class="myButton" ng-click="data.collectInsiderContentFor()">Collect http://sec.gov/ Edgar data (form4, insider trading information) for Trading Symbol</button>
         <h2>Result: </h2>
         <div>
             {{data.insiderResponse}}
