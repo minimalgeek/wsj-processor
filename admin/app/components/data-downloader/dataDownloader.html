@@ -77,4 +77,21 @@
             {{data.tradingSymbolResponse}}
         </div>
     </div>
+
+    <div class="functionBox">
+        <button class="myButton" ng-click="data.downloadShortInterestData()">Collect http://nasdaq.com/ short interest data</button>
+
+        <table class="myTable">
+            <thead>
+            <tr>
+                <th>Refreshed indexes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="index in data.downloadedShortInterestData">
+                <td>{{ index }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

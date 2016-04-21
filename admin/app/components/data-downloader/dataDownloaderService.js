@@ -40,4 +40,12 @@ adminApp.service("dataDownloaderService", function($http) {
             }
         );
     };
+    this.downloadShortInterestData = function(func) {
+        $http.get(this.baseURL + "downloadShortInterestData")
+            .success(
+            function(response) {
+                func(response);
+            }
+        );
+    };
 });

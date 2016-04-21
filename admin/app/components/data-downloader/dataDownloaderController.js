@@ -9,6 +9,7 @@ adminApp.
 
             downloadedInsiders: [],
             downloadedEarningsCalls: [],
+            downloadedShortInterestData: [],
 
             insiderTradingSymbol: "",
             insiderResponse: "",
@@ -40,7 +41,7 @@ adminApp.
             // EARNINGS CALL
             collectEarningsCalls: function () {
                 $scope.data.showLoadingBar = true;
-                dataDownloaderService.collectEarningsCalls(function() {
+                dataDownloaderService.collectEarningsCalls(function(data) {
                     $scope.data.downloadedEarningsCalls = data;
                     $scope.data.showLoadingBar = false;
                 });
@@ -49,6 +50,15 @@ adminApp.
                 $scope.data.showLoadingBar = true;
                 dataDownloaderService.collectEarningsCallsFor($scope.data.tradingSymbol, function(data) {
                     $scope.data.tradingSymbolResponse = data;
+                    $scope.data.showLoadingBar = false;
+                });
+            },
+
+            // SHORT INTEREST
+            downloadShortInterestData: function () {
+                $scope.data.showLoadingBar = true;
+                dataDownloaderService.downloadShortInterestData(function(data) {
+                    $scope.data.downloadedShortInterestData = data;
                     $scope.data.showLoadingBar = false;
                 });
             }
