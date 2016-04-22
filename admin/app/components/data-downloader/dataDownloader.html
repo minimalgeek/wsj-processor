@@ -6,7 +6,7 @@
     </div>
 
     <div class="functionBox">
-        <button class="myButton" ng-click="data.refreshAllReportDates()">Refresh all report dates from http://zacks.com</button>
+        <button class="myButton" ng-click="data.refreshAllReportDates()">OLD - Refresh all report dates from http://zacks.com</button>
 
         <table class="myTable">
             <thead>
@@ -17,6 +17,24 @@
             <tbody>
             <tr ng-repeat="url in data.refreshedURLs">
                 <td>{{ url }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="functionBox">
+        <button class="myButton" ng-click="data.downloadAllZECD()">NEW - Refresh all report dates from http://zacks.com</button>
+
+        <table class="myTable">
+            <thead>
+            <tr>
+                <th>Refreshed indexes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="index in data.downloadedZECDs">
+                <td>{{ index }}</td>
             </tr>
             </tbody>
         </table>
@@ -94,4 +112,5 @@
             </tbody>
         </table>
     </div>
+
 </div>

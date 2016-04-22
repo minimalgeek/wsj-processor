@@ -1,12 +1,16 @@
 package hu.farago.data.service;
 
+import hu.farago.data.model.dao.mongo.ZacksEarningsCallDates2Repository;
+import hu.farago.data.model.entity.mongo.ZacksEarningsCallDates2;
 import hu.farago.data.utils.URLUtils;
 import hu.farago.data.zacks.ZacksFileUtils;
+import hu.farago.data.zacks.ZacksStockQuoteDownloader;
 import hu.farago.data.zacks.dto.ZacksData;
 
 import java.io.IOException;
 import java.util.List;
 
+import org.joda.time.DateTimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +37,12 @@ public class ZacksDownloadService {
 	@Autowired
 	private ZacksFileUtils zacksFileUtils;
 	
+	@Autowired
+	private ZacksStockQuoteDownloader downloader;
+	
+	@Autowired
+	private ZacksEarningsCallDates2Repository repository;
+	
 	@RequestMapping(value = "/refreshAllReportDates", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public List<String> refreshAllReportDates() {
 		LOGGER.info("refreshAllReportDates");
@@ -54,6 +64,35 @@ public class ZacksDownloadService {
 		return refreshedURLs;
 	}
 	
+	@RequestMapping(value = "/downloadAllZECD", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+	public List<String> downloadAllZECD() {
+		LOGGER.info("downloadAllZECD");
+		
+		try {
+			List<ZacksEarningsCallDates2> list = downloader.downloadAllZECD();
+			List<String> retList = Lists.newArrayList();
+			
+			for (ZacksEarningsCallDates2 zecd2 : list) {
+				
+				if (zecd2.nextReportDate.isAfterNow()) {
+					List<ZacksEarningsCallDates2> oldRecords = repository.findByTradingSymbol(zecd2.tradingSymbol);
+					for (ZacksEarningsCallDates2 record : oldRecords) {
+						if (record.nextReportDate.isAfterNow()) {
+							repository.delete(record);
+						}
+					}
+					repository.save(zecd2);
+					retList.add(zecd2.toString());
+				}
+			}
+			
+			return retList;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		
+		return null;
+	}
 
 	public ZacksData createZacksDataFromContent(String massContent) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();

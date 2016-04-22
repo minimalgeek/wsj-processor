@@ -10,6 +10,7 @@ adminApp.
             downloadedInsiders: [],
             downloadedEarningsCalls: [],
             downloadedShortInterestData: [],
+            downloadedZECDs: [],
 
             insiderTradingSymbol: "",
             insiderResponse: "",
@@ -18,6 +19,14 @@ adminApp.
                 $scope.data.showLoadingBar = true;
                 dataDownloaderService.refreshAllReportDates(function(data) {
                     $scope.data.refreshedURLs = data;
+                    $scope.data.showLoadingBar = false;
+                });
+            },
+
+            downloadAllZECD: function () {
+                $scope.data.showLoadingBar = true;
+                dataDownloaderService.downloadAllZECD(function(data) {
+                    $scope.data.downloadedZECDs = data;
                     $scope.data.showLoadingBar = false;
                 });
             },

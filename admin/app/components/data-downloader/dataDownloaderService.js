@@ -8,6 +8,14 @@ adminApp.service("dataDownloaderService", function($http) {
             }
         );
     };
+    this.downloadAllZECD = function(func) {
+        $http.get(this.baseURL + "downloadAllZECD")
+            .success(
+            function(response) {
+                func(response);
+            }
+        );
+    };
     this.collectInsiderContent = function(func) {
         $http.get(this.baseURL + "collectGroupContent")
             .success(
