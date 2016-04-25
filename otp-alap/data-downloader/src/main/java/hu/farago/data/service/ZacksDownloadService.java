@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,7 +75,7 @@ public class ZacksDownloadService {
 			
 			for (ZacksEarningsCallDates2 zecd2 : list) {
 				
-				if (zecd2.nextReportDate.isAfterNow()) {
+				if (nextReportDateIsInTheFuture(zecd2)) {
 					List<ZacksEarningsCallDates2> oldRecords = repository.findByTradingSymbol(zecd2.tradingSymbol);
 					for (ZacksEarningsCallDates2 record : oldRecords) {
 						if (nextReportDateIsInTheFuture(record)) {
@@ -93,6 +94,12 @@ public class ZacksDownloadService {
 		
 		return null;
 	}
+	
+	@Scheduled(cron = "0 0 6 * * ?")
+	private void downloadAllZECDScheduled() {
+		downloadAllZECD();
+	}
+	
 
 	private boolean nextReportDateIsInTheFuture(ZacksEarningsCallDates2 record) {
 		return record.nextReportDate.isAfterNow() || 

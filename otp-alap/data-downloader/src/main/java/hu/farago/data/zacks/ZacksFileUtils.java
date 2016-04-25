@@ -60,7 +60,7 @@ public class ZacksFileUtils {
 			ZacksFileUtilsParameterDTO dto) throws IOException {
 		dto.setLastReportDateStr(Iterables.getLast(dto.getFileContent()));
 
-		if (future(dto) || pastWithin30Days(dto)) {
+		if (dto.lastAndNextAreNotOnTheSameDay() && dto.daysBetweenLastAndNextIsLessThan30()) {
 			Iterables.removeIf(dto.getFileContent(), new Predicate<String>() {
 				@Override
 				public boolean apply(String line) {
