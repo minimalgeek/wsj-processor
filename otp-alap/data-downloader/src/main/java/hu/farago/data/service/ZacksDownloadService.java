@@ -10,7 +10,7 @@ import hu.farago.data.zacks.dto.ZacksData;
 import java.io.IOException;
 import java.util.List;
 
-import org.joda.time.DateTimeUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +77,7 @@ public class ZacksDownloadService {
 				if (zecd2.nextReportDate.isAfterNow()) {
 					List<ZacksEarningsCallDates2> oldRecords = repository.findByTradingSymbol(zecd2.tradingSymbol);
 					for (ZacksEarningsCallDates2 record : oldRecords) {
-						if (record.nextReportDate.isAfterNow()) {
+						if (nextReportDateIsInTheFuture(record)) {
 							repository.delete(record);
 						}
 					}
@@ -92,6 +92,11 @@ public class ZacksDownloadService {
 		}
 		
 		return null;
+	}
+
+	private boolean nextReportDateIsInTheFuture(ZacksEarningsCallDates2 record) {
+		return record.nextReportDate.isAfterNow() || 
+			record.nextReportDate.withTimeAtStartOfDay().isEqual(DateTime.now().withTimeAtStartOfDay());
 	}
 
 	public ZacksData createZacksDataFromContent(String massContent) throws JsonParseException, JsonMappingException, IOException {
