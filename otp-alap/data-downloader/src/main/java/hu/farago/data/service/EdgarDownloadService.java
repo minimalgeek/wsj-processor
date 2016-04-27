@@ -1,7 +1,10 @@
 package hu.farago.data.service;
 
+import hu.farago.data.edgar.Edgar10KDownloader;
 import hu.farago.data.edgar.EdgarDownloader;
+import hu.farago.data.model.dao.mongo.Edgar10KDataRepository;
 import hu.farago.data.model.dao.mongo.EdgarDataRepository;
+import hu.farago.data.model.entity.mongo.Edgar10KData;
 import hu.farago.data.model.entity.mongo.EdgarData;
 
 import java.util.List;
@@ -27,7 +30,14 @@ public class EdgarDownloadService {
 	@Autowired
 	private EdgarDownloader edgarDownloader;
 	@Autowired
-	private EdgarDataRepository edgarRepository;	
+	private EdgarDataRepository edgarRepository;
+	
+	@Autowired
+	private Edgar10KDownloader edgar10KDownloader;
+	@Autowired
+	private Edgar10KDataRepository edgar10KRepository;
+	
+	
 
 	@RequestMapping(value = "/collectGroupContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<String> collectGroupContent() {
@@ -75,6 +85,29 @@ public class EdgarDownloadService {
 		}
 		
 		return ret.toString();
+	}
+
+
+	@RequestMapping(value = "/collect10KContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<String> collect10KContent() {
+		LOGGER.info("collect10KContent");
+		List<String> ret = Lists.newArrayList();
+		try {
+			edgar10KRepository.deleteAll();
+			for (int i = 0; i < edgar10KDownloader.pages(); i++) {
+				Map<String, List<Edgar10KData>> map = edgar10KDownloader.parseAll(i);
+				
+				for (Map.Entry<String, List<Edgar10KData>> entry : map.entrySet()) {
+					edgar10KRepository.save(entry.getValue());
+				}
+				
+				ret.addAll(map.keySet());
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		
+		return ret;
 	}
 
 }
