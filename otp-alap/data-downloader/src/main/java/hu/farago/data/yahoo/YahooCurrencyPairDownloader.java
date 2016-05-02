@@ -4,8 +4,8 @@ import hu.farago.data.api.dto.ForexData;
 import hu.farago.data.api.dto.HistoricalForexData;
 
 import java.io.IOException;
-import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class YahooCurrencyPairDownloader {
 			ForexData forexData = new ForexData(symbol);
 			FxQuote fx = YahooFinance.getFx(symbol + "=X");
 			forexData.setHistoricalForexDataList(Lists
-					.newArrayList(new HistoricalForexData(new Date(), fx
+					.newArrayList(new HistoricalForexData(new DateTime(), fx
 							.getPrice().doubleValue(), null, null, null)));
 
 			return forexData;

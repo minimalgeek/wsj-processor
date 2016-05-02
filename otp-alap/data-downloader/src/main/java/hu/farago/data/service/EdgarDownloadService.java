@@ -4,7 +4,7 @@ import hu.farago.data.edgar.Edgar10KDownloader;
 import hu.farago.data.edgar.EdgarDownloader;
 import hu.farago.data.model.dao.mongo.Edgar10KDataRepository;
 import hu.farago.data.model.dao.mongo.EdgarDataRepository;
-import hu.farago.data.model.entity.mongo.Edgar10KData;
+import hu.farago.data.model.entity.mongo.Edgar10QData;
 import hu.farago.data.model.entity.mongo.EdgarData;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class EdgarDownloadService {
 	private EdgarDataRepository edgarRepository;
 	
 	@Autowired
-	private Edgar10KDownloader edgar10KDownloader;
+	private Edgar10KDownloader edgar10QDownloader;
 	@Autowired
 	private Edgar10KDataRepository edgar10KRepository;
 	
@@ -88,16 +88,16 @@ public class EdgarDownloadService {
 	}
 
 
-	@RequestMapping(value = "/collect10KContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public List<String> collect10KContent() {
-		LOGGER.info("collect10KContent");
+	@RequestMapping(value = "/collect10QContent", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<String> collect10QContent() {
+		LOGGER.info("collect10QContent");
 		List<String> ret = Lists.newArrayList();
 		try {
 			edgar10KRepository.deleteAll();
-			for (int i = 0; i < edgar10KDownloader.pages(); i++) {
-				Map<String, List<Edgar10KData>> map = edgar10KDownloader.parseAll(i);
+			for (int i = 0; i < edgar10QDownloader.pages(); i++) {
+				Map<String, List<Edgar10QData>> map = edgar10QDownloader.parseAll(i);
 				
-				for (Map.Entry<String, List<Edgar10KData>> entry : map.entrySet()) {
+				for (Map.Entry<String, List<Edgar10QData>> entry : map.entrySet()) {
 					edgar10KRepository.save(entry.getValue());
 				}
 				
@@ -108,6 +108,30 @@ public class EdgarDownloadService {
 		}
 		
 		return ret;
+	}
+	
+	@RequestMapping(value = "/collect10QContentFor/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public String collect10QContentFor(@PathVariable("id") String index) {
+		LOGGER.info("collect10QContentFor");
+		
+		StringBuilder ret = new StringBuilder();
+
+		try {
+			List<Edgar10QData> list = edgar10QDownloader.collectAllDataForIndex(index);
+			
+			// remove older entries
+			edgar10KRepository.delete(edgar10KRepository.findByTradingSymbol(index));
+			edgar10KRepository.save(list);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			ret.append(e.getMessage());
+		}
+		
+		if (ret.length() == 0) {
+			ret.append("success");
+		}
+		
+		return ret.toString();
 	}
 
 }

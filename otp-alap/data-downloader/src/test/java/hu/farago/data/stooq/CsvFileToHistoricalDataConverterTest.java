@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import hu.farago.data.api.dto.HistoricalForexData;
 import hu.farago.data.config.AbstractRootTest;
 import hu.farago.data.stooq.CsvFileToHistoricalDataConverter;
+import hu.farago.data.utils.DateTimeUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class CsvFileToHistoricalDataConverterTest extends AbstractRootTest {
 		assertEquals(8, data.size());
 
 		HistoricalForexData firstDataRow = new HistoricalForexData(
-				converter.getDateFromString(DATE_2010_05_21), 221.43, 224.71,
+				DateTimeUtils.parseToYYYYMMDD_UTC(DATE_2010_05_21), 221.43, 224.71,
 				220.89, 222.27);
 
 		assertEquals(firstDataRow, data.get(0));

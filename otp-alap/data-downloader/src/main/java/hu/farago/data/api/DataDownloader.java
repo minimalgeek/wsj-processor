@@ -4,7 +4,6 @@ import hu.farago.data.utils.URLUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

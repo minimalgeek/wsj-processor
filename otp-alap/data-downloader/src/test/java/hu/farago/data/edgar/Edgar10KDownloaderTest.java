@@ -1,7 +1,7 @@
 package hu.farago.data.edgar;
 
 import hu.farago.data.config.AbstractRootTest;
-import hu.farago.data.model.entity.mongo.Edgar10KData;
+import hu.farago.data.model.entity.mongo.Edgar10QData;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -21,7 +21,7 @@ public class Edgar10KDownloaderTest extends AbstractRootTest {
 	@Test
 	public void collectAllDataForIndexTest() throws IOException, SAXException, TikaException, ParseException {
 		downloader.clean();
-		List<Edgar10KData> ret = downloader.collectAllDataForIndex("AAPL");
+		List<Edgar10QData> ret = downloader.collectAllDataForIndex("DNR");
 		Assert.assertNotNull(ret);
 	}
 

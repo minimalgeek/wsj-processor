@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.tika.exception.TikaException;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
@@ -19,6 +20,7 @@ public class EdgarDownloaderTest extends AbstractRootTest {
 	private EdgarDownloader downloader; 
 	
 	@Test
+	@Ignore("Too long process")
 	public void collectAllDataForIndexTest() throws IOException, SAXException, TikaException, ParseException {
 		downloader.clean();
 		List<EdgarData> ret = downloader.collectAllDataForIndex("AAPL");

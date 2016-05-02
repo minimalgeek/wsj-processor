@@ -75,15 +75,6 @@ public class ZacksFileUtils {
 		}
 	}
 
-	private boolean pastWithin30Days(ZacksFileUtilsParameterDTO dto) {
-		return dto.lastReportDateIsBeforeToday() && dto.daysBetweenLastAndNextIsLessThan30();
-	}
-
-	private boolean future(ZacksFileUtilsParameterDTO dto) {
-		return dto.lastReportDateIsAfterToday()
-				&& dto.lastAndNextAreNotOnTheSameDay();
-	}
-
 	private void appendNextReportDateInCSV(ZacksFileUtilsParameterDTO dto)
 			throws IOException {
 		
@@ -148,10 +139,6 @@ public class ZacksFileUtils {
 			today = DateTime.now(DateTimeZone.UTC).withTimeAtStartOfDay();
 			formatter = new DateTimeFormatterFactory("MM/dd/yyyy")
 					.createDateTimeFormatter().withZone(DateTimeZone.UTC);
-		}
-
-		public boolean lastReportDateIsAfterToday() {
-			return lastReportDate.isAfter(today);
 		}
 
 		public boolean lastReportDateIsBeforeToday() {

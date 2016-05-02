@@ -1,7 +1,7 @@
 package hu.farago.data.edgar;
 
 import hu.farago.data.api.DataDownloader;
-import hu.farago.data.model.entity.mongo.Edgar10KData;
+import hu.farago.data.model.entity.mongo.Edgar10QData;
 import hu.farago.data.utils.URLUtils;
 
 import java.io.IOException;
@@ -12,6 +12,9 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.exception.TikaException;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -25,8 +28,9 @@ import org.xml.sax.SAXException;
 import com.google.common.collect.Lists;
 
 @Component
-public class Edgar10KDownloader extends DataDownloader<Edgar10KData> {
+public class Edgar10KDownloader extends DataDownloader<Edgar10QData> {
 
+	private static final DateTimeFormatter FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd");
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(Edgar10KDownloader.class);
 
@@ -56,7 +60,7 @@ public class Edgar10KDownloader extends DataDownloader<Edgar10KData> {
 	@PostConstruct
 	private void postConstruct() {
 		readFileFromPathAndFillIndexes(filePath);
-		searcher = new FaragoFootnoteSearcher();
+		searcher = new DNRFootnoteSearcher();
 	}
 
 	@Override
@@ -76,8 +80,8 @@ public class Edgar10KDownloader extends DataDownloader<Edgar10KData> {
 	}
 
 	@Override
-	protected List<Edgar10KData> processDocument(String index, Document document) {
-		List<Edgar10KData> list = Lists.newArrayList();
+	protected List<Edgar10QData> processDocument(String index, Document document) {
+		List<Edgar10QData> list = Lists.newArrayList();
 
 		Element table = document.getElementsByClass("tableFile2").first();
 		Elements transactions = table.getElementsByTag("tbody").get(0)
@@ -89,7 +93,7 @@ public class Edgar10KDownloader extends DataDownloader<Edgar10KData> {
 				if (tds.size() > 0) {
 					String formURL = edgarUrlRoot
 							+ tds.get(1).child(0).attr("href");
-					Edgar10KData createdData = createEdgarData(formURL, index);
+					Edgar10QData createdData = createEdgarData(formURL, index);
 					if (createdData != null) {
 						list.add(createdData);
 					}
@@ -103,7 +107,7 @@ public class Edgar10KDownloader extends DataDownloader<Edgar10KData> {
 		return list;
 	}
 
-	private Edgar10KData createEdgarData(String url, String index)
+	private Edgar10QData createEdgarData(String url, String index)
 			throws IOException, SAXException, TikaException, JAXBException {
 		String siteContent = URLUtils.getHTMLContentOfURL(url);
 		Document document = Jsoup.parse(siteContent);
@@ -111,30 +115,25 @@ public class Edgar10KDownloader extends DataDownloader<Edgar10KData> {
 		Elements table = document.getElementsByTag("a");
 
 		for (Element element : table) {
-			if (element.text().endsWith("10k.htm") ||
-				element.text().endsWith("10-k.htm") || 
-				element.text().endsWith("d10ka.htm")) {
+			if (element.text().endsWith("10q.htm")) {
 				String htmlURL = edgarUrlRoot + element.attr("href");
 				LOGGER.info("=====# PROCESSING: " + htmlURL + " #=====");
 				Document formDocument = Jsoup.connect(htmlURL).get();
-				StringBuilder builder = searcher.searchFootNotes(formDocument, "sup");
+				StringBuilder builder = searcher.searchFootNotes(formDocument, null);
 
 				long fullLength = formDocument.text().length();
 				long footnoteLength = builder.length();
 
-				if (footnoteLength == 0) {
-					builder = searcher.searchFootNotes(formDocument, "font");
-					footnoteLength = builder.length();
-				}
-
 				LOGGER.info("Full length: " + fullLength);
 				LOGGER.info("Footnote length: " + footnoteLength);
 
-				Edgar10KData ret = new Edgar10KData();
+				Element reportDate = document.getElementsByClass("formGrouping").first().getElementsByClass("info").first();
+				Edgar10QData ret = new Edgar10QData();
 				ret.footnoteLength = footnoteLength;
 				ret.formLength = fullLength;
 				ret.formURL = htmlURL;
 				ret.tradingSymbol = index;
+				ret.reportDate = FORMATTER.parseDateTime(reportDate.text()).withZoneRetainFields(DateTimeZone.UTC);
 
 				return ret;
 			}
@@ -149,25 +148,30 @@ public class Edgar10KDownloader extends DataDownloader<Edgar10KData> {
 		
 	}
 	
-	private class FaragoFootnoteSearcher implements FootnoteSearcher {
+	private class DNRFootnoteSearcher implements FootnoteSearcher {
 
 		@Override
 		public StringBuilder searchFootNotes(Document formDocument, String tag) {
-			Elements footnoteSups = formDocument
-					.getElementsMatchingOwnText("\\(\\S{1,2}\\)");
+			Elements noteHeaders = formDocument
+					.getElementsMatchingOwnText("Notes to Unaudited Condensed Consolidated Financial Statements");
 			StringBuilder builder = new StringBuilder();
-			for (Element footnoteSup : footnoteSups) {
+			
+			for (Element footnoteSup : noteHeaders) {
 				try {
-					if (footnoteSup.tagName().equals(tag)
-							&& footnoteSup.text().length() <= 4) {
+					if (footnoteSup.tagName().equals("font") && 
+						footnoteSup.text().length() == 62) {
 						
-						Element supposedToBeATd = footnoteSup.parent().nextElementSibling();
-						if (supposedToBeATd.tagName().equals("td")) {
-							String footnoteText = supposedToBeATd.select("p").text();
-							if (footnoteText.length() > 10) {
-								LOGGER.info(footnoteText);
-								builder.append(footnoteText);
-							}						
+						Element mainParentDiv = footnoteSup.parent().parent();
+						Element next = mainParentDiv.nextElementSibling();
+						while(next != null) {
+							if (next.tagName().equals("hr")) {
+								break;
+							}
+							String siblingContent = next.text();
+							builder.append(siblingContent);
+							LOGGER.info(siblingContent);
+							
+							next = next.nextElementSibling();
 						}
 					}
 				} catch (Exception e) {
@@ -176,16 +180,5 @@ public class Edgar10KDownloader extends DataDownloader<Edgar10KData> {
 			}
 			return builder;
 		}
-		
-	}
-	
-	private class CzachiFootnoteSearcher implements FootnoteSearcher {
-
-		@Override
-		public StringBuilder searchFootNotes(Document formDocument, String tag) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
 	}
 }

@@ -2,17 +2,18 @@ package hu.farago.data.stooq;
 
 import hu.farago.data.api.ForexDataDownloader;
 import hu.farago.data.api.dto.ForexData;
+import hu.farago.data.utils.DateTimeUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,8 @@ public class StooqDataDownloader implements ForexDataDownloader {
 	}
 
 	@Override
-	public ForexData getDataForSymbolBetweenDates(String symbol, Date from,
-			Date to) {
+	public ForexData getDataForSymbolBetweenDates(String symbol, DateTime from,
+			DateTime to) {
 		ForexData forexData = new ForexData(symbol);
 
 		try {
@@ -64,25 +65,19 @@ public class StooqDataDownloader implements ForexDataDownloader {
 		return forexData;
 	}
 
-	private String buildUrl(String symbol, Date from, Date to) {
+	private String buildUrl(String symbol, DateTime from, DateTime to) {
 		StringBuilder urlBuilder = new StringBuilder(URL_PREFIX);
 		urlBuilder.append(StringUtils.lowerCase(symbol));
 		if (from != null && to != null) {
 			// query within a range
 			urlBuilder.append(URL_RANGE_DATE_FROM);
-			urlBuilder.append(stooqDateFormat.format(from));
+			urlBuilder.append(DateTimeUtils.formatToYYYYMMDDWithoutDashes(from));
 			urlBuilder.append(URL_RANGE_DATE_TO);
-			urlBuilder.append(stooqDateFormat.format(to));
+			urlBuilder.append(DateTimeUtils.formatToYYYYMMDDWithoutDashes(to));
 		}
 		urlBuilder.append(URL_POSTFIX);
 		String url = urlBuilder.toString();
 		return url;
-	}
-
-	protected Date getNewDate(int year, int month, int day) {
-		Calendar date = Calendar.getInstance();
-		date.set(year, month, day);
-		return date.getTime();
 	}
 
 }

@@ -1,12 +1,11 @@
 package hu.farago.data.stooq;
 
 import hu.farago.data.api.dto.HistoricalForexData;
+import hu.farago.data.utils.DateTimeUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -18,8 +17,6 @@ import com.google.common.collect.Lists;
 @Component
 public class CsvFileToHistoricalDataConverter {
 	
-	private static final SimpleDateFormat csvDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
 	public List<HistoricalForexData> convert(File file) throws IOException, ParseException {
 		List<HistoricalForexData> retList = Lists.newArrayList();
 		
@@ -29,7 +26,7 @@ public class CsvFileToHistoricalDataConverter {
 			String[] tokens = StringUtils.split(lines.get(i), ',');
 			
 			HistoricalForexData data = new HistoricalForexData();
-			data.setDate(getDateFromString(tokens[0]));
+			data.setDate(DateTimeUtils.parseToYYYYMMDD_UTC(tokens[0]));
 			data.setOpen(Double.valueOf(tokens[1]));
 			data.setHigh(Double.valueOf(tokens[2]));
 			data.setLow(Double.valueOf(tokens[3]));
@@ -39,10 +36,6 @@ public class CsvFileToHistoricalDataConverter {
 		}
 		
 		return retList;
-	}
-	
-	public Date getDateFromString(String dateStr) throws ParseException {
-		return csvDateFormat.parse(dateStr);
 	}
 	
 }

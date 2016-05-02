@@ -26,7 +26,7 @@ public abstract class AbstractDataDownloaderTest extends AbstractRootTest {
 
 	@Test
 	public void getDataForSymbolBetweenDatesTest() {
-		ForexData data = dataDownloader.getDataForSymbolBetweenDates(pair, getNewDate(2010, 0, 1), getNewDate(2010, 1, 1));
+		ForexData data = dataDownloader.getDataForSymbolBetweenDates(pair, getNewDate(2010, 1, 1), getNewDate(2010, 2, 1));
 		assertNotNull(data);
 		assertEquals(pair, data.getSymbol());
 		assertNotNull(data.getHistoricalForexDataList());

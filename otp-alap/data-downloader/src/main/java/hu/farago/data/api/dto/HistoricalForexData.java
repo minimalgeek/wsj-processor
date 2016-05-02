@@ -1,12 +1,11 @@
 package hu.farago.data.api.dto;
 
-import java.util.Date;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.joda.time.DateTime;
 
 public class HistoricalForexData {
 
-	private Date date;
+	private DateTime date;
 	private Double open;
 	private Double high;
 	private Double low;
@@ -16,7 +15,7 @@ public class HistoricalForexData {
 		super();
 	}
 
-	public HistoricalForexData(Date date, Double open, Double high, Double low,
+	public HistoricalForexData(DateTime date, Double open, Double high, Double low,
 			Double close) {
 		super();
 		this.date = date;
@@ -26,11 +25,11 @@ public class HistoricalForexData {
 		this.close = close;
 	}
 
-	public Date getDate() {
+	public DateTime getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(DateTime date) {
 		this.date = date;
 	}
 
