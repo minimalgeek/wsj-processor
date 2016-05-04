@@ -22,6 +22,7 @@ public class AppConfig {
 	@Profile(APPLICATION)
 	@Configuration
 	@PropertySource("classpath:application.properties")
+	@PropertySource("file:///C:/DEV/servers/external_configs/data-downloader-application.properties")
 	public static class ApplicationProperties {
 	}
 

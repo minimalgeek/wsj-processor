@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
@@ -17,9 +19,13 @@ import com.google.common.collect.Lists;
 @Component
 public class CsvFileToHistoricalDataConverter {
 	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CsvFileToHistoricalDataConverter.class);
+	
 	public List<HistoricalForexData> convert(File file) throws IOException, ParseException {
 		List<HistoricalForexData> retList = Lists.newArrayList();
 		
+		LOGGER.info("Read lines from file: " + file.toPath());
 		List<String> lines = FileUtils.readLines(file, "UTF-8");
 		for (int i = 1; i < lines.size(); i++) {
 			// Date,Open,High,Low,Close
@@ -35,6 +41,7 @@ public class CsvFileToHistoricalDataConverter {
 			retList.add(data);
 		}
 		
+		LOGGER.info("Number of historical forex data: " + retList.size());
 		return retList;
 	}
 	

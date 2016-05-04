@@ -2,6 +2,7 @@ package hu.farago.data.model.entity.mongo;
 
 import java.math.BigInteger;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -38,6 +39,13 @@ public class Forex {
 	public Forex() {
 	}
 
-	
+	@Override
+	public String toString() {
+		ToStringBuilder builder = new ToStringBuilder(this);
+		builder.append(symbol);
+		builder.append(tickDate);
+		builder.append(close);
+		return builder.build();
+	}
 	
 }

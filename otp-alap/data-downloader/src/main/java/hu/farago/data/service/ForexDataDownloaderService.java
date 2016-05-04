@@ -100,7 +100,7 @@ public class ForexDataDownloaderService {
 	public void downloadTickDataScheduled() {
 		if (shouldRun) {
 			for (String pair : currencyPairs) {
-				LOGGER.info("get tick data for " + pair);
+				LOGGER.info("Get tick data for " + pair);
 				ForexData data = yahooCurrencPairDownloader
 						.getTickDataForSymbol(pair);
 				saveForexDataFromList(data);
@@ -127,9 +127,11 @@ public class ForexDataDownloaderService {
 			forex.high = histData.getHigh();
 			forex.low = histData.getLow();
 			forex.close = histData.getClose();
-
+			
 			forexRepository.save(forex);
 		}
+		
+		LOGGER.info(allData.getSymbol() + " saved, with " + allData.getHistoricalForexDataList().size() + " rows");
 	}
 
 }

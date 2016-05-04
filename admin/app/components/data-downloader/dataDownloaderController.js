@@ -14,6 +14,7 @@ adminApp.
 
             insiderTradingSymbol: "",
             insiderResponse: "",
+            ipoActivity: "",
 
             refreshAllReportDates: function () {
                 $scope.data.showLoadingBar = true;
@@ -70,7 +71,17 @@ adminApp.
                     $scope.data.downloadedShortInterestData = data;
                     $scope.data.showLoadingBar = false;
                 });
+            },
+
+            // IPO
+            downloadAllIPOActivity: function () {
+                $scope.data.showLoadingBar = true;
+                dataDownloaderService.downloadAllIPOActivity(function(data) {
+                    $scope.data.ipoActivity = data;
+                    $scope.data.showLoadingBar = false;
+                });
             }
+
         }
     })
 ;

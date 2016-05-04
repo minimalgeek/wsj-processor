@@ -53,6 +53,7 @@ public class StooqDataDownloader implements ForexDataDownloader {
 
 		try {
 			URL urlToQuery = new URL(buildUrl(symbol, from, to));
+			LOGGER.info("Get data from: " + urlToQuery.toString());
 			File tempFile = File.createTempFile(
 					"symbol-" + stooqDateFormat.format(new Date()), ".tmp");
 			FileUtils.copyURLToFile(urlToQuery, tempFile);

@@ -56,4 +56,12 @@ adminApp.service("dataDownloaderService", function($http) {
             }
         );
     };
+    this.downloadAllIPOActivity = function(func) {
+        $http.get(this.baseURL + "downloadAllIPOActivity")
+            .success(
+            function(response) {
+                func(response);
+            }
+        );
+    };
 });
