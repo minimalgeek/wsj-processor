@@ -27,7 +27,9 @@ public class IPODownloader {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(IPODownloader.class);
 	private static final DecimalFormat dollarFormat = new DecimalFormat(
-			"$###,###.##", DecimalFormatSymbols.getInstance(Locale.US));
+			"$###,###,###,###.##", DecimalFormatSymbols.getInstance(Locale.US));
+	private static final DecimalFormat sharesFormat = new DecimalFormat(
+			"###,###,###,###", DecimalFormatSymbols.getInstance(Locale.US));
 
 	@Value("${nasdaq.ipo.urlBase}")
 	private String nasdaqIpoUrlBase;
@@ -96,9 +98,13 @@ public class IPODownloader {
 	private void createAndAddActivityToList(List<IPOActivity> ret, Elements tds) {
 		try {
 			IPOActivity activity = new IPOActivity();
+			activity.name = tds.get(0).text();
 			activity.tradingSymbol = tds.get(1).text();
 			activity.market = tds.get(2).text();
 			activity.price = dollarFormat.parse(tds.get(3).text())
+					.doubleValue();
+			activity.shares = sharesFormat.parse(tds.get(4).text()).doubleValue();
+			activity.offerAmount = dollarFormat.parse(tds.get(5).text())
 					.doubleValue();
 			activity.datePriced = DateTimeUtils.parseToMMDDYYYY_UTC(tds.get(6).text());
 			
