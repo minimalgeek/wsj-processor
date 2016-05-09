@@ -1,7 +1,6 @@
 package hu.farago.data.nasdaq;
 
 import hu.farago.data.model.dao.mongo.ShortInterestRepository;
-import hu.farago.data.model.entity.mongo.Forex;
 import hu.farago.data.model.entity.mongo.ShortInterest;
 import hu.farago.data.utils.DateTimeUtils;
 

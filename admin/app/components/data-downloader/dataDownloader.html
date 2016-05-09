@@ -114,6 +114,13 @@
     </div>
 
     <div class="functionBox">
+        <button class="myButton" ng-click="data.downloadHistoricalShortInterest()">Collect historical short interest data</button>
+
+        <p>The data will be imported from all the CSV files located in 'z:\Quant_CO2\IMPORT\SHORT_INTEREST\'</p>
+        <p>The algorithm is recursive, so the multilevel folder structure is supported</p>
+    </div>
+
+    <div class="functionBox">
         <button class="myButton" ng-click="data.downloadAllIPOActivity()">Collect http://nasdaq.com/ IPO activity</button>
 
         <h2>Result: </h2>

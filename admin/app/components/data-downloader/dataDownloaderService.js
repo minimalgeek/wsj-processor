@@ -64,4 +64,12 @@ adminApp.service("dataDownloaderService", function($http) {
             }
         );
     };
+    this.downloadHistoricalShortInterest = function(func) {
+        $http.get(this.baseURL + "downloadHistoricalShortInterest")
+            .success(
+            function() {
+                func();
+            }
+        );
+    };
 });

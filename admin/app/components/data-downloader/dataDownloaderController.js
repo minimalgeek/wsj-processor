@@ -73,6 +73,13 @@ adminApp.
                 });
             },
 
+            downloadHistoricalShortInterest: function() {
+                $scope.data.showLoadingBar = true;
+                dataDownloaderService.downloadHistoricalShortInterest(function() {
+                    $scope.data.showLoadingBar = false;
+                });
+            },
+
             // IPO
             downloadAllIPOActivity: function () {
                 $scope.data.showLoadingBar = true;

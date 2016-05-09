@@ -21,21 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="dataDownloader.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dataDownloader.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloader.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-78.46154">
-              <caret line="120" column="30" selection-start-line="120" selection-start-column="19" selection-end-line="120" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dataDownloaderService.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloaderService.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7465596">
-              <caret line="59" column="17" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.31678486">
+              <caret line="103" column="16" selection-start-line="103" selection-start-column="16" selection-end-line="103" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -45,7 +35,17 @@
         <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloaderController.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="78" column="47" selection-start-line="78" selection-start-column="47" selection-end-line="78" selection-end-column="47" />
+              <caret line="75" column="43" selection-start-line="75" selection-start-column="12" selection-end-line="75" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dataDownloaderService.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloaderService.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="58" column="50" selection-start-line="58" selection-start-column="50" selection-end-line="58" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -86,8 +86,8 @@
         <option value="$PROJECT_DIR$/app/components/automatic-services/servicesController.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/app/components/automatic-services/services.html" />
-        <option value="$PROJECT_DIR$/app/components/data-downloader/dataDownloaderService.js" />
         <option value="$PROJECT_DIR$/app/components/data-downloader/dataDownloaderController.js" />
+        <option value="$PROJECT_DIR$/app/components/data-downloader/dataDownloaderService.js" />
         <option value="$PROJECT_DIR$/app/components/data-downloader/dataDownloader.html" />
       </list>
     </option>
@@ -458,6 +458,30 @@
     <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloader.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+          <caret line="120" column="30" selection-start-line="120" selection-start-column="19" selection-end-line="120" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloaderService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloaderController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="78" column="47" selection-start-line="78" selection-start-column="47" selection-end-line="78" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloader.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
           <caret line="99" column="73" selection-start-line="99" selection-start-column="48" selection-end-line="99" selection-end-column="73" />
           <folding />
         </state>
@@ -731,13 +755,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/css/base.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5711009">
-          <caret line="128" column="22" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/admin.module.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -787,10 +804,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloader.html">
+    <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloaderService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-78.46154">
-          <caret line="120" column="30" selection-start-line="120" selection-start-column="19" selection-end-line="120" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="58" column="50" selection-start-line="58" selection-start-column="50" selection-end-line="58" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/base.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="144" column="1" selection-start-line="144" selection-start-column="1" selection-end-line="144" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -798,15 +823,15 @@
     <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloaderController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="47" selection-start-line="78" selection-start-column="47" selection-end-line="78" selection-end-column="47" />
+          <caret line="75" column="43" selection-start-line="75" selection-start-column="12" selection-end-line="75" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloaderService.js">
+    <entry file="file://$PROJECT_DIR$/app/components/data-downloader/dataDownloader.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7465596">
-          <caret line="59" column="17" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.31678486">
+          <caret line="103" column="16" selection-start-line="103" selection-start-column="16" selection-end-line="103" selection-end-column="16" />
           <folding />
         </state>
       </provider>
