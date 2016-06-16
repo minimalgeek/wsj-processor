@@ -64,6 +64,14 @@ adminApp.service("dataDownloaderService", function($http) {
             }
         );
     };
+    this.downloadOilReports = function(func) {
+        $http.get(this.baseURL + "downloadOilReports")
+            .success(
+            function(response) {
+                func(response);
+            }
+        );
+    };
     this.downloadHistoricalShortInterest = function(func) {
         $http.get(this.baseURL + "downloadHistoricalShortInterest")
             .success(

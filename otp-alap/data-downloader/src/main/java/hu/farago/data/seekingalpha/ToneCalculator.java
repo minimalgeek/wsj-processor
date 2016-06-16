@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -90,7 +91,7 @@ public class ToneCalculator {
 		Tone tone = new Tone();
 		
 		for (String word : words) {
-			if (harvardMap.containsKey(word)) {
+			if (harvardMap.containsKey(StringUtils.lowerCase(word))) {
 				HarvardWords harvardWord = harvardMap.get(word);
 				
 				tone.activeCount += (harvardWord.isActive() ? 1 : 0);
@@ -114,7 +115,7 @@ public class ToneCalculator {
 		HTone tone = new HTone();
 		
 		for (String word : words) {
-			if (henryMap.containsKey(word)) {
+			if (henryMap.containsKey(StringUtils.lowerCase(word))) {
 				HenryWords henryWord = henryMap.get(word);
 				
 				tone.negativeCount += (henryWord.isNegative() ? 1 : 0);

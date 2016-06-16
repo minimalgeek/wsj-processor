@@ -4,6 +4,7 @@ import hu.farago.data.api.DataDownloader;
 import hu.farago.data.model.entity.mongo.InsiderDataGroup;
 import hu.farago.data.model.entity.mongo.InsiderDataGroup.OwnerRelationShip;
 import hu.farago.data.model.entity.mongo.embedded.FormData;
+import hu.farago.data.utils.DateTimeUtils;
 import hu.farago.data.utils.URLUtils;
 
 import java.text.ParseException;
@@ -15,7 +16,6 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -189,7 +189,7 @@ public class InsiderGroupDownloader extends DataDownloader<InsiderDataGroup> {
 
 	private DateTime parseDate(Elements tds, int idx) {
 		try {
-			return new DateTime(dfDate.parse(tds.get(idx).text())).withZoneRetainFields(DateTimeZone.UTC);
+			return DateTimeUtils.parseToYYYYMMDD_UTC(tds.get(idx).text());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return null;

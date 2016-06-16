@@ -6,11 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -25,25 +22,7 @@ import com.google.common.collect.Maps;
 
 public abstract class DataDownloader<T> {
 
-	protected static final SimpleDateFormat dfDate = new SimpleDateFormat(
-			"yyyy-MM-dd");
-	protected static final SimpleDateFormat dfTime = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss");
-	protected static DecimalFormat simpleNumberFormat;
-	protected static DecimalFormat dollarNumberFormat;
-	
 	protected static final int PAGE_SIZE = 3;
-	
-	{
-		NumberFormat nfSimple = NumberFormat.getNumberInstance(Locale.US);
-		simpleNumberFormat = (DecimalFormat) nfSimple;
-		simpleNumberFormat.applyPattern("###,###,###,###,###,###");
-
-		NumberFormat nfDollar = NumberFormat.getNumberInstance(Locale.US);
-		dollarNumberFormat = (DecimalFormat) nfDollar;
-		dollarNumberFormat.applyPattern("$###,###,###,###,###,##0.####");
-	}
-	
 	protected List<String> indexes;
 
 	protected abstract Logger getLogger();

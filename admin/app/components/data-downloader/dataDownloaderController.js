@@ -15,6 +15,7 @@ adminApp.
             insiderTradingSymbol: "",
             insiderResponse: "",
             ipoActivity: "",
+            oilReportsResponse: "",
 
             refreshAllReportDates: function () {
                 $scope.data.showLoadingBar = true;
@@ -87,8 +88,16 @@ adminApp.
                     $scope.data.ipoActivity = data;
                     $scope.data.showLoadingBar = false;
                 });
-            }
+            },
 
+            // OIL REPORTS
+            downloadOilReports: function () {
+                $scope.data.showLoadingBar = true;
+                dataDownloaderService.downloadOilReports(function(data) {
+                    $scope.data.oilReportsResponse = data;
+                    $scope.data.showLoadingBar = false;
+                });
+            }
         }
     })
 ;

@@ -4,6 +4,7 @@ import hu.farago.data.api.DataDownloader;
 import hu.farago.data.model.entity.mongo.InsiderData;
 import hu.farago.data.model.entity.mongo.InsiderData.BuySell;
 import hu.farago.data.model.entity.mongo.InsiderData.OwnerRelationShip;
+import hu.farago.data.utils.DateTimeUtils;
 
 import java.text.ParseException;
 import java.util.List;
@@ -11,7 +12,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -92,16 +92,16 @@ public class InsiderDownloader extends DataDownloader<InsiderData> {
 		InsiderData data = new InsiderData();
 
 		data.type = BuySell.createByName(StringUtils.strip(tds.get(0).text()));
-		data.transactionDate = new DateTime(dfDate.parse(tds.get(1).text()));
-		data.acceptanceDate = new DateTime(dfTime.parse(tds.get(2).text()));
+		data.transactionDate = DateTimeUtils.parseToYYYYMMDD_UTC(tds.get(1).text());
+		data.acceptanceDate = DateTimeUtils.parseToYYYYMMDD_UTC(tds.get(2).text());
 		data.issuerName = tds.get(3).text();
 		data.issuerTradingSymbol = index;
 		data.reportingOwnerName = tds.get(5).text();
 		data.ownerRelationShip = OwnerRelationShip.createByName(StringUtils.strip(tds.get(6).text()));
-		data.transactionShares = tryToParseDouble(simpleNumberFormat, tds.get(7).text());
-		data.pricePerShare = tryToParseDouble(dollarNumberFormat, tds.get(8).text());
-		data.totalValue = tryToParseDouble(dollarNumberFormat, tds.get(9).text());
-		data.sharesOwned = tryToParseDouble(simpleNumberFormat, tds.get(10).text());
+		data.transactionShares = tryToParseDouble(DateTimeUtils.simpleNumberFormat, tds.get(7).text());
+		data.pricePerShare = tryToParseDouble(DateTimeUtils.dollarNumberFormat, tds.get(8).text());
+		data.totalValue = tryToParseDouble(DateTimeUtils.dollarNumberFormat, tds.get(9).text());
+		data.sharesOwned = tryToParseDouble(DateTimeUtils.simpleNumberFormat, tds.get(10).text());
 		
 		return data;
 	}

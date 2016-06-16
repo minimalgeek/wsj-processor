@@ -3,6 +3,7 @@ package hu.farago.data.seekingalpha;
 import hu.farago.data.api.DataDownloader;
 import hu.farago.data.api.WordProcessor;
 import hu.farago.data.model.entity.mongo.EarningsCall;
+import hu.farago.data.utils.DateTimeUtils;
 import hu.farago.data.utils.URLUtils;
 
 import java.util.List;
@@ -11,7 +12,6 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -206,7 +206,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	
 	private DateTime parseDate(Element dateTime) {
 		try {
-			return new DateTime(dfDate.parse(dateTime.attr("content"))).withZoneRetainFields(DateTimeZone.UTC);
+			return DateTimeUtils.parseToYYYYMMDD_UTC(dateTime.attr("content"));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return null;
