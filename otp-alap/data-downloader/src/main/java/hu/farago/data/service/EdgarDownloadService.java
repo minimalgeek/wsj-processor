@@ -66,8 +66,6 @@ public class EdgarDownloadService {
 	public String collectGroupContentFor(@PathVariable("id") String index) {
 		LOGGER.info("collectGroupContentFor");
 		
-		StringBuilder ret = new StringBuilder();
-
 		try {
 			edgarDownloader.clean();
 			List<EdgarData> list = edgarDownloader.collectAllDataForIndex(index);
@@ -77,14 +75,10 @@ public class EdgarDownloadService {
 			edgarRepository.save(list);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			ret.append(e.getMessage());
+			return e.getMessage();
 		}
 		
-		if (ret.length() == 0) {
-			ret.append("success");
-		}
-		
-		return ret.toString();
+		return "success";
 	}
 
 

@@ -93,8 +93,7 @@ adminApp.
             // OIL REPORTS
             downloadOilReports: function () {
                 $scope.data.showLoadingBar = true;
-                dataDownloaderService.downloadOilReports(function(data) {
-                    $scope.data.oilReportsResponse = data;
+                dataDownloaderService.downloadOilReports(function() {
                     $scope.data.showLoadingBar = false;
                 });
             }

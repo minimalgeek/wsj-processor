@@ -16,7 +16,12 @@ public class OilReportDownloaderTest extends AbstractRootTest {
 	
 	@Test
 	public void downloadAllForYearTest() throws Exception {
-		List<OilReport> ret = downloader.downloadAllForYear(2015);
+		List<OilReport> ret = downloader.downloadAllForYear(2010);
+//		ret = downloader.downloadAllForYear(2011);
+//		ret = downloader.downloadAllForYear(2012);
+//		ret = downloader.downloadAllForYear(2013);
+//		ret = downloader.downloadAllForYear(2014);
+//		ret = downloader.downloadAllForYear(2015);
 		Assert.assertEquals(12, ret.size());
 	}
 

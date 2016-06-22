@@ -202,6 +202,12 @@
 				<classifier>models</classifier>
 			</dependency>
 
+			<dependency>
+				<groupId>edu.ucla.sspace</groupId>
+				<artifactId>sspace</artifactId>
+				<version>${sspace.version}</version>
+			</dependency>
+
 			<!-- Apache, others -->
 
 			<dependency>
@@ -295,6 +301,7 @@
 		<spring-data-mongodb.version>1.7.2.RELEASE</spring-data-mongodb.version>
 		<cglib.version>3.1</cglib.version>
 		<stanford-corenlp.version>3.5.0</stanford-corenlp.version>
+		<sspace.version>2.0</sspace.version>
 		<commons-io.version>2.4</commons-io.version>
 		<commons-collections.version>3.0</commons-collections.version>
 		<guava.version>18.0</guava.version>

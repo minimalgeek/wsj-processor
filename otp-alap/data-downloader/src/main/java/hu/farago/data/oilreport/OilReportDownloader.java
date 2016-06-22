@@ -10,11 +10,13 @@ import hu.farago.data.utils.URLUtils;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.exception.TikaException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,8 @@ public class OilReportDownloader {
 	
 	@Autowired
 	private WordProcessor simpleWordProcessor;
+	
+	private StringBuilder articleTextBuilder;
 	
 	public List<OilReport> downloadAllForYear(int year) throws IOException, SAXException, TikaException {
 		
@@ -68,26 +72,26 @@ public class OilReportDownloader {
 
 	private OilReport buildReportFromDocument(int year, String month,
 			String url, Document document) {
-		Element Highlights = document.getElementById("Highlights");
-		Element Overview = document.getElementById("Overview");
-		Element Demand = document.getElementById("Demand");
-		Element Supply = document.getElementById("Supply");
-		Element OECDStocks = document.getElementById("OECD Stocks");
-		Element Prices = document.getElementById("Prices");
-		Element Refining = document.getElementById("Refining");
 
-		OilReport report = new OilReport();
+		articleTextBuilder = new StringBuilder();
 		
+		OilReport report = new OilReport();
 		report.url = url;
 		report.publicationDate = DateTimeUtils.parseToYYYYMM_UTC(year + "-" + month);
 		
-		report.highlightsTone = buildTone(Highlights);
-		report.overviewTone = buildTone(Overview);
-		report.demandTone = buildTone(Demand);
-		report.supplyTone = buildTone(Supply);
-		report.oecdStocksTone = buildTone(OECDStocks);
-		report.pricesTone = buildTone(Prices);
-		report.refiningTone = buildTone(Refining);
+		report.highlightsTone = buildTone("Highlights", document);
+		report.overviewTone = buildTone("Overview", document);
+		report.demandTone = buildTone("Demand", document);
+		report.supplyTone = buildTone("Supply", document);
+		report.oecdStocksTone = buildTone("OECD Stocks", document);
+		report.pricesTone = buildTone("Prices", document);
+		report.refiningTone = buildTone("Refining", document);
+
+//		try {
+//			FileUtils.writeStringToFile(FileUtils.getFile("C:/DEV/temp/files/", year + "-" + month + ".txt"), articleTextBuilder.toString(), "UTF-8");
+//		} catch (IOException e) {
+//			LOGGER.error(e.getMessage());
+//		}
 		
 		report.sumTotalTone = new HTone();
 		report.sumTotalTone.positiveCount = 
@@ -110,9 +114,19 @@ public class OilReportDownloader {
 		return report;
 	}
 
-	private HTone buildTone(Element Demand) {
-		if (Demand != null)
-			return calculator.getHToneOf(simpleWordProcessor.parseArticlePlainTextAndBuildMapOfWords(Demand.text()));
+	private HTone buildTone(String articlePartHeader, Document document) {
+		Element articlePart = document.getElementById(articlePartHeader);
+		
+		if (articlePart != null) {
+			Elements sumElements = articlePart.getElementsByTag("p");
+			sumElements.addAll(articlePart.getElementsByTag("li"));
+			
+			for (Element element : sumElements) {
+				String text = element.text();
+				articleTextBuilder.append(text);
+			}
+			return calculator.getHToneOf(simpleWordProcessor.parseArticlePlainTextAndBuildMapOfWords(articleTextBuilder.toString()));
+		}
 		return new HTone();
 	}
 	
