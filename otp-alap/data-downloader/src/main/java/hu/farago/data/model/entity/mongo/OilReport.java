@@ -5,21 +5,17 @@ import hu.farago.data.seekingalpha.dto.HTone;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "oil_report")
-public class OilReport implements Serializable {
+public class OilReport  extends UrlBasedEntity implements Serializable {
 
 	private static final long serialVersionUID = -1567361534615025091L;
 
 	@Id
 	public BigInteger id;
-	
-	public String url;
-	public DateTime publicationDate;
 	
 	@Field("highlights_tone")
 	public HTone highlightsTone;

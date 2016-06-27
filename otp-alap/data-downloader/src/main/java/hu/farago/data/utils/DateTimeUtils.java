@@ -16,6 +16,7 @@ public class DateTimeUtils {
 	private static final DateTimeFormatter FORMATTER3 = DateTimeFormat.forPattern("MM/dd/yyyy");
 	private static final DateTimeFormatter FORMATTER4 = DateTimeFormat.forPattern("yyyy-MM");
 	private static final DateTimeFormatter FORMATTER_TIME = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+	private static final DateTimeFormatter FORMATTER_TIME_T = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ");
 
 	public static DecimalFormat simpleNumberFormat;
 	public static DecimalFormat dollarNumberFormat;
@@ -36,6 +37,10 @@ public class DateTimeUtils {
 	
 	public static DateTime parseToYYYYMMDD_HHmmss_UTC(String dateTime) {
 		return FORMATTER_TIME.parseDateTime(dateTime).withZoneRetainFields(DateTimeZone.UTC);
+	}
+	
+	public static DateTime parseToYYYYMMDD_HHmmss_ZONE(String dateTime) {
+		return FORMATTER_TIME_T.parseDateTime(dateTime);
 	}
 	
 	public static String formatToYYYYMMDDWithoutDashes(DateTime dt) {

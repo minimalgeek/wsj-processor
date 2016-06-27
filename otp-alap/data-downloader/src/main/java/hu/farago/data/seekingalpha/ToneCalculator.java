@@ -4,6 +4,7 @@ import hu.farago.data.model.dao.mongo.HarvardWordsRepository;
 import hu.farago.data.model.dao.mongo.HenryWordsRepository;
 import hu.farago.data.model.entity.mongo.HarvardWords;
 import hu.farago.data.model.entity.mongo.HenryWords;
+import hu.farago.data.model.entity.mongo.embedded.ToneWithWords;
 import hu.farago.data.seekingalpha.dto.HTone;
 import hu.farago.data.seekingalpha.dto.Tone;
 
@@ -120,6 +121,23 @@ public class ToneCalculator {
 				
 				tone.negativeCount += (henryWord.isNegative() ? 1 : 0);
 				tone.positiveCount += (henryWord.isPositive() ? 1 : 0);
+			}
+		}
+		
+		return tone;
+	}
+	
+	public ToneWithWords getToneWithWords(List<String> words) {
+		ToneWithWords tone = new ToneWithWords();
+		
+		tone.words = words.size();
+		
+		for (String word : words) {
+			if (henryMap.containsKey(StringUtils.lowerCase(word))) {
+				HenryWords henryWord = henryMap.get(word);
+				
+				tone.negativeWords += (henryWord.isNegative() ? 1 : 0);
+				tone.positiveWords += (henryWord.isPositive() ? 1 : 0);
 			}
 		}
 		
