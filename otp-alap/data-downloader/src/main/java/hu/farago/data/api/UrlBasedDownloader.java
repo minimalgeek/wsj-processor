@@ -15,7 +15,7 @@ import com.google.common.collect.Lists;
 
 public abstract class UrlBasedDownloader<T extends UrlBasedEntity> {
 	
-	private static final int PAGE_SIZE = 100;
+	private static final int PAGE_SIZE = 50;
 	
 	protected abstract Logger getLogger();
 	protected abstract List<String> buildUrls() throws Exception;

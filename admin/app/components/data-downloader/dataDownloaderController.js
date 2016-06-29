@@ -96,6 +96,14 @@ adminApp.
                 dataDownloaderService.downloadOilReports(function() {
                     $scope.data.showLoadingBar = false;
                 });
+            },
+
+            // MACRO MAN
+            downloadMacroMans: function () {
+                $scope.data.showLoadingBar = true;
+                dataDownloaderService.downloadMacroMans(function() {
+                    $scope.data.showLoadingBar = false;
+                });
             }
         }
     })

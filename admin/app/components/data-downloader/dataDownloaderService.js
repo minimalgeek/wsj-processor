@@ -80,4 +80,12 @@ adminApp.service("dataDownloaderService", function($http) {
             }
         );
     };
+    this.downloadMacroMans = function(func) {
+        $http.get(this.baseURL + "downloadMacroMans")
+            .success(
+            function() {
+                func();
+            }
+        );
+    };
 });

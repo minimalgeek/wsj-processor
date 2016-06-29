@@ -24,10 +24,7 @@ public class OilReportService {
 	@RequestMapping(value = "/downloadOilReports", method = RequestMethod.GET)
 	public void downloadOilReports() {
 		try {
-			repositroy.deleteAll();
-			for (int year = 2007; year <= 2016; year++) {
-				repositroy.save(downloader.downloadAllForYear(year));
-			}
+			downloader.downloadAndSaveAll();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}
