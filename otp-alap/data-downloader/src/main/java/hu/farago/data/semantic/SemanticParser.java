@@ -2,9 +2,7 @@ package hu.farago.data.semantic;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
@@ -43,13 +41,13 @@ public class SemanticParser {
 			throws Exception {
 		
 		List<BufferedReader> bufferedReaders = Lists.newArrayList();
-		convertFilesToStemmedBufferedReaders(documents, bufferedReaders);
+		convertFilesToBufferedReaders(documents, bufferedReaders);
 		
 		if (dimensions <= 0) {
 			dimensions = documents.size()-1;
 		}
 		LatentSemanticAnalysis lsa = new LatentSemanticAnalysis(
-				false, 
+				true, 
 				dimensions, 
 				new LogEntropyTransform(),
 	            SVD.getFastestAvailableFactorization(), 
@@ -61,7 +59,7 @@ public class SemanticParser {
 		}
 		 
 		lsa.processSpace(System.getProperties());
-		//SemanticSpaceIO.save(lsa, sspaceFile);
+		SemanticSpaceIO.save(lsa, sspaceFile);
 		
 		return lsa;
 	}
@@ -83,21 +81,21 @@ public class SemanticParser {
 	    return sum/words.size();
 	}
 
-	private void convertFilesToStemmedBufferedReaders(List<File> documents,
+	private void convertFilesToBufferedReaders(List<File> documents,
 			List<BufferedReader> bufferedReaders) throws IOException {
 		for (File file : documents) {
-			StringBuilder builder = new StringBuilder();
+//			StringBuilder builder = new StringBuilder();
+//			
+//			Stemmer s = new EnglishStemmer();
+//			Iterator<String> it = IteratorFactory.tokenize(FileUtils.readFileToString(file, "UTF-8"));
+//		    while (it.hasNext()) {
+//		        String token = StringUtils.removePattern(StringUtils.lowerCase(it.next()), "[^\\w]");
+//		        String stemmedToken = s.stem(token); 
+//		        builder.append(stemmedToken);
+//		        builder.append('\n');
+//		    }
 			
-			Stemmer s = new EnglishStemmer();
-			Iterator<String> it = IteratorFactory.tokenize(FileUtils.readFileToString(file, "UTF-8"));
-		    while (it.hasNext()) {
-		        String token = StringUtils.removePattern(StringUtils.lowerCase(it.next()), "[^\\w]");
-		        String stemmedToken = s.stem(token); 
-		        builder.append(stemmedToken);
-		        builder.append('\n');
-		    }
-			
-			bufferedReaders.add(new BufferedReader(new StringReader(builder.toString())));
+			bufferedReaders.add(new BufferedReader(new StringReader(FileUtils.readFileToString(file, "UTF-8"))));
 		}
 	}
 }

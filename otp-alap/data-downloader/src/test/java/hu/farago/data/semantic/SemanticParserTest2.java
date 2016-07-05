@@ -9,7 +9,6 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,9 @@ import com.google.common.collect.Lists;
 
 import edu.ucla.sspace.common.SemanticSpace;
 
-public class SemanticParserTest extends AbstractRootTest {
+public class SemanticParserTest2 extends AbstractRootTest {
 
-	private static final String DIR_PATH = "semantic_data/";
+	private static final String DIR_PATH = "semantic_data_tech/";
 
 	@Autowired
 	private SemanticParser parser;
@@ -31,6 +30,7 @@ public class SemanticParserTest extends AbstractRootTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		corpus = Lists.newArrayList();
+		
 		URL url = Thread
 				.currentThread()
 				.getContextClassLoader()
@@ -42,19 +42,17 @@ public class SemanticParserTest extends AbstractRootTest {
 						FileFilterUtils.trueFileFilter(), 
 						DirectoryFileFilter.DIRECTORY));
 		
-		
-		// TODO not good test file, because it is in the corpus
 		url = Thread
 				.currentThread()
 				.getContextClassLoader()
-				.getResource(DIR_PATH + "2015-12.txt");
+				.getResource(DIR_PATH + "ibmtest.txt");
 
 		testFile = FileUtils.toFile(url);
 	}
 
 	@Test
 	public void testBuildSemanticSpace() throws Exception {
-		SemanticSpace space = parser.buildSemanticSpace(corpus, 50);
+		SemanticSpace space = parser.buildSemanticSpace(corpus, 20);
 	}
 	
 	@Test
