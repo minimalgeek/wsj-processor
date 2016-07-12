@@ -229,6 +229,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-math3</artifactId>
+				<version>${commons-math3.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>com.rometools</groupId>
 				<artifactId>rome</artifactId>
 				<version>${rome.version}</version>
@@ -313,6 +319,7 @@
 		<pdfbox.version>2.0.0</pdfbox.version>
 		<rome.version>1.6.0</rome.version>
 		<querydsl.version>3.7.2</querydsl.version>
+		<commons-math3.version>3.6.1</commons-math3.version>
 	</properties>
 	<description>Root for all the automatic trading robot projects</description>
 </project>

@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -20,7 +18,6 @@ import edu.ucla.sspace.basis.StringBasisMapping;
 import edu.ucla.sspace.common.DocumentVectorBuilder;
 import edu.ucla.sspace.common.SemanticSpace;
 import edu.ucla.sspace.common.SemanticSpaceIO;
-import edu.ucla.sspace.common.Similarity;
 import edu.ucla.sspace.lsa.LatentSemanticAnalysis;
 import edu.ucla.sspace.matrix.SVD;
 import edu.ucla.sspace.matrix.TfIdfTransform;
@@ -60,9 +57,12 @@ public class SemanticParser {
 		if (parameterObject.dimensions <= 0) {
 			parameterObject.dimensions = parameterObject.documents.size() - 1;
 		}
-		LatentSemanticAnalysis lsa = new LatentSemanticAnalysis(true,
-				parameterObject.dimensions, new TfIdfTransform(),
-				SVD.getFastestAvailableFactorization(), false,
+		LatentSemanticAnalysis lsa = new LatentSemanticAnalysis(
+				true,
+				parameterObject.dimensions, 
+				new TfIdfTransform(),
+				SVD.getFastestAvailableFactorization(), 
+				false,
 				new StringBasisMapping());
 
 		for (BufferedReader document : bufferedReaders) {
