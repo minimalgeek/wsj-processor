@@ -98,6 +98,6 @@ public class SimpleSemanticParserTest extends AbstractRootTest {
 	@Test
 	public void testCluster() throws IOException {
 		SemanticSpace space = parser.buildSemanticSpace(new SemanticSpaceParameter(articleCorpus, 5, 2));
-		parser.cluster(space, 3);
+		parser.cluster(space);
 	}
 }

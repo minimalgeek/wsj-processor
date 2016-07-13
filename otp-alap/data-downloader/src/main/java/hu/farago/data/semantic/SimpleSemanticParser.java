@@ -5,19 +5,25 @@ import hu.farago.data.semantic.calc.TfIdfCalculator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SingularValueDecomposition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import com.apporiented.algorithm.clustering.Cluster;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -30,6 +36,9 @@ public class SimpleSemanticParser {
 			.getLogger(SimpleSemanticParser.class);
 	private static final EnglishStemmerWithPatternRemover stemmer = new EnglishStemmerWithPatternRemover();
 
+	@Autowired
+	private ClusterMaker clusterMaker;
+	
 	public static class SemanticSpaceParameter {
 		public List<File> documents;
 		public int dimensions;
@@ -117,8 +126,24 @@ public class SimpleSemanticParser {
 
 		return docSimilarity;
 	}
+	
+	public Cluster cluster(SemanticSpace space) {
+		List<String> names = space.spaceParameter.documents.stream().map(x -> x.getName()).collect(Collectors.toCollection(ArrayList<String>::new));
+		
+		CosineSimilarity similarity = new CosineSimilarity();
+		RealMatrix docSimilarity = new Array2DRowRealMatrix(
+				space.docSpace.getColumnDimension(), space.docSpace.getColumnDimension());
+		for (int i = 0; i < docSimilarity.getColumnDimension(); i++) {
+			for (int j = 0; j < docSimilarity.getColumnDimension(); j++) {
+				double sim = similarity.computeSimilarity(space.docSpace.getColumnMatrix(i), space.docSpace.getColumnMatrix(j));
+				docSimilarity.setEntry(i, j, 5*sim+5);
+			}
+		}
+		
+		return clusterMaker.cluster(names.toArray(new String[0]), docSimilarity.getData());
+	}
 
-	public HashMap<List<Boolean>, List<Integer>> cluster(SemanticSpace space, int depth) {
+	public HashMap<List<Boolean>, List<Integer>> dumbCluster(SemanticSpace space, int depth) {
 		HashMap<Integer, List<Boolean>> clusterMap = Maps.newHashMap();
 		
 		for (int i = 0; i < depth; i++) {
