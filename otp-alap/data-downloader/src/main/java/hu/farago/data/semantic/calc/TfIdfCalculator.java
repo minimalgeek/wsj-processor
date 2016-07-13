@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 
@@ -17,11 +16,20 @@ public class TfIdfCalculator {
 
 	private List<List<String>> docs;
 	private Set<String> words;
+	private Map<String, Double> idf;
 	private int minOccurance;
 
 	public TfIdfCalculator(List<List<String>> docs, int minOccurance) {
 		this.docs = docs;
 		this.minOccurance = minOccurance;
+		createRelevanWordSet(docs);
+		idf = Maps.newHashMap();
+		for (String word : this.words) {
+			idf.put(word, idf(word));
+		}
+	}
+
+	private void createRelevanWordSet(List<List<String>> docs) {
 		this.words = new HashSet<String>();
 		for (List<String> doc : docs) {
 			words.addAll(doc);
@@ -74,7 +82,7 @@ public class TfIdfCalculator {
 	}
 
 	private double tfIdf(List<String> doc, String term) {
-		return tf(doc, term) * idf(term);
+		return tf(doc, term) * idf.get(term);
 	}
 
 	public RealMatrix calculateTfIdf() {
@@ -97,11 +105,7 @@ public class TfIdfCalculator {
 
 		int column = 0;
 		for (String word : words) {
-			if (newDoc.contains(word) || newDoc.contains(StringUtils.lowerCase(word))) {
-				matrix.setEntry(0, column, tfIdf(newDoc, word));
-			} else {
-				matrix.setEntry(0, column, 0);
-			}
+			matrix.setEntry(0, column, tfIdf(newDoc, word));
 			column++;
 		}
 		return matrix;

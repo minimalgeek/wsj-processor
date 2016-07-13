@@ -7,9 +7,11 @@ import hu.farago.data.model.entity.mongo.MacroMan;
 import hu.farago.data.model.entity.mongo.embedded.Contributor;
 import hu.farago.data.model.entity.mongo.embedded.ToneWithWords;
 import hu.farago.data.seekingalpha.ToneCalculator;
+import hu.farago.data.semantic.EnglishStemmerWithPatternRemover;
 import hu.farago.data.utils.DateTimeUtils;
 import hu.farago.data.utils.URLUtils;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -26,6 +28,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
+
+import edu.ucla.sspace.text.IteratorFactory;
 
 @Component
 public class MacroManDownloader extends UrlBasedDownloader<MacroMan> {
@@ -126,7 +130,27 @@ public class MacroManDownloader extends UrlBasedDownloader<MacroMan> {
 	}
 
 	private ToneWithWords buildTone(String commentText) {
-		return calculator.getToneWithWords(simpleWordProcessor
-				.parseArticlePlainTextAndBuildMapOfWords(commentText));
+		ToneWithWords tww = calculator.getToneWithWords(
+				simpleWordProcessor.parseArticlePlainTextAndBuildMapOfWords(commentText));
+		try {
+			tww.stemmedText = tokenizeAndStemTextFile(commentText);
+		} catch (IOException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return tww;
 	}
+	
+	private static final EnglishStemmerWithPatternRemover stemmer = new EnglishStemmerWithPatternRemover();
+	
+	private List<String> tokenizeAndStemTextFile(String text) throws IOException {
+		List<String> tokens = Lists.newArrayList(IteratorFactory.tokenize(text));
+		List<String> stemmedTokens = Lists.newArrayList();
+		for (String token : tokens) {
+			String tmp = stemmer.stem(token);
+			if (StringUtils.isNotEmpty(tmp)) {
+				stemmedTokens.add(tmp);
+			}
+		}
+		return stemmedTokens;
+	}	
 }

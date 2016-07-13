@@ -94,4 +94,10 @@ public class SimpleSemanticParserTest extends AbstractRootTest {
 		similarity = parser.query(space, badTestFile);
 		LOGGER.info("Bad file similarity:" + similarity.toString());
 	}
+	
+	@Test
+	public void testCluster() throws IOException {
+		SemanticSpace space = parser.buildSemanticSpace(new SemanticSpaceParameter(articleCorpus, 5, 2));
+		parser.cluster(space, 3);
+	}
 }

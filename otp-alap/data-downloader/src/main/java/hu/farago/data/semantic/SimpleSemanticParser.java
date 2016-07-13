@@ -5,7 +5,9 @@ import hu.farago.data.semantic.calc.TfIdfCalculator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import edu.ucla.sspace.text.IteratorFactory;
 
@@ -54,22 +57,22 @@ public class SimpleSemanticParser {
 
 	public SemanticSpace buildSemanticSpace(
 			SemanticSpaceParameter spaceParameter) throws IOException {
-		List<List<String>> docTerms = Lists.newArrayList();
+		List<List<String>> stemmedDocumentList = Lists.newArrayList();
 		for (File file : spaceParameter.documents) {
-			docTerms.add(tokenizeAndStemTextFile(file));
+			stemmedDocumentList.add(tokenizeAndStemTextFile(file));
 		}
 
-		TfIdfCalculator calculator = new TfIdfCalculator(docTerms,
+		TfIdfCalculator calculator = new TfIdfCalculator(stemmedDocumentList,
 				spaceParameter.minimalTokenOccurance);
 		SingularValueDecomposition svd = new SingularValueDecomposition(
 				calculator.calculateTfIdf());
 
 		SemanticSpace space = new SemanticSpace();
-		
+
 		space.originalDecomposition = svd;
 		space.tfIdfCalculator = calculator;
 		space.spaceParameter = spaceParameter;
-		
+
 		space.termSpace = svd.getU().getSubMatrix(0,
 				svd.getU().getRowDimension() - 1, 0,
 				spaceParameter.dimensionsForIndexing);
@@ -82,8 +85,7 @@ public class SimpleSemanticParser {
 		return space;
 	}
 
-	private List<String> tokenizeAndStemTextFile(File file)
-			throws IOException {
+	private List<String> tokenizeAndStemTextFile(File file) throws IOException {
 		String doc = FileUtils.readFileToString(file, "UTF-8");
 		List<String> tokens = Lists.newArrayList(IteratorFactory.tokenize(doc));
 		List<String> stemmedTokens = Lists.newArrayList();
@@ -97,18 +99,52 @@ public class SimpleSemanticParser {
 
 		RealMatrix diagonalMiddleInverse = new LUDecomposition(
 				space.diagonalMiddle).getSolver().getInverse();
-		RealMatrix queryVector = space.tfIdfCalculator.calculateTfIdfVector(tokenizeAndStemTextFile(file));
-		// RealMatrix truncatedQuery = queryVector.getSubMatrix(0, 0, 0, space.spaceParameter.dimensionsForIndexing);
-		RealMatrix query = queryVector.multiply(space.termSpace).multiply(diagonalMiddleInverse);
+		RealMatrix queryVector = space.tfIdfCalculator
+				.calculateTfIdfVector(tokenizeAndStemTextFile(file));
+		// RealMatrix truncatedQuery = queryVector.getSubMatrix(0, 0, 0,
+		// space.spaceParameter.dimensionsForIndexing);
+		RealMatrix query = queryVector.multiply(space.termSpace).multiply(
+				diagonalMiddleInverse);
 		LOGGER.info("Query:" + query.toString());
-		
+
 		CosineSimilarity similarity = new CosineSimilarity();
-		RealMatrix docSimilarity = new Array2DRowRealMatrix(space.docSpace.getColumnDimension(), 1);
+		RealMatrix docSimilarity = new Array2DRowRealMatrix(
+				space.docSpace.getColumnDimension(), 1);
 		for (int i = 0; i < space.docSpace.getColumnDimension(); i++) {
 			double sim = similarity.computeSimilarity(query.transpose(), space.docSpace.getColumnMatrix(i));
 			docSimilarity.setEntry(i, 0, sim);
 		}
-		
+
 		return docSimilarity;
+	}
+
+	public HashMap<List<Boolean>, List<Integer>> cluster(SemanticSpace space, int depth) {
+		HashMap<Integer, List<Boolean>> clusterMap = Maps.newHashMap();
+		
+		for (int i = 0; i < depth; i++) {
+			double[] row = space.docSpace.getRow(i);
+			int docIdx = 0;
+			for (double value : row) {
+				boolean positive = value > 0.0;
+				if (clusterMap.containsKey(docIdx)) {
+					clusterMap.get(docIdx).add(positive);
+				} else {
+					clusterMap.put(docIdx, Lists.newArrayList(positive));
+				}
+				docIdx++;
+			}
+		}
+		
+		HashMap<List<Boolean>, List<Integer>> cluster = Maps.newHashMap();
+		for (Map.Entry<Integer, List<Boolean>> entry : clusterMap.entrySet()) {
+			if (cluster.containsKey(entry.getValue())) {
+				cluster.get(entry.getValue()).add(entry.getKey());
+			} else {
+				cluster.put(entry.getValue(), Lists.newArrayList(entry.getKey()));
+			}
+		}
+		
+		LOGGER.info(cluster.toString());
+		return cluster;
 	}
 }
