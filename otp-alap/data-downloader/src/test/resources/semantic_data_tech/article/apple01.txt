@@ -1,1 +1,0 @@
-Human machine interface for Lab ABC computer applications

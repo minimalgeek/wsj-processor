@@ -16,6 +16,7 @@ public class DateTimeUtils {
 	private static final DateTimeFormatter FORMATTER3 = DateTimeFormat.forPattern("MM/dd/yyyy");
 	private static final DateTimeFormatter FORMATTER4 = DateTimeFormat.forPattern("yyyy-MM");
 	private static final DateTimeFormatter FORMATTER_TIME = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+	private static final DateTimeFormatter FORMATTER_TIME_ZONE = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss Z");
 	private static final DateTimeFormatter FORMATTER_TIME_T = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ");
 	private static final DateTimeFormatter FORMATTER_FULL_MONTH = DateTimeFormat.forPattern("dd MMMM yyyy").withLocale(Locale.US);
 
@@ -34,6 +35,10 @@ public class DateTimeUtils {
 	
 	public static DateTime parseToYYYYMMDD_UTC(String dateTime) {
 		return FORMATTER.parseDateTime(dateTime).withZoneRetainFields(DateTimeZone.UTC);
+	}
+	
+	public static DateTime parseToYYYYMMDD_HHmmss_ZONE_UTC(String dateTime) {
+		return FORMATTER_TIME_ZONE.parseDateTime(dateTime).withZone(DateTimeZone.UTC);
 	}
 	
 	public static DateTime parseToYYYYMMDD_HHmmss_UTC(String dateTime) {

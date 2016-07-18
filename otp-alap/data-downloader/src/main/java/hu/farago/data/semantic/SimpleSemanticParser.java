@@ -2,6 +2,7 @@ package hu.farago.data.semantic;
 
 import hu.farago.data.semantic.calc.CosineSimilarity;
 import hu.farago.data.semantic.calc.TfIdfCalculator;
+import hu.farago.data.utils.RealMatrixUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import com.apporiented.algorithm.clustering.Cluster;
 import com.google.common.collect.Lists;
@@ -91,6 +90,16 @@ public class SimpleSemanticParser {
 		space.docSpace = svd.getV().getSubMatrix(0,
 				spaceParameter.dimensionsForIndexing, 0,
 				svd.getV().getColumnDimension() - 1);
+		
+		LOGGER.info("Term space matrix after dimension reduction");
+		RealMatrixUtils.printMatrix(space.termSpace.getData());
+		
+		LOGGER.info("Diagonal matrix after dimension reduction");
+		RealMatrixUtils.printMatrix(space.diagonalMiddle.getData());
+		
+		LOGGER.info("Document space matrix after dimension reduction");
+		RealMatrixUtils.printMatrix(space.docSpace.getData());
+		
 		return space;
 	}
 
@@ -110,11 +119,11 @@ public class SimpleSemanticParser {
 				space.diagonalMiddle).getSolver().getInverse();
 		RealMatrix queryVector = space.tfIdfCalculator
 				.calculateTfIdfVector(tokenizeAndStemTextFile(file));
+		// LOGGER.info("Query vector: " + queryVector.toString());
 		// RealMatrix truncatedQuery = queryVector.getSubMatrix(0, 0, 0,
 		// space.spaceParameter.dimensionsForIndexing);
 		RealMatrix query = queryVector.multiply(space.termSpace).multiply(
 				diagonalMiddleInverse);
-		LOGGER.info("Query:" + query.toString());
 
 		CosineSimilarity similarity = new CosineSimilarity();
 		RealMatrix docSimilarity = new Array2DRowRealMatrix(

@@ -84,7 +84,7 @@ public class TfIdfCalculator {
 	private double tfIdf(List<String> doc, String term) {
 		return tf(doc, term) * idf.get(term);
 	}
-
+	
 	public RealMatrix calculateTfIdf() {
 		RealMatrix matrix = new Array2DRowRealMatrix(words.size(), docs.size());
 

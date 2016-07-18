@@ -1,7 +1,7 @@
 package hu.farago.data.semantic;
 
 import hu.farago.data.config.AbstractRootTest;
-import hu.farago.data.semantic.SemanticParser.BuildSemanticSpaceParameter;
+import hu.farago.data.semantic.SimpleSemanticParser.SemanticSpaceParameter;
 
 import java.io.File;
 import java.net.URL;
@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,14 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.google.common.collect.Lists;
 
-public class SemanticParserTest extends AbstractRootTest {
+public class SimpleSemanticParserTest2 extends AbstractRootTest {
 
 	private static final String TXT_2015_12 = "2015-12.txt";
 
 	private static final String DIR_PATH = "semantic_data/";
 
 	@Autowired
-	private SemanticParser parser;
+	private SimpleSemanticParser parser;
 	
 	@Value("${semantic.parser.sspacefile.oil}")
 	private String oilSpace;
@@ -47,7 +48,6 @@ public class SemanticParserTest extends AbstractRootTest {
 						DirectoryFileFilter.DIRECTORY));
 		
 		
-		// TODO not good test file, because it is in the corpus
 		url = Thread
 				.currentThread()
 				.getContextClassLoader()
@@ -58,13 +58,13 @@ public class SemanticParserTest extends AbstractRootTest {
 
 	@Test
 	public void testBuildSemanticSpace() throws Exception {
-		parser.buildSemanticSpace(new BuildSemanticSpaceParameter(corpus, 50, 100, oilSpace));
+		parser.buildSemanticSpace(new SemanticSpaceParameter(corpus, 10, 2));
 	}
 	
 	@Test
 	public void testCountSimilarity() throws Exception {
-		double ret = parser.countSimilarity(new BuildSemanticSpaceParameter(Lists.newArrayList(testFile), 1, 100, oilSpace));
-		System.out.println("Similarity: " + ret);
+		RealMatrix ret = parser.query(parser.buildSemanticSpace(new SemanticSpaceParameter(corpus, 10, 2)), testFile);
+		System.out.println("Similarity: " + ret.toString());
 	}
 
 }

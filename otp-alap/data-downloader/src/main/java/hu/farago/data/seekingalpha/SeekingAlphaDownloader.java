@@ -132,7 +132,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 		data.tradingSymbol = index;
 		data.rawText = articleBody;
 		for (Element dateTime : doc.getElementsByTag("time")) {
-			if (StringUtils.equals(dateTime.attr("itemprop"), "datePublished")) {
+			if (StringUtils.equals(dateTime.attr("itemprop"), "dateModified")) {
 				data.publishDate = parseDate(dateTime);
 				break;
 			}
@@ -206,7 +206,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	
 	private DateTime parseDate(Element dateTime) {
 		try {
-			return DateTimeUtils.parseToYYYYMMDD_UTC(dateTime.attr("content"));
+			return DateTimeUtils.parseToYYYYMMDD_HHmmss_ZONE_UTC(dateTime.attr("datetime"));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return null;
