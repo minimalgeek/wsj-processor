@@ -2,7 +2,6 @@ package hu.farago.data.semantic;
 
 import hu.farago.data.semantic.calc.CosineSimilarity;
 import hu.farago.data.semantic.calc.TfIdfCalculator;
-import hu.farago.data.utils.RealMatrixUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -109,6 +108,7 @@ public class SimpleSemanticParser {
 				spaceParameter.dimensionsForIndexing, 0,
 				svd.getV().getColumnDimension() - 1);
 
+		/*
 		LOGGER.info("Term space matrix after dimension reduction");
 		RealMatrixUtils.printMatrix(space.termSpace.getData());
 
@@ -117,6 +117,7 @@ public class SimpleSemanticParser {
 
 		LOGGER.info("Document space matrix after dimension reduction");
 		RealMatrixUtils.printMatrix(space.docSpace.getData());
+		*/
 
 		return space;
 	}
