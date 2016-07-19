@@ -1,5 +1,6 @@
 package hu.farago.data.semantic.calc;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +14,14 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public class TfIdfCalculator {
+public class TfIdfCalculator implements Serializable {
 
-	private class DocWithWordSet {
+	private static final long serialVersionUID = -8055162793845452681L;
+
+	private class DocWithWordSet implements Serializable {
+
+		private static final long serialVersionUID = 3433143570937953539L;
+
 		public List<String> words;
 		public Set<String> uniqueWords;
 		

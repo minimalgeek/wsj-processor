@@ -6,6 +6,7 @@ import hu.farago.data.utils.RealMatrixUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,9 +38,10 @@ public class SimpleSemanticParser {
 
 	@Autowired
 	private ClusterMaker clusterMaker;
-	
+
 	public static class SemanticSpaceParameter {
 		public List<File> documents;
+		public List<List<String>> documentStrings;
 		public int dimensions;
 		public int dimensionsForIndexing;
 		public int minimalTokenOccurance;
@@ -51,23 +53,39 @@ public class SimpleSemanticParser {
 			this.dimensionsForIndexing = dimensions - 1;
 			this.minimalTokenOccurance = minimalTokenOccurance;
 		}
+
+		public SemanticSpaceParameter(int dimensions,
+				int minimalTokenOccurance, List<List<String>> documentStrings) {
+			this.documentStrings = documentStrings;
+			this.dimensions = dimensions;
+			this.dimensionsForIndexing = dimensions - 1;
+			this.minimalTokenOccurance = minimalTokenOccurance;
+		}
 	}
 
-	public static class SemanticSpace {
+	public static class SemanticSpace implements Serializable {
+
+		private static final long serialVersionUID = -4385228509384397672L;
+
 		public RealMatrix termSpace;
 		public RealMatrix diagonalMiddle;
 		public RealMatrix docSpace;
 
-		public SingularValueDecomposition originalDecomposition;
+		public transient SingularValueDecomposition originalDecomposition;
 		public TfIdfCalculator tfIdfCalculator;
-		public SemanticSpaceParameter spaceParameter;
+		public transient SemanticSpaceParameter spaceParameter;
 	}
 
 	public SemanticSpace buildSemanticSpace(
 			SemanticSpaceParameter spaceParameter) throws IOException {
-		List<List<String>> stemmedDocumentList = Lists.newArrayList();
-		for (File file : spaceParameter.documents) {
-			stemmedDocumentList.add(tokenizeAndStemTextFile(file));
+		List<List<String>> stemmedDocumentList = null;
+		if (spaceParameter.documentStrings != null) {
+			stemmedDocumentList = spaceParameter.documentStrings;
+		} else {
+			stemmedDocumentList = Lists.newArrayList();
+			for (File file : spaceParameter.documents) {
+				stemmedDocumentList.add(tokenizeAndStemTextFile(file));
+			}
 		}
 
 		TfIdfCalculator calculator = new TfIdfCalculator(stemmedDocumentList,
@@ -90,16 +108,16 @@ public class SimpleSemanticParser {
 		space.docSpace = svd.getV().getSubMatrix(0,
 				spaceParameter.dimensionsForIndexing, 0,
 				svd.getV().getColumnDimension() - 1);
-		
+
 		LOGGER.info("Term space matrix after dimension reduction");
 		RealMatrixUtils.printMatrix(space.termSpace.getData());
-		
+
 		LOGGER.info("Diagonal matrix after dimension reduction");
 		RealMatrixUtils.printMatrix(space.diagonalMiddle.getData());
-		
+
 		LOGGER.info("Document space matrix after dimension reduction");
 		RealMatrixUtils.printMatrix(space.docSpace.getData());
-		
+
 		return space;
 	}
 
@@ -129,32 +147,44 @@ public class SimpleSemanticParser {
 		RealMatrix docSimilarity = new Array2DRowRealMatrix(
 				space.docSpace.getColumnDimension(), 1);
 		for (int i = 0; i < space.docSpace.getColumnDimension(); i++) {
-			double sim = similarity.computeSimilarity(query.transpose(), space.docSpace.getColumnMatrix(i));
+			double sim = similarity.computeSimilarity(query.transpose(),
+					space.docSpace.getColumnMatrix(i));
 			docSimilarity.setEntry(i, 0, sim);
 		}
 
 		return docSimilarity;
 	}
-	
+
 	public Cluster cluster(SemanticSpace space) {
-		List<String> names = space.spaceParameter.documents.stream().map(x -> x.getName()).collect(Collectors.toCollection(ArrayList<String>::new));
-		
-		CosineSimilarity similarity = new CosineSimilarity();
-		RealMatrix docSimilarity = new Array2DRowRealMatrix(
-				space.docSpace.getColumnDimension(), space.docSpace.getColumnDimension());
-		for (int i = 0; i < docSimilarity.getColumnDimension(); i++) {
-			for (int j = 0; j < docSimilarity.getColumnDimension(); j++) {
-				double sim = similarity.computeSimilarity(space.docSpace.getColumnMatrix(i), space.docSpace.getColumnMatrix(j));
-				docSimilarity.setEntry(i, j, 5*sim+5);
-			}
+		if (space.spaceParameter.documents == null) {
+			return null;
 		}
 		
-		return clusterMaker.cluster(names.toArray(new String[0]), docSimilarity.getData());
+		List<String> names = space.spaceParameter.documents.stream()
+				.map(x -> x.getName())
+				.collect(Collectors.toCollection(ArrayList<String>::new));
+
+		CosineSimilarity similarity = new CosineSimilarity();
+		RealMatrix docSimilarity = new Array2DRowRealMatrix(
+				space.docSpace.getColumnDimension(),
+				space.docSpace.getColumnDimension());
+		for (int i = 0; i < docSimilarity.getColumnDimension(); i++) {
+			for (int j = 0; j < docSimilarity.getColumnDimension(); j++) {
+				double sim = similarity.computeSimilarity(
+						space.docSpace.getColumnMatrix(i),
+						space.docSpace.getColumnMatrix(j));
+				docSimilarity.setEntry(i, j, 5 * sim + 5);
+			}
+		}
+
+		return clusterMaker.cluster(names.toArray(new String[0]),
+				docSimilarity.getData());
 	}
 
-	public HashMap<List<Boolean>, List<Integer>> dumbCluster(SemanticSpace space, int depth) {
+	public HashMap<List<Boolean>, List<Integer>> dumbCluster(
+			SemanticSpace space, int depth) {
 		HashMap<Integer, List<Boolean>> clusterMap = Maps.newHashMap();
-		
+
 		for (int i = 0; i < depth; i++) {
 			double[] row = space.docSpace.getRow(i);
 			int docIdx = 0;
@@ -168,16 +198,17 @@ public class SimpleSemanticParser {
 				docIdx++;
 			}
 		}
-		
+
 		HashMap<List<Boolean>, List<Integer>> cluster = Maps.newHashMap();
 		for (Map.Entry<Integer, List<Boolean>> entry : clusterMap.entrySet()) {
 			if (cluster.containsKey(entry.getValue())) {
 				cluster.get(entry.getValue()).add(entry.getKey());
 			} else {
-				cluster.put(entry.getValue(), Lists.newArrayList(entry.getKey()));
+				cluster.put(entry.getValue(),
+						Lists.newArrayList(entry.getKey()));
 			}
 		}
-		
+
 		LOGGER.info(cluster.toString());
 		return cluster;
 	}
