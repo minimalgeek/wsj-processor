@@ -10,29 +10,45 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 
 import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class TfIdfCalculator {
 
-	private List<List<String>> docs;
+	private class DocWithWordSet {
+		public List<String> words;
+		public Set<String> uniqueWords;
+		
+		public DocWithWordSet(List<String> words, Set<String> uniqueWords) {
+			super();
+			this.words = words;
+			this.uniqueWords = uniqueWords;
+		}
+		
+	}
+	
+	private List<DocWithWordSet> docs;
 	private Set<String> words;
 	private Map<String, Double> idf;
 	private int minOccurance;
 
-	public TfIdfCalculator(List<List<String>> docs, int minOccurance) {
-		this.docs = docs;
+	public TfIdfCalculator(List<List<String>> strDocs, int minOccurance) {
+		this.docs = Lists.newArrayList();
+		for (List<String> doc : strDocs) {
+			this.docs.add(new DocWithWordSet(doc, new HashSet<String>(doc)));
+		}
 		this.minOccurance = minOccurance;
-		createRelevanWordSet(docs);
+		createRelevanWordSet();
 		idf = Maps.newHashMap();
 		for (String word : this.words) {
 			idf.put(word, idf(word));
 		}
 	}
 
-	private void createRelevanWordSet(List<List<String>> docs) {
+	private void createRelevanWordSet() {
 		this.words = new HashSet<String>();
-		for (List<String> doc : docs) {
-			words.addAll(doc);
+		for (DocWithWordSet doc : this.docs) {
+			words.addAll(doc.uniqueWords);
 		}
 
 		Map<String, Integer> histogram = Maps.newHashMap(Maps.asMap(this.words,
@@ -42,8 +58,8 @@ public class TfIdfCalculator {
 						return 0;
 					}
 				}));
-		for (List<String> doc : docs) {
-			for (String word : doc) {
+		for (DocWithWordSet doc : docs) {
+			for (String word : doc.uniqueWords) {
 				histogram.put(word, histogram.get(word) + 1);
 			}
 		}
@@ -66,12 +82,9 @@ public class TfIdfCalculator {
 
 	private double idf(String term) {
 		double n = 0;
-		for (List<String> doc : docs) {
-			for (String word : doc) {
-				if (term.equalsIgnoreCase(word)) {
-					n++;
-					break;
-				}
+		for (DocWithWordSet doc : docs) {
+			if (doc.uniqueWords.contains(term)) {
+				n++;
 			}
 		}
 		return log2(docs.size() / n);
@@ -89,10 +102,10 @@ public class TfIdfCalculator {
 		RealMatrix matrix = new Array2DRowRealMatrix(words.size(), docs.size());
 
 		int row = 0, column = 0;
-		for (List<String> doc : docs) {
+		for (DocWithWordSet doc : docs) {
 			row = 0;
 			for (String word : words) {
-				matrix.setEntry(row, column, tfIdf(doc, word));
+				matrix.setEntry(row, column, tfIdf(doc.words, word));
 				row++;
 			}
 			column++;

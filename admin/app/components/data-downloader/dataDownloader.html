@@ -71,6 +71,8 @@
     <div class="functionBox">
         <button class="myButton" ng-click="data.collectEarningsCalls()">Collect http://seekingalpha.com/ data</button>
 
+        <p>The data will be saved to <b>earnings_call</b> mongo collection</p>
+
         <table class="myTable">
             <thead>
             <tr>
@@ -90,6 +92,9 @@
             Trading Symbol: <input type="text" ng-model="data.tradingSymbol"/>
         </div>
         <button class="myButton" ng-click="data.collectEarningsCallsForSymbol()">Collect http://seekingalpha.com/ data for Trading Symbol</button>
+
+        <p>The data will be saved to <b>earnings_call</b> mongo collection</p>
+
         <h2>Result: </h2>
         <div>
             {{data.tradingSymbolResponse}}

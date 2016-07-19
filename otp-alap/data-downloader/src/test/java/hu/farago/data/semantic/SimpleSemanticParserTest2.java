@@ -14,7 +14,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.google.common.collect.Lists;
 
@@ -26,9 +25,6 @@ public class SimpleSemanticParserTest2 extends AbstractRootTest {
 
 	@Autowired
 	private SimpleSemanticParser parser;
-	
-	@Value("${semantic.parser.sspacefile.oil}")
-	private String oilSpace;
 
 	private static List<File> corpus;
 	private static File testFile;
@@ -58,12 +54,12 @@ public class SimpleSemanticParserTest2 extends AbstractRootTest {
 
 	@Test
 	public void testBuildSemanticSpace() throws Exception {
-		parser.buildSemanticSpace(new SemanticSpaceParameter(corpus, 10, 2));
+		parser.buildSemanticSpace(new SemanticSpaceParameter(corpus, 10, 3));
 	}
 	
 	@Test
 	public void testCountSimilarity() throws Exception {
-		RealMatrix ret = parser.query(parser.buildSemanticSpace(new SemanticSpaceParameter(corpus, 10, 2)), testFile);
+		RealMatrix ret = parser.query(parser.buildSemanticSpace(new SemanticSpaceParameter(corpus, 5, 5)), testFile);
 		System.out.println("Similarity: " + ret.toString());
 	}
 
