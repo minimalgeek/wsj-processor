@@ -2,6 +2,7 @@ package hu.farago.data.zacks;
 
 import hu.farago.data.model.dao.mongo.EarningsCallRepository;
 import hu.farago.data.model.dao.mongo.ZacksEarningsCallDatesRepository;
+import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.model.entity.mongo.ZacksEarningsCallDates;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
 
@@ -69,26 +70,38 @@ public class ZacksECDateManager {
 	}
 
 	public void lookForTranscripts() {
-		List<DateTime> dateTimesToCheck = Lists.newArrayList();
-		DateTime today = DateTime.now().withZone(DateTimeZone.UTC).withTimeAtStartOfDay();
-		
-		dateTimesToCheck.add(today);
-		dateTimesToCheck.add(today.plusDays(1));
-		dateTimesToCheck.add(today.plusDays(2));
-		
+		List<DateTime> dateTimesToCheck = 
+				Lists.newArrayList(DateTime.now().withZone(DateTimeZone.UTC).withTimeAtStartOfDay());
 		List<ZacksEarningsCallDates> listOfCallDates = zacksRepository.findBySeekingAlphaCheckDateIn(dateTimesToCheck);
 		
 		for (ZacksEarningsCallDates zecd : listOfCallDates) {
 			if (zecd.foundEarningsCallId == null) {
-				for(DateTime dtToSchedule : zecd.seekingAlphaCheckDate) {
-					taskScheduler.schedule(new ScheduledSeekingAlphaCheck(downloader, zecd, zacksRepository, ecRepository), 
-							dtToSchedule.toDate());
-				}
+				searchForEarningsCall(zecd);
 			}
 		}
 	}
 	
 	// private functions
+	
+	private void searchForEarningsCall(ZacksEarningsCallDates zecd) {
+		try {
+			EarningsCall call = downloader.collectLatestForIndex(zecd.tradingSymbol);
+			if (call != null && call.publishDate.isAfter(zecd.nextReportDate.minusDays(5)) && call.publishDate.isBefore(zecd.nextReportDate.plusDays(5))) {
+				EarningsCall olderCall = ecRepository.findByUrl(call.url);
+				if (olderCall != null) {
+					zecd.foundEarningsCallId = olderCall.id;
+					zacksRepository.save(zecd);
+				} else {
+					call = ecRepository.save(call);
+					
+					zecd.foundEarningsCallId = call.id;
+					zacksRepository.save(zecd);
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
 	
 	private ZacksEarningsCallDates createMongoObjectFromParameterObject(
 			ManagerParameterObject obj) {

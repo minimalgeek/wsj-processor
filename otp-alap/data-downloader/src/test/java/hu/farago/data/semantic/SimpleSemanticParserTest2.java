@@ -51,11 +51,6 @@ public class SimpleSemanticParserTest2 extends AbstractRootTest {
 
 		testFile = FileUtils.toFile(url);
 	}
-
-	@Test
-	public void testBuildSemanticSpace() throws Exception {
-		parser.buildSemanticSpace(new SemanticSpaceParameter(corpus, 10, 3));
-	}
 	
 	@Test
 	public void testCountSimilarity() throws Exception {

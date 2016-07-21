@@ -14,4 +14,6 @@ public interface EarningsCallRepository extends MongoRepository<EarningsCall, Bi
 	
 	List<EarningsCall> findByTradingSymbol(String tradingSymbol, Sort sort);
 	
+	EarningsCall findByUrl(String url);
+	
 }

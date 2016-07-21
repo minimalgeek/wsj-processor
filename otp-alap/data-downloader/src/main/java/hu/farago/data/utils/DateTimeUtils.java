@@ -23,7 +23,7 @@ public class DateTimeUtils {
 	public static DecimalFormat simpleNumberFormat;
 	public static DecimalFormat dollarNumberFormat;
 	
-	{
+	static {
 		NumberFormat nfSimple = NumberFormat.getNumberInstance(Locale.US);
 		simpleNumberFormat = (DecimalFormat) nfSimple;
 		simpleNumberFormat.applyPattern("###,###,###,###,###,###");

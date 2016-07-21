@@ -12,6 +12,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -92,8 +93,8 @@ public class InsiderDownloader extends DataDownloader<InsiderData> {
 		InsiderData data = new InsiderData();
 
 		data.type = BuySell.createByName(StringUtils.strip(tds.get(0).text()));
-		data.transactionDate = DateTimeUtils.parseToYYYYMMDD_UTC(tds.get(1).text());
-		data.acceptanceDate = DateTimeUtils.parseToYYYYMMDD_UTC(tds.get(2).text());
+		data.transactionDate = tryToParseDateOrDateTime(tds.get(1).text());
+		data.acceptanceDate = tryToParseDateOrDateTime(tds.get(2).text());
 		data.issuerName = tds.get(3).text();
 		data.issuerTradingSymbol = index;
 		data.reportingOwnerName = tds.get(5).text();
@@ -104,6 +105,14 @@ public class InsiderDownloader extends DataDownloader<InsiderData> {
 		data.sharesOwned = tryToParseDouble(DateTimeUtils.simpleNumberFormat, tds.get(10).text());
 		
 		return data;
+	}
+
+	private DateTime tryToParseDateOrDateTime(String s) throws ParseException {
+		try {
+			return DateTimeUtils.parseToYYYYMMDD_UTC(s);
+		} catch (Exception e) {
+			return DateTimeUtils.parseToYYYYMMDD_HHmmss_UTC(s);
+		}
 	}
 	
 }

@@ -23,6 +23,7 @@ public class EarningsCall implements Serializable {
 	public String tradingSymbol;
 	public String rawText;
 	public DateTime publishDate;
+	public String url;
 	public List<String> words;
 	
 	@Field("tone")

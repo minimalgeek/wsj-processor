@@ -24,7 +24,7 @@ public class ClusterMaker {
 		Cluster cluster = alg.performClustering(distances, names,
 				new SingleLinkageStrategy());
 		
-		exportClusterToPNG(cluster);
+		//exportClusterToPNG(cluster);
 		
 		return cluster;
 	}

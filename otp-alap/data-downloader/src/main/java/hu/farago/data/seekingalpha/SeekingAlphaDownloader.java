@@ -129,6 +129,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 		String articleBody = URLUtils.getContentOfHTMLContent(doc.getElementById("a-body").text());
 		
 		EarningsCall data = new EarningsCall();
+		data.url = articleUrl;
 		data.tradingSymbol = index;
 		data.rawText = articleBody;
 		for (Element dateTime : doc.getElementsByTag("time")) {
