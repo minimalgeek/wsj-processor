@@ -132,7 +132,9 @@ public class SAndPFileWriter {
 	}
 
 	private void handleTLS(String tradingSymbol, SAndPOperation operation) {
-		if (operation.indexGroup.equals(SAndPGroup.SP400) || operation.indexGroup.equals(SAndPGroup.SP500)) {
+		if (operation.indexGroup.equals(SAndPGroup.SP400) || 
+			operation.indexGroup.equals(SAndPGroup.SP500) || 
+			operation.indexGroup.equals(SAndPGroup.SP600)) {
 			if (operation.event.equals(Event.ADD) && !tlsData.contains(tradingSymbol)) {
 				tlsData.add(tradingSymbol);
 				tlsAlreadyAdded.add(tradingSymbol);

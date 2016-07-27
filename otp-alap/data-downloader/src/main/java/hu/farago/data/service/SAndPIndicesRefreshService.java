@@ -56,7 +56,7 @@ public class SAndPIndicesRefreshService {
 					if (StringUtils.isNotEmpty(company.eventName) && 
 						StringUtils.isNotEmpty(company.currentTicker)) {
 						SAndPIndex index = mapper.map(company);
-						if (index != null) {
+						if (indexIsValid(index)) {
 							processIndex(index);
 						}
 					}
@@ -67,6 +67,10 @@ public class SAndPIndicesRefreshService {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}
+	}
+
+	private boolean indexIsValid(SAndPIndex index) {
+		return index != null && !index.tradingSymbol.equals("--");
 	}
 
 	private void processIndex(SAndPIndex index) throws Exception {

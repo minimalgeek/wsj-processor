@@ -89,10 +89,21 @@ public class SimpleSemanticParserTest1 extends AbstractRootTest {
 						3, 2));
 
 		RealMatrix similarity = parser.query(space, goodTestFile);
-		LOGGER.info("Good file similarity:" + similarity.toString());
+		double sum = calcAvg(similarity);
+		LOGGER.info("Good file similarity:" + similarity.toString() + " - avg: " + sum);
 
 		similarity = parser.query(space, badTestFile);
-		LOGGER.info("Bad file similarity:" + similarity.toString());
+		sum = calcAvg(similarity);
+		LOGGER.info("Bad file similarity:" + similarity.toString() + " - avg: " + sum);
+	}
+
+	private double calcAvg(RealMatrix similarity) {
+		double sum = 0.0;
+		for (int i = 0; i < similarity.getRowDimension(); i++) {
+			sum += similarity.getEntry(i, 0);
+		}
+		sum /= similarity.getRowDimension();
+		return sum;
 	}
 
 	@Test
