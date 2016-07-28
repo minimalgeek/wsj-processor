@@ -31,6 +31,23 @@ import com.google.common.collect.Maps;
 @Component
 public class SAndPFileWriter {
 
+	private class TLSFile {
+		public File file;
+		public List<String> tlsData;
+		public List<String> tlsAlreadyAdded;
+
+		public TLSFile(String fileName) throws IOException {
+			this.file = new File(FilenameUtils.concat(directoryRoot, fileName));
+			this.tlsData = FileUtils.readLines(this.file, URLUtils.UTF_8);
+			this.tlsAlreadyAdded = Lists.newArrayList();
+		}
+
+		public void writeDataToFile() throws IOException {
+			tlsData.sort((c1, c2) -> (c1.compareTo(c2)));
+			FileUtils.writeLines(file, tlsData, false);
+		}
+	}
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SAndPFileWriter.class);
 
@@ -42,9 +59,13 @@ public class SAndPFileWriter {
 	@Value("${spice.indices.tlsFile}")
 	private String tlsFileName;
 
+	@Value("${spice.indices.tlsFileSP45}")
+	private String tlsFileNameSP45;
+
 	private Map<SAndPGroup, List<CSVData>> fileDatas;
-	private List<String> tlsData;
-	private List<String> tlsAlreadyAdded;
+
+	private TLSFile us456;
+	private TLSFile us45;
 
 	public void reloadFileDatas() throws IOException, ParseException {
 		fileDatas = Maps.newHashMap();
@@ -62,10 +83,8 @@ public class SAndPFileWriter {
 			}
 		}
 
-		File tlsFile = new File(
-				FilenameUtils.concat(directoryRoot, tlsFileName));
-		tlsData = FileUtils.readLines(tlsFile, URLUtils.UTF_8);
-		tlsAlreadyAdded = Lists.newArrayList();
+		us456 = new TLSFile(tlsFileName);
+		us45 = new TLSFile(tlsFileNameSP45);
 	}
 
 	public void writeFileDatas() throws IOException {
@@ -81,11 +100,9 @@ public class SAndPFileWriter {
 
 			FileUtils.writeLines(indexGroupFile, stringDataList, false);
 		}
-		
-		tlsData.sort((c1, c2) -> (c1.compareTo(c2)));
-		File tlsFile = new File(
-				FilenameUtils.concat(directoryRoot, tlsFileName));
-		FileUtils.writeLines(tlsFile, tlsData, false);
+
+		us456.writeDataToFile();
+		us45.writeDataToFile();
 	}
 
 	public void addSAndPIndex(SAndPIndex index) throws Exception {
@@ -120,29 +137,41 @@ public class SAndPFileWriter {
 						dataToModify.get().outDate = operation.eventDate
 								.toDate();
 					} else {
-						list.add(new CSVData(index.tradingSymbol,
-								null,
+						list.add(new CSVData(index.tradingSymbol, null,
 								operation.eventDate.toDate()));
 					}
 				}
 			}
-			
+
 			handleTLS(index.tradingSymbol, operation);
 		}
 	}
 
 	private void handleTLS(String tradingSymbol, SAndPOperation operation) {
-		if (operation.indexGroup.equals(SAndPGroup.SP400) || 
-			operation.indexGroup.equals(SAndPGroup.SP500) || 
-			operation.indexGroup.equals(SAndPGroup.SP600)) {
-			if (operation.event.equals(Event.ADD) && !tlsData.contains(tradingSymbol)) {
-				tlsData.add(tradingSymbol);
-				tlsAlreadyAdded.add(tradingSymbol);
-			} else if (operation.event.equals(Event.DROP) && tlsData.contains(tradingSymbol) && !tlsAlreadyAdded.contains(tradingSymbol)) {
-				tlsData.remove(tradingSymbol);
-			}
+
+		if (operation.indexGroup.equals(SAndPGroup.SP400)
+				|| operation.indexGroup.equals(SAndPGroup.SP500)
+				|| operation.indexGroup.equals(SAndPGroup.SP600)) {
+			addOrRemoveTLS(tradingSymbol, operation, us456);
 		}
-		
+
+		if (operation.indexGroup.equals(SAndPGroup.SP400)
+				|| operation.indexGroup.equals(SAndPGroup.SP500)) {
+			addOrRemoveTLS(tradingSymbol, operation, us45);
+		}
+	}
+
+	private void addOrRemoveTLS(String tradingSymbol, SAndPOperation operation,
+			TLSFile tls) {
+		if (operation.event.equals(Event.ADD)
+				&& !tls.tlsData.contains(tradingSymbol)) {
+			tls.tlsData.add(tradingSymbol);
+			tls.tlsAlreadyAdded.add(tradingSymbol);
+		} else if (operation.event.equals(Event.DROP)
+				&& tls.tlsData.contains(tradingSymbol)
+				&& !tls.tlsAlreadyAdded.contains(tradingSymbol)) {
+			tls.tlsData.remove(tradingSymbol);
+		}
 	}
 
 	private class CSVData {

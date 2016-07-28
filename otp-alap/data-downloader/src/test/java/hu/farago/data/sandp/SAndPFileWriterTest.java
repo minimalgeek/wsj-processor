@@ -43,6 +43,9 @@ public class SAndPFileWriterTest extends AbstractRootTest {
 		writer.addSAndPIndex(createSAndPIndex("AFS", SAndPGroup.SP500, Event.ADD, new DateTime(2014, 5, 5, 0 , 0)));
 		writer.addSAndPIndex(createSAndPIndex("YOLO", SAndPGroup.SP400, Event.DROP, new DateTime(2014, 5, 5, 0 , 0)));
 		
+		writer.addSAndPIndex(createSAndPIndex("BELE", SAndPGroup.SP400, Event.ADD, new DateTime(2014, 5, 5, 0 , 0)));
+		writer.addSAndPIndex(createSAndPIndex("FELIGBELE", SAndPGroup.SP600, Event.ADD, new DateTime(2014, 5, 5, 0 , 0)));
+		
 		writer.writeFileDatas();
 	}
 	
