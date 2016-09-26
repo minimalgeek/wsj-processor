@@ -5,6 +5,7 @@ import hu.farago.data.model.dao.mongo.InsiderDataRepository;
 import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
 import hu.farago.data.seekingalpha.YahooStockDownloader;
+import hu.farago.data.seekingalpha.bloomberg.EarningsCallFileImporter;
 import hu.farago.data.zacks.ZacksECDateManager;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public class SeekingAlphaDownloadService {
 
 	@Autowired
 	private SeekingAlphaDownloader seekingAlphaDownloader;
+	@Autowired
+	private EarningsCallFileImporter fileImporter;
 	@Autowired
 	private EarningsCallRepository earningsCallRepository;
 	@Autowired
@@ -62,6 +65,12 @@ public class SeekingAlphaDownloadService {
 		}
 		
 		return ret;
+	}
+	
+	@RequestMapping(value = "/importAllFiles", method = RequestMethod.GET)
+	public void importAllFiles() {
+		LOGGER.info("importAllFiles");
+		fileImporter.importAll();
 	}
 	
 	@RequestMapping(value = "/collectEarningsCallsFor/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
