@@ -18,7 +18,7 @@ public class EarningsCallFileImporterTest extends AbstractRootTest {
 	
 	@Before
 	public void before() {
-		repo.deleteAll();
+		//repo.deleteAll();
 	}
 	
 	@Test

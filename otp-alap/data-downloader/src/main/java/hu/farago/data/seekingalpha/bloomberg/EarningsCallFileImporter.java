@@ -53,7 +53,7 @@ public class EarningsCallFileImporter {
 		for (File file : files) {
 			try {
 				EarningsCall ec = createEarningsCall(file);
-				repository.delete(repository.findByUrl(ec.url));
+				repository.deleteByUrl(ec.url);
 				repository.save(ec);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage(), e);
