@@ -4,6 +4,7 @@ import hu.farago.data.api.WordProcessor;
 import hu.farago.data.model.dao.mongo.EarningsCallRepository;
 import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.seekingalpha.ToneCalculator;
+import hu.farago.data.utils.DateTimeUtils;
 
 import java.io.File;
 import java.util.Collection;
@@ -29,9 +30,7 @@ public class EarningsCallFileImporter {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(EarningsCallFileImporter.class);
-	private static final DateTimeFormatter DATETIME = DateTimeFormat
-			.forPattern("yyyyMMdd");
-
+	
 	public static final String QUESTION_AND_ANSWER = "Q&A [\\r\\n]+";
 	public static final String COPYRIGHT_POLICY = "© COPYRIGHT ";
 
@@ -122,7 +121,7 @@ public class EarningsCallFileImporter {
 	 */
 	private DateTime parseDate(File file) {
 		String[] dateTimeTextParts = StringUtils.split(file.getName(), "_");
-		return DATETIME.parseDateTime(dateTimeTextParts[2]);
+		return DateTimeUtils.parseToYYYYMMDD_withoutDashes_UTC(dateTimeTextParts[2]);
 	}
 
 	private String parseIndex(File file) {
