@@ -48,6 +48,14 @@ adminApp.service("dataDownloaderService", function($http) {
             }
         );
     };
+    this.collectLastNTranscripts = function(nr, func) {
+        $http.get(this.baseURL + "collectLastNTranscripts/" + nr)
+        .success(
+        function(response) {
+            func(response);
+        }
+    );
+}; 
     this.downloadShortInterestData = function(func) {
         $http.get(this.baseURL + "downloadShortInterestData")
             .success(

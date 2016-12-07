@@ -6,6 +6,7 @@ import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.utils.DateTimeUtils;
 import hu.farago.data.utils.URLUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -158,37 +159,51 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 		
 	}
 	
-	public EarningsCall collectLatestForIndex(String tradingSymbol) throws Exception {
-		LOGGER.info("Collect latest for index: " + tradingSymbol);
-		String urlStr = buildUrl(tradingSymbol, 0);
+	public EarningsCall collectLatestForIndex(ProcessFirstNArticleParameter parameterObject) throws Exception {
+		return collectLatestNForIndex(parameterObject).get(0);
+	}
+	
+	public List<EarningsCall> collectLatestNForIndex(ProcessFirstNArticleParameter parameterObject) throws Exception {
+		LOGGER.info("Collect latest for index: " + parameterObject.index);
+		String urlStr = buildUrl(parameterObject.index, 0);
 		String siteContent = URLUtils.getHTMLContentOfURL(urlStr);
 		Document document = Jsoup.parse(siteContent);
 		
-		return processFirstArticle(tradingSymbol, document);
+		parameterObject.document = document;
+		
+		return processFirstNArticle(parameterObject);
 	}
 	
-	private EarningsCall processFirstArticle(String index, Document document) {
-		Element container = document.getElementById("portfolo_selections");
+	private List<EarningsCall> processFirstNArticle(ProcessFirstNArticleParameter parameterObject) {
+		Element container = parameterObject.document.getElementById("portfolo_selections");
 		Elements articles = container.getElementsByTag("a");
+		
+		int processed = 0;
+		List<EarningsCall> processedCalls = new ArrayList<>();
 		
 		for (Element earningsCallArticle : articles) {
 			if (elementIsLegalTranscript(earningsCallArticle)) {
 				try {
-					EarningsCall call = createEarningsCall(earningsCallArticle, index);
+					EarningsCall call = createEarningsCall(earningsCallArticle, parameterObject.index);
 					
 					if (call.words.size() > 200) {
 						// it is probably a real earnings call, not only a link to some audio shit
 						processTone(call);
 						retrieveRelevantQAndAPartAndProcessTone(call);
-						return call;
+						processedCalls.add(call);
+						processed++;
 					}
 				} catch (Exception e) {
 					LOGGER.error("Failed to process: (" + earningsCallArticle.text() + ")", e);
 				}
 			}
+			
+			if (processed == parameterObject.count) {
+				return processedCalls;
+			}
 		}
 		
-		return null;
+		return processedCalls;
 	}
 
 	private void processQAndA(EarningsCall earningsCall, String[] qAndAParts) {

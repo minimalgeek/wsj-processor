@@ -10,6 +10,7 @@ import hu.farago.data.config.AbstractRootTest;
 import hu.farago.data.model.dao.mongo.ZacksEarningsCallDatesRepository;
 import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.model.entity.mongo.ZacksEarningsCallDates;
+import hu.farago.data.seekingalpha.ProcessFirstNArticleParameter;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
 import hu.farago.data.zacks.ZacksECDateManager.ManagerParameterObject;
 
@@ -147,7 +148,7 @@ public class ZacksECDateManagerTest extends AbstractRootTest {
 
 	@Test
 	public void testCollectLatestForIndex() throws Exception {
-		EarningsCall call = downloader.collectLatestForIndex(AAPL);
+		EarningsCall call = downloader.collectLatestForIndex(new ProcessFirstNArticleParameter(AAPL));
 		
 		assertNotNull(call);
 	}

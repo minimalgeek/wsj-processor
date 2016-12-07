@@ -1,10 +1,10 @@
 package hu.farago.data.seekingalpha;
 
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import hu.farago.data.config.AbstractRootTest;
 import hu.farago.data.model.entity.mongo.EarningsCall;
+
+import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.Map;
@@ -50,4 +50,5 @@ public class SeekingAlphaDownloaderTest extends AbstractRootTest {
 		assertNotNull(firstAppleArticle.words);
 		assertTrue(firstAppleArticle.words.size() > 0);
 	}
+
 }

@@ -101,6 +101,29 @@
         </div>
     </div>
 
+	<div class="functionBox">
+        <div class="generalInput">
+            Number of fresh transcripts: <input type="text" ng-model="data.nrOfTranscripts"/>
+        </div>
+        <button class="myButton" ng-click="data.collectLastNTranscripts()">Collect http://seekingalpha.com/ data</button>
+
+        <p>The data will be saved to <b>earnings_call</b> mongo collection</p>
+        <p>Collects transcripts for all trading symbol, but only the last N of them!</p>
+
+        <table class="myTable">
+            <thead>
+            <tr>
+                <th>Downloaded URLs</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="url in data.downloadedURLs">
+                <td>{{ url }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
     <div class="functionBox">
         <button class="myButton" ng-click="data.downloadShortInterestData()">Collect http://nasdaq.com/ short interest data</button>
 

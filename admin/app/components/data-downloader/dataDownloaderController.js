@@ -4,8 +4,10 @@ adminApp.
             showLoadingBar : false,
             tradingSymbol: "",
             tradingSymbolResponse: "",
+            nrOfTranscripts: 4,
 
             refreshedURLs: [],
+            downloadedURLs: [],
 
             downloadedInsiders: [],
             downloadedEarningsCalls: [],
@@ -61,6 +63,13 @@ adminApp.
                 $scope.data.showLoadingBar = true;
                 dataDownloaderService.collectEarningsCallsFor($scope.data.tradingSymbol, function(data) {
                     $scope.data.tradingSymbolResponse = data;
+                    $scope.data.showLoadingBar = false;
+                });
+            },
+            collectLastNTranscripts : function() {
+                $scope.data.showLoadingBar = true;
+                dataDownloaderService.collectLastNTranscripts($scope.data.nrOfTranscripts, function(data) {
+                    $scope.data.downloadedURLs = data;
                     $scope.data.showLoadingBar = false;
                 });
             },

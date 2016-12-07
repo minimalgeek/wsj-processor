@@ -4,6 +4,7 @@ import hu.farago.data.model.dao.mongo.EarningsCallRepository;
 import hu.farago.data.model.dao.mongo.ZacksEarningsCallDatesRepository;
 import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.model.entity.mongo.ZacksEarningsCallDates;
+import hu.farago.data.seekingalpha.ProcessFirstNArticleParameter;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
 
 import java.util.List;
@@ -85,7 +86,7 @@ public class ZacksECDateManager {
 	
 	private void searchForEarningsCall(ZacksEarningsCallDates zecd) {
 		try {
-			EarningsCall call = downloader.collectLatestForIndex(zecd.tradingSymbol);
+			EarningsCall call = downloader.collectLatestForIndex(new ProcessFirstNArticleParameter(zecd.tradingSymbol));
 			if (call != null && call.publishDate.isAfter(zecd.nextReportDate.minusDays(5)) && call.publishDate.isBefore(zecd.nextReportDate.plusDays(5))) {
 				EarningsCall olderCall = ecRepository.findByUrl(call.url);
 				if (olderCall != null) {
