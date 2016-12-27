@@ -4,8 +4,10 @@ import hu.farago.data.model.dao.mongo.EarningsCallRepository;
 import hu.farago.data.model.dao.mongo.ZacksEarningsCallDatesRepository;
 import hu.farago.data.model.entity.mongo.EarningsCall;
 import hu.farago.data.model.entity.mongo.ZacksEarningsCallDates;
+import hu.farago.data.model.entity.mongo.AutomaticServiceError.AutomaticService;
 import hu.farago.data.seekingalpha.ProcessFirstNArticleParameter;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
+import hu.farago.data.utils.AutomaticServiceErrorUtils;
 
 import java.util.List;
 
@@ -38,6 +40,8 @@ public class ZacksECDateManager {
 	private SeekingAlphaDownloader downloader;
 	@Resource
     private ThreadPoolTaskScheduler taskScheduler;
+	@Autowired
+	private AutomaticServiceErrorUtils aseu;
 	
 	public void addDate(ManagerParameterObject obj) {
 		ZacksEarningsCallDates dateToStore = createMongoObjectFromParameterObject(obj);
@@ -101,6 +105,7 @@ public class ZacksECDateManager {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
+			aseu.saveError(AutomaticService.ZACKS, e.getMessage());
 		}
 	}
 	

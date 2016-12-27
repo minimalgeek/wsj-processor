@@ -12,7 +12,7 @@ import hu.farago.data.model.entity.mongo.EarningsCall;
 
 public class SeekingAlphaDownloaderTopNTest extends AbstractRootTest {
 
-	private static final String AAPL = "AAPL";
+	private static final String AAPL = "MU";
 	
 	@Autowired
 	private SeekingAlphaDownloader downloader;

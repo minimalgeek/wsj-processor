@@ -3,6 +3,8 @@ package hu.farago.data.seekingalpha;
 import hu.farago.data.api.DataDownloader;
 import hu.farago.data.api.WordProcessor;
 import hu.farago.data.model.entity.mongo.EarningsCall;
+import hu.farago.data.model.entity.mongo.AutomaticServiceError.AutomaticService;
+import hu.farago.data.utils.AutomaticServiceErrorUtils;
 import hu.farago.data.utils.DateTimeUtils;
 import hu.farago.data.utils.URLUtils;
 
@@ -50,6 +52,9 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	
 	@Autowired
 	private ToneCalculator toneCalculator;
+	
+	@Autowired
+	private AutomaticServiceErrorUtils aseu;
 	
 	@PostConstruct
 	private void readFile() {
@@ -99,6 +104,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 					Thread.sleep(2000);
 				} catch (Exception e) {
 					LOGGER.error("Failed to process: (" + earningsCallArticle.text() + ")", e);
+					aseu.saveError(AutomaticService.SEEKING_ALPHA, e.getMessage());
 				}
 			}
 		}
@@ -112,10 +118,14 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 	}
 
 	private boolean elementIsLegalTranscript(Element earningsCallArticle) {
-		boolean isQP = earningsCallArticle.hasAttr("sasource") && earningsCallArticle.attr("sasource").equals("qp_transcripts");
+		boolean isQP = earningsCallArticle.hasAttr("sasource") && validSASource(earningsCallArticle.attr("sasource"));
 		String linkText = earningsCallArticle.text();
 		boolean isTranscript = linkText.toLowerCase().contains(EARNINGS_CALL_TRANSCRIPT);
 		return isQP && isTranscript;
+	}
+	
+	private boolean validSASource(String src) {
+		return StringUtils.equals(src, "qp_analysis") || StringUtils.equals(src, "qp_transcripts");
 	}
 	
 	private EarningsCall createEarningsCall(Element dataRow, String index)
@@ -195,6 +205,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 					}
 				} catch (Exception e) {
 					LOGGER.error("Failed to process: (" + earningsCallArticle.text() + ")", e);
+					aseu.saveError(AutomaticService.SEEKING_ALPHA, e.getMessage());
 				}
 			}
 			
@@ -225,6 +236,7 @@ public class SeekingAlphaDownloader extends DataDownloader<EarningsCall> {
 			return DateTimeUtils.parseToYYYYMMDD_HHmmss_ZONE_UTC(dateTime.attr("datetime"));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			aseu.saveError(AutomaticService.SEEKING_ALPHA, e.getMessage());
 			return null;
 		}
 	}

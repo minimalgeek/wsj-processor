@@ -4,8 +4,10 @@ import hu.farago.data.api.ForexDataDownloader;
 import hu.farago.data.api.dto.ForexData;
 import hu.farago.data.api.dto.HistoricalForexData;
 import hu.farago.data.model.dao.mongo.ForexRepository;
+import hu.farago.data.model.entity.mongo.AutomaticServiceError.AutomaticService;
 import hu.farago.data.model.entity.mongo.Forex;
 import hu.farago.data.model.entity.mongo.QForex;
+import hu.farago.data.utils.AutomaticServiceErrorUtils;
 import hu.farago.data.yahoo.YahooCurrencyPairDownloader;
 
 import java.util.List;
@@ -28,8 +30,7 @@ import com.google.common.collect.Lists;
 @RestController
 public class ForexDataDownloaderService {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ForexDataDownloaderService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ForexDataDownloaderService.class);
 
 	@Value("#{'${currency.pairs}'.split(',')}")
 	private List<String> currencyPairs;
@@ -64,7 +65,8 @@ public class ForexDataDownloaderService {
 		return downloadedPairs;
 	}
 
-	@RequestMapping(value = "/downloadMissing", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/downloadMissing", method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
 	public List<String> downloadMissing() {
 
 		LOGGER.info("downloadMissing");
@@ -80,9 +82,8 @@ public class ForexDataDownloaderService {
 				latestForexDateTime = latestForex.tickDate.withZone(DateTimeZone.UTC);
 			}
 
-			ForexData allData = stooqDataDownloader
-					.getDataForSymbolBetweenDates(pair, latestForexDateTime,
-							DateTime.now(DateTimeZone.UTC));
+			ForexData allData = stooqDataDownloader.getDataForSymbolBetweenDates(pair, latestForexDateTime,
+					DateTime.now(DateTimeZone.UTC));
 
 			saveForexDataFromList(allData);
 			downloadedPairs.add(pair);
@@ -91,33 +92,41 @@ public class ForexDataDownloaderService {
 		return downloadedPairs;
 	}
 
+	@Autowired
+	private AutomaticServiceErrorUtils aseu;
+
 	@Scheduled(cron = "0 0/60 * * * ?")
 	public void downloadMissingScheduled() {
-		downloadMissing();
+		try {
+			downloadMissing();
+		} catch (Exception e) {
+			aseu.saveError(AutomaticService.STOOQ, e.getMessage());
+		}
 	}
 
 	@Scheduled(fixedDelay = 5000)
 	public void downloadTickDataScheduled() {
-		if (shouldRun) {
-			for (String pair : currencyPairs) {
-				LOGGER.info("Get tick data for " + pair);
-				ForexData data = yahooCurrencPairDownloader
-						.getTickDataForSymbol(pair);
-				saveForexDataFromList(data);
+		try {
+			if (shouldRun) {
+				for (String pair : currencyPairs) {
+					LOGGER.info("Get tick data for " + pair);
+					ForexData data = yahooCurrencPairDownloader.getTickDataForSymbol(pair);
+					saveForexDataFromList(data);
+				}
 			}
+		} catch (Exception e) {
+			aseu.saveError(AutomaticService.YAHOO, e.getMessage());
 		}
 	}
 
 	private void saveForexDataFromList(ForexData allData) {
-		for (HistoricalForexData histData : allData
-				.getHistoricalForexDataList()) {
+		for (HistoricalForexData histData : allData.getHistoricalForexDataList()) {
 			// sometimes Stooq send an intraday update with wrong CLOSE value,
 			// so we delete data from this date!
 
 			QForex forexPredicate = QForex.forex;
-			Iterable<Forex> foundForexes = forexRepository
-					.findAll(forexPredicate.symbol.eq(allData.getSymbol()).and(
-							forexPredicate.tickDate.eq(histData.getDate())));
+			Iterable<Forex> foundForexes = forexRepository.findAll(
+					forexPredicate.symbol.eq(allData.getSymbol()).and(forexPredicate.tickDate.eq(histData.getDate())));
 			forexRepository.delete(foundForexes);
 
 			Forex forex = new Forex();
@@ -127,10 +136,10 @@ public class ForexDataDownloaderService {
 			forex.high = histData.getHigh();
 			forex.low = histData.getLow();
 			forex.close = histData.getClose();
-			
+
 			forexRepository.save(forex);
 		}
-		
+
 		LOGGER.info(allData.getSymbol() + " saved, with " + allData.getHistoricalForexDataList().size() + " rows");
 	}
 

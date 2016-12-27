@@ -1,9 +1,5 @@
 package hu.farago.data.stooq;
 
-import hu.farago.data.api.ForexDataDownloader;
-import hu.farago.data.api.dto.ForexData;
-import hu.farago.data.utils.DateTimeUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import hu.farago.data.api.ForexDataDownloader;
+import hu.farago.data.api.dto.ForexData;
+import hu.farago.data.model.entity.mongo.AutomaticServiceError.AutomaticService;
+import hu.farago.data.utils.AutomaticServiceErrorUtils;
+import hu.farago.data.utils.DateTimeUtils;
 
 @Component
 public class StooqDataDownloader implements ForexDataDownloader {
@@ -37,6 +39,9 @@ public class StooqDataDownloader implements ForexDataDownloader {
 
 	private static final SimpleDateFormat stooqDateFormat = new SimpleDateFormat(
 			"yyyyMMdd");
+	
+	@Autowired
+	private AutomaticServiceErrorUtils aseu;
 
 	@Autowired
 	private CsvFileToHistoricalDataConverter historicalDataConverter;
@@ -61,6 +66,7 @@ public class StooqDataDownloader implements ForexDataDownloader {
 			forexData.setHistoricalForexDataList(historicalDataConverter.convert(tempFile));
 		} catch (IOException | ParseException ex) {
 			LOGGER.error(ex.getMessage(), ex);
+			aseu.saveError(AutomaticService.STOOQ, ex.getMessage());
 		}
 
 		return forexData;

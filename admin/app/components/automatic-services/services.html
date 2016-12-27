@@ -1,6 +1,30 @@
 <div>
     <h1>Automatic Services</h1>
 
+	<div class="functionBoxFullWidth">
+        <h1 class="title">Service Errors</h1>
+        
+        <button class="myButton" ng-click="data.getErrors()">List all errors</button>
+
+        <table class="myTable2">
+            <thead>
+            <tr>
+                <th>Where</th>
+                <th>When</th>
+                <th>Error</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="error in data.errors">
+            	<td>{{ error.automaticService }}</td>
+                <td>{{ error.dateTimeString }}</td>
+                <td>{{ error.message }}</td>
+            </tr>
+            </tbody>
+        </table>
+        
+    </div>
+
     <div class="functionBox">
         <h2 class="title">Stooq - Download missing forex data</h2>
         <h4 class="cronTime">Every 1 hour, at HH:00</h4>

@@ -18,10 +18,12 @@ import com.google.common.collect.Lists;
 
 import hu.farago.data.model.dao.mongo.EarningsCallRepository;
 import hu.farago.data.model.entity.mongo.EarningsCall;
+import hu.farago.data.model.entity.mongo.AutomaticServiceError.AutomaticService;
 import hu.farago.data.seekingalpha.ProcessFirstNArticleParameter;
 import hu.farago.data.seekingalpha.SeekingAlphaDownloader;
 import hu.farago.data.seekingalpha.YahooStockDownloader;
 import hu.farago.data.seekingalpha.bloomberg.EarningsCallFileImporter;
+import hu.farago.data.utils.AutomaticServiceErrorUtils;
 import hu.farago.data.zacks.ZacksECDateManager;
 
 @RestController
@@ -43,6 +45,8 @@ public class SeekingAlphaDownloadService {
 	private YahooStockDownloader stockDownloader;
 	@Autowired
 	private ZacksECDateManager manager;
+	@Autowired
+	private AutomaticServiceErrorUtils aseu;
 
 	@RequestMapping(value = "/collectEarningsCalls", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
@@ -63,6 +67,7 @@ public class SeekingAlphaDownloadService {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
+			aseu.saveError(AutomaticService.SEEKING_ALPHA, e.getMessage());
 		}
 
 		return ret;
@@ -94,6 +99,8 @@ public class SeekingAlphaDownloadService {
 
 		if (ret.length() == 0) {
 			ret.append("success");
+		} else {
+			aseu.saveError(AutomaticService.SEEKING_ALPHA, "Error in urls: " + ret.toString());
 		}
 
 		return ret.toString();
@@ -122,6 +129,7 @@ public class SeekingAlphaDownloadService {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
+			aseu.saveError(AutomaticService.SEEKING_ALPHA, e.getMessage());
 		}
 
 		return ret;
@@ -150,6 +158,7 @@ public class SeekingAlphaDownloadService {
 
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage(), e);
+				aseu.saveError(AutomaticService.SEEKING_ALPHA, e.getMessage());
 			}
 		}
 
@@ -165,7 +174,11 @@ public class SeekingAlphaDownloadService {
 	// every day at midnight
 	@Scheduled(cron = "0 0 12 * * ?")
 	public void lookForTranscriptsScheduled() {
-		lookForTranscripts();
+		try {
+			lookForTranscripts();
+		} catch (Exception e) {
+			aseu.saveError(AutomaticService.SEEKING_ALPHA, e.getMessage());
+		}
 	}
 
 	/*
