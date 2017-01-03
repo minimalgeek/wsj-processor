@@ -126,7 +126,15 @@
 
     <div class="functionBox">
         <button class="myButton" ng-click="data.downloadShortInterestData()">Collect http://nasdaq.com/ short interest data</button>
-
+		
+		<ul class="workflow_ul"'>
+			<li>Visits <i>http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=[EXCHANGE_NAME]&render=download</i> urls for NASDAQ, NYSE, AMEX</li>
+			<li>Collects all tickers from these urls</li>
+			<li>For all tickers, goes to <i>http://www.nasdaq.com/symbol/[TICKER]/short-interest</i> url</li>
+			<li>Then collects the short interest information for them</li>
+			<li>The result is written into a mongo collection, called <b>short_interest</b></li>
+		</ul>
+		
         <table class="myTable">
             <thead>
             <tr>

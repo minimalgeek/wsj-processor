@@ -166,3 +166,7 @@ body {
     height: 50px;
     line-height: 50px;
 }
+
+.workflow_ul {
+	text-align: left;
+}
