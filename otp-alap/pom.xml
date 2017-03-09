@@ -7,12 +7,13 @@
 	<version>${version}</version>
 	<packaging>pom</packaging>
 	<name>OTP Alap</name>
+	<description>Root for all the automatic trading robot projects</description>
 
 	<modules>
 		<module>wsj-receiver</module>
 		<module>data-downloader</module>
 		<module>mongo-exporter</module>
-		<module>vaadin-admin</module>
+		<module>vaadmin</module>
 	</modules>
 
 	<repositories>
@@ -291,10 +292,12 @@
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<version>1.0.0-SNAPSHOT</version>
 
-		<spring.version>4.1.2.RELEASE</spring.version>
-		<junit.version>4.11</junit.version>
+		<spring.version>4.3.3.RELEASE</spring.version>
+		<junit.version>4.12</junit.version>
 		<slf4j.version>1.7.7</slf4j.version>
 		<commons-dbcp2.version>2.0</commons-dbcp2.version>
 		<spring-data-jpa.version>1.7.1.RELEASE</spring-data-jpa.version>
@@ -323,5 +326,4 @@
 		<querydsl.version>3.7.2</querydsl.version>
 		<commons-math3.version>3.6.1</commons-math3.version>
 	</properties>
-	<description>Root for all the automatic trading robot projects</description>
 </project>
